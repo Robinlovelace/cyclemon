@@ -7,9 +7,16 @@ output: github_document
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = FALSE
 )
 ```
+
+```{r, eval=FALSE}
+# set-up
+browseURL("~/projects/cyclemon/draft-active-travel-guidance.pdf") # welsh active travel guidance
+```
+
 
 # cyclemon
 
