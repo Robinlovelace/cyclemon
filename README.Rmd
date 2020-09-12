@@ -1,5 +1,7 @@
 ---
-output: github_document
+# output: github_document
+output: bookdown::pdf_document2
+title: Analysing cycling potential in Monmouthshire
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -8,19 +10,49 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  echo = FALSE
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
 )
+library(tidyverse)
+library(sf)
 ```
 
 ```{r, eval=FALSE}
 # set-up
 browseURL("~/projects/cyclemon/draft-active-travel-guidance.pdf") # welsh active travel guidance
+readLines("~/projects/cyclemon/bid-spec.html")[1:30]
+system("pandoc ~/projects/cyclemon/bid-spec.html -o bid-spec.md")
 ```
 
-
-# cyclemon
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-This repo contains reproducible code to support the analysis of cycling potential in Monmouthshire, Wales.
+<!-- This repo contains reproducible code to support the analysis of cycling potential in Monmouthshire, Wales. -->
+
+
+
+# Study area
+
+```{r}
+remotes::install_github("robinlovelace/ukboundaries")
+```
+
+```{r}
+uklads = ukboundaries::lad2018
+# View(uklads %>% st_drop_geometry())
+monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
+mapview::mapview(monmouthshire)
+```
+
+```{r, eval=FALSE}
+source("code/get-postcodes.R")
+# file.edit("code/get-postcodes.R")
+```
+
+
+
+
+
+
