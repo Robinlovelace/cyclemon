@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "chepstow-comprehensive-entrance-point",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "query": "chepstow comprehensive school", "lat": 51.6477611, "lon": -2.6848002881254835, "lat_min": 51.6465382, "lat_max": 51.6490334, "lon_min": -2.6871291, "lon_max": -2.682493 }, "geometry": { "type": "Point", "coordinates": [ -2.685723, 51.646293 ] } }
+]
+}
