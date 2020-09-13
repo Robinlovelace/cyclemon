@@ -56,3 +56,27 @@ saveRDS(ew_parishes_2019, "ew_parishes_2019.Rds")
 ew_parishes_2019_4326 = st_transform(ew_parishes_2019, 4326)
 saveRDS(ew_parishes_2019_4326, "ew_parishes_2019_4326.Rds")
 setwd(o)
+
+lsoa_ew_centroids_url = "https://opendata.arcgis.com/datasets/b7c49538f0464f748dd7137247bbc41c_0.zip?outSR=%7B%22latestWkid%22%3A27700%2C%22wkid%22%3A27700%7D"
+dir.create("~/hd/data/uk/boundaries-ew/lsoa-centroids")
+o = setwd("~/hd/data/uk/boundaries-ew/lsoa-centroids")
+ew_lsoa_centroids = ukboundaries::duraz(lsoa_ew_centroids_url)
+nrow(ew_lsoa_centroids) # [1] 34753
+ew_lsoa_centroids
+summary(str_detect(ew_lsoa_centroids$lsoa11nm, pattern = "Chep"))
+ew_parishes_2019$par19nm[str_detect(ew_parishes_2019$par19nm, pattern = "Chep")]
+chepstow = ew_parishes_2019 %>% filter(str_detect(string = par19nm, pattern = "Chepstow"))
+abergavenny = ew_parishes_2019 %>% filter(str_detect(string = par19nm, pattern = "Abergavenny"))
+mapview::mapview(chepstow)
+saveRDS(ew_lsoa_centroids, "ew_lsoa_centroids.Rds")
+ew_lsoa_centroids_4326 = st_transform(ew_lsoa_centroids, 4326)
+saveRDS(ew_lsoa_centroids_4326, "ew_lsoa_centroids_4326.Rds")
+
+setwd(o)
+
+# save outputs
+
+getwd()
+dir.create("input-data")
+sf::write_sf(chepstow, "input-data/chepstow.geojson")
+sf::write_sf(abergavenny, "input-data/abergavenny.geojson")

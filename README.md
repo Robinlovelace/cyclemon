@@ -10,3 +10,5 @@ Analysing cycling potential in Monmouthshire
 <!-- This repo contains reproducible code to support the analysis of cycling potential in Monmouthshire, Wales. -->
 
 # Study area
+
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->

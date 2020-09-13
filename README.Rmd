@@ -1,6 +1,6 @@
 ---
-# output: github_document
-output: bookdown::pdf_document2
+output: github_document
+# output: bookdown::pdf_document2
 title: Analysing cycling potential in Monmouthshire
 ---
 
@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 )
 library(tidyverse)
 library(sf)
+library(tmap)
 ```
 
 ```{r, eval=FALSE}
@@ -41,16 +42,47 @@ remotes::install_github("robinlovelace/ukboundaries")
 
 ```{r}
 uklads = ukboundaries::lad2018
+chepstow = sf::read_sf("input-data/chepstow.geojson")
+abergavenny = sf::read_sf("input-data/abergavenny.geojson")
 # View(uklads %>% st_drop_geometry())
 monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
-mapview::mapview(monmouthshire)
+# mapview::mapview(monmouthshire)
+monmouthshire_buffer = stplanr::geo_buffer(monmouthshire, dist = 100000)
+monmouthshire_surroundings = uklads[monmouthshire_buffer, ]
+monmouthshire_surroundings = st_cast(monmouthshire_surroundings, to = "POLYGON") %>%
+  group_by(lau118nm) %>% 
+  slice(1)
+# monmouthshire_surroundings$lau118nm
+mon_bb = tmaptools::bb(monmouthshire, ext = 1.5)
+mon_bb2 = tmaptools::bb(monmouthshire, ext = 1.4)
+# mon_pb = stplanr::bb2poly(mon_bb) # fails, it's a bug
+mon_bp = sf::st_as_sfc(mon_bb)
+monmouthshire_surroundings_box = st_intersection(monmouthshire_surroundings, mon_bp) %>% 
+  filter(!str_detect(string = lau118nm, pattern = "Str|Gw|Gl|Tyd|Taf|North"))
+tm_shape(monmouthshire, bbox = mon_bb2) +
+  tm_polygons() +
+  tm_shape(monmouthshire_surroundings_box) +
+  tm_borders("grey") +
+  tm_text("lau118nm", remove.overlap = TRUE, size = 0.9, col = "darkgrey") +
+  tm_shape(rbind(abergavenny, chepstow)) +
+  tm_text("par19nm", col = "black", xmod = 0.5, ymod = -1) +
+  tm_polygons(col = "red", border.col = "grey") +
+  tm_scale_bar(position = c("left", "bottom"))
+  # tm_layout(frame = FALSE)
+#   +
+  # tm_layout(bg.color = "blue")
 ```
 
 ```{r, eval=FALSE}
+file.edit("code/get-postcodes.R")
 source("code/get-postcodes.R")
-# file.edit("code/get-postcodes.R")
 ```
 
+
+```{r, eval=FALSE}
+file.edit("code/get-school-od.R")
+source("code/get-school-od.R")
+```
 
 
 
