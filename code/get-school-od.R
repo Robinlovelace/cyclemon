@@ -15,25 +15,6 @@ school_data_complete = school_data %>% na.omit() %>%
 school_data_missing = school_data[!complete.cases(school_data), ]
 nrow(school_data_complete) + nrow(school_data_missing) == nrow(school_data)
 school_data_missing
-# 14 missing postcodes:
-# A tibble: 15 x 4
-# BASE_NAME       POSTCODE EASTING NORTHING
-# <chr>           <chr>    <chr>   <chr>
-#   1 NA              NA       NA      NA
-# 2 Chepstow School NP16 7LA NA      NA
-# 3 Chepstow School GL15 6QQ NA      NA
-# 4 Chepstow School NP16 6FB NA      NA
-# 5 Chepstow School NP16 7FF NA      NA
-# 6 Chepstow School NP19 4DG NA      NA
-# 7 Chepstow School GL15 6QQ NA      NA
-# 8 Chepstow School NP16 6LZ NA      NA
-# 9 Chepstow School NP16 6QN NA      NA
-# 10 Chepstow School NP16 5GH NA      NA
-# 11 Chepstow School NP16 5GH NA      NA
-# 12 Chepstow School NP19 0JS NA      NA
-# 13 Chepstow School NP16 6FB NA      NA
-# 14 Chepstow School NP16 6FA NA      NA
-# 15 Chepstow School NP16 6RR NA      NA
 
 school_data_aggregated = school_data_complete %>%
   group_by(POSTCODE, BASE_NAME) %>%
