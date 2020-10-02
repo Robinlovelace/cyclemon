@@ -12,3 +12,49 @@ Analysing cycling potential in Monmouthshire
 # Study area
 
 ![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+# OSM Preparation
+
+20km buffers round school entry points. 
+
+Not automated: using OSM Downloader plugin in QGIS
+
+Download tags:
+highway is NOT NULL
+
+bridge,tunnel - needed for correct connectivity
+
+access - generic access restrictions
+
+bicycle,foot,motor_vehicle - mode specific access restrictions
+
+maxspeed,oneway - may be useful
+
+cycleway, cycleway:left, cycleway:right, cycleway:both - contains extra info we need to pick out light segregation
+
+sidewalk
+
+As alphabetical list for checking in OSM downloader:
+
+access
+bicycle
+bridge
+cycleway (and cycleway:subclasses)
+foot
+highway (NOT NULL)
+maxspeed
+motor_vehicle
+oneway
+sidewalk
+tunnel
+
+
+## OSM Access Rules
+
+Default rules: https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions#United_Kingdom
+
+Primarily filter by highway tag as per the above table
+
+Traffic free cycle routes: highway=path,bridleway,cycleway or cycleway=track,opposite_track (the latter two indicating light segregation on other highway types)
+
+Include access restrictions: access, bicycle, foot, motor_vehicle
