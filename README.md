@@ -58,3 +58,8 @@ Primarily filter by highway tag as per the above table
 Traffic free cycle routes: highway=path,bridleway,cycleway or cycleway=track,opposite_track (the latter two indicating light segregation on other highway types)
 
 Include access restrictions: access, bicycle, foot, motor_vehicle
+
+In upscaling this we will need to check local interpretations of OSM tags.
+* failed tag decodes - seem to arise because OSMDownloader limits size of tag field
+* access tags
+
