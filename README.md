@@ -70,6 +70,8 @@ Either,
 * Or, my old method break all intersections except bridges and tunnels, put back bridges/tunnels and check they join correctly. More robust to some errors, less to others.
 * Or, use osm2pgrouting
 
+Currently using grass v.clean bpol (option 2 above)
+
 ## Terrain
 
 Drape network - Grass v.drape seems to work (could fallback to QGIS equivalent if not)
@@ -80,6 +82,10 @@ Tried free 30m nasa srtm data - significant errors. will try proprietary os 5m.
 
 Automate calling tools above
 
+Something weird goes on with ID when QGIS joins postcodes to links. Messes up sDNA origins=ID syntax, though we can work around with origweightformula= and skipzeroweightorigins.
+
+Some links will have multiple postcodes - fix with intersect? 
+
 # sDNA calls
 
 sDNA currently can't run in QGIS3 (we are working on it). For now, use QGIS2 plugin or the command line.
@@ -88,10 +94,18 @@ Putting in batch file in code directory.
 
 # Actual analysis
 
-Cycle path to Bulwark shows huge metric - possible error from draping
+Cycle path to Bulwark shows huge metric - error from draping
 
-What radius type to use?
+Using cycle_roundtrip radius
 
 # Display results
 
-QGIS - filter BtH>0; graduated display, take log10 of BtH, classify equal interval
+QGIS - Jenks
+
+# Discuss results
+
+sDNA needed recalibration from Cardiff slope/traffic deterrence factors. Risky to scale this without better calibration data (huge potential research project accurate cycle routing?), or allowing planners to alter slope/traffic/roadclass deterrents.
+
+Would be good to include 30mph limits in route choice to distinguish good from bad secondary/tertiary roads.
+
+Compare PCT vs sDNA. 
