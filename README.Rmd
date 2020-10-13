@@ -55,6 +55,9 @@ The 'PCT approach', which is a particular implementation of the 'origin-destinat
 
 # Study area
 
+The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \@ref(fig:case)).
+The research took place in the context of the Welsh Active Travel Act [@welshgovernment_active_2020].
+
 ```{r, eval=FALSE}
 remotes::install_github("robinlovelace/ukboundaries")
 ```
@@ -68,7 +71,7 @@ uk_codes = read_csv("~/hd/data/uk/codes/RGC_JUNE_2020_UK_v2.csv")
 View(uk_codes)
 ```
 
-```{r}
+```{r case, fig.cap="Case study area, with the parishes of Chepstow and Abergavenny highlighted in red."}
 knitr::include_graphics("README_files/figure-gfm/unnamed-chunk-4-1.png")
 ```
 

@@ -42,7 +42,23 @@ England, with publicly available visualisations down to the street level
 
 # 2 Study area
 
-<img src="README_files/figure-gfm/unnamed-chunk-4-1.png" width="672" />
+The case study area is the local authority district of Monmouthshire, in
+rural South Wales (Figure <a href="#fig:case">1</a>). The research took
+place in the context of the Welsh Active Travel Act (Welsh Government
+2020).
+
+<div class="figure">
+
+<img src="README_files/figure-gfm/unnamed-chunk-4-1.png" alt="Case study area, with the parishes of Chepstow and Abergavenny highlighted in red." width="672" />
+
+<p class="caption">
+
+Figure 1: Case study area, with the parishes of Chepstow and Abergavenny
+highlighted in red.
+
+</p>
+
+</div>
 
 # 3 Study area and data
 
@@ -132,6 +148,12 @@ Investment Expedience: Energy Expenditure Based Cost-Path Analysis of
 National Census Bicycle Commuting Data.” *Transportation Research Part
 A: Policy and Practice* 121 (March): 360–73.
 <https://doi.org/10.1016/j.tra.2019.01.019>.
+
+</div>
+
+<div id="ref-welshgovernment_active_2020">
+
+Welsh Government. 2020. “Active Travel Guidance.” Welsh Government.
 
 </div>
 
