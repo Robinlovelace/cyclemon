@@ -1,7 +1,10 @@
 ---
-output: github_document
-# output: bookdown::pdf_document2
+# output: github_document
+output:
+  bookdown::github_document2:
+    number_sections: true
 title: Analysing cycling potential in Monmouthshire
+bibliography: cyclemon.bib
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,7 +19,9 @@ knitr::opts_chunk$set(
 )
 library(tidyverse)
 library(sf)
-library(tmap)
+if(!file.exists("cyclemon.bib")) {
+  download.file("https://github.com/Robinlovelace/cyclemon/releases/download/0.0.1/cyclemon.bib", "cyclemon.bib")
+}
 ```
 
 ```{r, eval=FALSE}
@@ -24,6 +29,11 @@ library(tmap)
 browseURL("~/projects/cyclemon/draft-active-travel-guidance.pdf") # welsh active travel guidance
 readLines("~/projects/cyclemon/bid-spec.html")[1:30]
 system("pandoc ~/projects/cyclemon/bid-spec.html -o bid-spec.md")
+browseURL("README.pdf")
+# citations
+citr::tidy_bib_file(rmd_file = "README.Rmd", messy_bibliography = "~/uaf/allrefs.bib", file = "cyclemon.bib")
+piggyback::pb_upload("cyclemon.bib")
+piggyback::pb_download_url("cyclemon.bib")
 ```
 
 
@@ -32,59 +42,81 @@ system("pandoc ~/projects/cyclemon/bid-spec.html -o bid-spec.md")
 
 <!-- This repo contains reproducible code to support the analysis of cycling potential in Monmouthshire, Wales. -->
 
+# Introduction
 
+There has much research on mode shift since the origins of applied transport planning and modelling in the 1950s [@boyce_forecasting_2015; @aguilera_passenger_2014].
+Within this broad field of research uptake of active modes has become a focus of research.
+A range of methods have been used to understand and model walking and cycling levels, with 'getting people cycling' being the topic of numerous papers during the 2010 [e.g. @beecham_visual_2012; @grise_if_2018; @larsen_build_2013; @raffler_cycling_2019; @zhang_prioritizing_2014].
+
+Within the wide range of approaches used to model cycling uptake, two broad approaches have been particularly prominent in the literature.
+The *origin-destination approach* relies on estimates of current travel behaviour, represented in origin-destination datasets reporting the number of trips, e.g. by mode of travel to work on a typical working day between residential zone origins and workplace destinations.
+This approach was used in the Propensity to Cycle Tool (PCT), which was originally developed to support strategic cycle network planning based on commuter data for England [@lovelace_propensity_2017].
+The 'PCT approach', which is a particular implementation of the 'origin-destination' approach that models cycling uptake in terms of 'distance-hilliness decay' functions (which can include other explanatory variables such as traffic levels) has subsequently been adapted to explore cycling potential in other contexts, including cycling uptake in US cities with low cycling levels [@ahmad_comparison_2020] and the potential for mode shift to cycling for the 'school commute' in across all state schools in England, with publicly available visualisations down to the street level [@goodman_scenarios_2019].
 
 # Study area
 
-```{r}
+```{r, eval=FALSE}
 remotes::install_github("robinlovelace/ukboundaries")
 ```
 
-```{r}
+```{r, eval=FALSE}
 uklads = ukboundaries::lad2018
-chepstow = sf::read_sf("input-data/chepstow.geojson")
-abergavenny = sf::read_sf("input-data/abergavenny.geojson")
 # View(uklads %>% st_drop_geometry())
 monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
-# mapview::mapview(monmouthshire)
-monmouthshire_buffer = stplanr::geo_buffer(monmouthshire, dist = 100000)
-monmouthshire_surroundings = uklads[monmouthshire_buffer, ]
-monmouthshire_surroundings = st_cast(monmouthshire_surroundings, to = "POLYGON") %>%
-  group_by(lau118nm) %>% 
-  slice(1)
-# monmouthshire_surroundings$lau118nm
-mon_bb = tmaptools::bb(monmouthshire, ext = 1.5)
-mon_bb2 = tmaptools::bb(monmouthshire, ext = 1.4)
-# mon_pb = stplanr::bb2poly(mon_bb) # fails, it's a bug
-mon_bp = sf::st_as_sfc(mon_bb)
-monmouthshire_surroundings_box = st_intersection(monmouthshire_surroundings, mon_bp) %>% 
-  filter(!str_detect(string = lau118nm, pattern = "Str|Gw|Gl|Tyd|Taf|North"))
-tm_shape(monmouthshire, bbox = mon_bb2) +
-  tm_polygons() +
-  tm_shape(monmouthshire_surroundings_box) +
-  tm_borders("grey") +
-  tm_text("lau118nm", remove.overlap = TRUE, size = 0.9, col = "darkgrey") +
-  tm_shape(rbind(abergavenny, chepstow)) +
-  tm_text("par19nm", col = "black", xmod = 0.5, ymod = -1) +
-  tm_polygons(col = "red", border.col = "grey") +
-  tm_scale_bar(position = c("left", "bottom"))
-  # tm_layout(frame = FALSE)
-#   +
-  # tm_layout(bg.color = "blue")
+mapview::mapview(monmouthshire)
+uk_codes = read_csv("~/hd/data/uk/codes/RGC_JUNE_2020_UK_v2.csv")
+View(uk_codes)
 ```
+
+```{r}
+knitr::include_graphics("README_files/figure-gfm/unnamed-chunk-4-1.png")
+```
+
+
+# Study area and data
+
+```{r, eval=FALSE, echo=FALSE}
+desire_lines_abergavenny = readRDS("input-data/school_data_desire_lines_chepstow.Rds")
+mapview::mapview(desire_lines_abergavenny)
+sf::write_sf(desire_lines_abergavenny, "desire_lines_abergavenny.geojson")
+piggyback::pb_upload("desire_lines_abergavenny.geojson")
+```
+
+## Road network visualisation
 
 ```{r, eval=FALSE}
-file.edit("code/get-postcodes.R")
-source("code/get-postcodes.R")
+school_data_route_segments = readRDS("input-data/school_data_route_segments_balanced_chepstow.Rds")
+
+
+system.time({
+  rnet = stplanr::overline(sf::st_cast(school_data_route_segments, "LINESTRING"), "n")
+})
+br = c(0, 1, 2, 4, 8, 16, 32, 64)
+plot(rnet, breaks = br)
+plot(school_data_route_network["n"], breaks = br)
+nrow(rnet)
+nrow(school_data_route_network)
+summary(rnet$n)
+summary(school_data_route_network$n)
+
+b_pct = c(0, 1, 2, 5, 10, 20, 50, 100, 500)
+
+library(tmap)
+tmap_mode("view")
+
+tm_shape(rnet) +
+  tm_lines(col = "n", breaks = b_pct,
+           # lwd = "n",
+           scale = 4,
+           palette = "Blues") +
+  tm_scale_bar()
+
+saveRDS(school_data_route_segments, "input-data/school_data_route_segments_balanced_chepstow.Rds")
+
 ```
 
 
-```{r, eval=FALSE}
-file.edit("code/get-school-od.R")
-source("code/get-school-od.R")
-```
 
 
-
-
+# References
 

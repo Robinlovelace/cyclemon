@@ -1,5 +1,7 @@
 download.file("https://www.arcgis.com/sharing/rest/content/items/a644dd04d18f4592b7d36705f93270d8/data", "postcodes.zip")
+
 unzip("postcodes.zip", exdir = "~/hd/data/uk/accessibility/postcodes")
+
 list.files("~/hd/data/uk/accessibility/postcodes")
 list.files("~/hd/data/uk/accessibility/postcodes/Data/")
 list.files("~/hd/data/uk/accessibility/postcodes/Data/multi_csv/")
