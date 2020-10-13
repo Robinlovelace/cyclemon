@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::7405" } },
+                                                                                                                                  
+"features": [
+{ "type": "Feature", "properties": { "query": null, "lat": null, "lon": null, "lat_min": null, "lat_max": null, "lon_min": null, "lon_max": null }, "geometry": { "type": "Point", "coordinates": [ 329729.3052046434, 215197.51601333497 ] } }
+]
+}

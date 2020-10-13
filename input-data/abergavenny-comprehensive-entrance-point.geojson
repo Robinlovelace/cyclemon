@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "chepstow-comprehensive-entrance-point",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "query": null, "lat": null, "lon": null, "lat_min": null, "lat_max": null, "lon_min": null, "lon_max": null }, "geometry": { "type": "Point", "coordinates": [ -3.021150133539302, 51.830952545990385 ] } }
+]
+}
