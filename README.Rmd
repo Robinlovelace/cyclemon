@@ -3,7 +3,7 @@
 output:
   bookdown::github_document2:
     number_sections: true
-title: Analysing cycling potential in Monmouthshire
+title: "Modelling cycling potential to inform interventions in rural areas: insights from a case study of Monmouthshire, Wales"
 bibliography: cyclemon.bib
 ---
 
