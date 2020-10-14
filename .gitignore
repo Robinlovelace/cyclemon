@@ -41,3 +41,5 @@ vignettes/*.pdf
 *.zip
 *.pdf
 *.Rds
+cyclemon.bib
+*.geojson

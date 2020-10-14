@@ -64,6 +64,7 @@ school_data_route_segments = stplanr::route(l = school_data_desire_lines, route_
 mapview::mapview(school_data_route_segments)
 school_data_route_segments
 
+
 system.time({
   school_data_route_segments$geo_text = sf::st_as_text(school_data_route_segments$geometry)
 })
@@ -99,3 +100,15 @@ tm_shape(rnet) +
   tm_scale_bar()
 
 saveRDS(school_data_route_segments, "input-data/school_data_route_segments_balanced_chepstow.Rds")
+
+u_wpz = "https://opendata.arcgis.com/datasets/176661b9403a4c84ae6aedf8bb4127cf_0.kml?outSR=%7B%22latestWkid%22%3A27700%2C%22wkid%22%3A27700%7D"
+download.file("https://opendata.arcgis.com/datasets/176661b9403a4c84ae6aedf8bb4127cf_0.kml", "~/hd/data/raw/geo/wpz.kml")
+wpz_uk_centroids = sf::read_sf("~/hd/data/raw/geo/wpz.kml")
+nrow(wpz_uk_centroids)
+# [1] 53578
+saveRDS(wpz_uk_centroids, "~/hd/data/uk/centroids/wpz_ew.Rds")
+oa_centroids = sf::read_sf("~/hd/data/uk/centroids/OA_2011_EW_PWC.shp")
+oa_centroids
+oa_2011_ew_pwc_wgs_4326 = sf::st_transform(oa_centroids, 4326)
+saveRDS(oa_2011_ew_pwc_wgs_4326, "~/hd/data/uk/centroids/oa_2011_ew_pwc_wgs_4326.Rds")
+
