@@ -1,4 +1,5 @@
-Analysing cycling potential in Monmouthshire
+Modelling cycling potential to inform interventions in rural areas:
+insights from a case study of Monmouthshire, Wales
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
