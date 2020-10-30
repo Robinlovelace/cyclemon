@@ -1,26 +1,24 @@
-Modelling cycling potential to inform interventions in rural areas:
-insights from a case study of Monmouthshire, Wales
+Modelling active travel in rural areas: a combined origin-destination
+and spatial network approach
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
-
 <!-- badges: end -->
-
 <!-- This repo contains reproducible code to support the analysis of cycling potential in Monmouthshire, Wales. -->
 
 # 1 Introduction
 
 There has much research on mode shift since the origins of applied
 transport planning and modelling in the 1950s (Boyce and Williams 2015;
-Aguil’era and Gr’ebert 2014). Within this broad field of research uptake
-of active modes has become a focus of research. A range of methods have
-been used to understand and model walking and cycling levels, with
-‘getting people cycling’ being the topic of numerous papers during the
-2010 (e.g. Beecham, Wood, and Bowerman 2012; Gris’e and El-Geneidy 2018;
-Larsen, Patterson, and El-Geneidy 2013; Raffler, Brezina, and Emberger
-2019; Zhang, Magalhaes, and Wang 2014).
+Aguil’era and Gr’ebert 2014). Within this broad field of research,
+uptake of active modes has become a recent focus
+(**gotschi\_comprehensive\_2017?**). A range of methods have been used
+to understand and model walking and cycling levels, with ‘getting people
+cycling’ being the topic of numerous papers during the 2010 (e.g.
+Beecham, Wood, and Bowerman 2012; Gris’e and El-Geneidy 2018; Larsen,
+Patterson, and El-Geneidy 2013; Raffler, Brezina, and Emberger 2019;
+Zhang, Magalhaes, and Wang 2014).
 
 Within the wide range of approaches used to model cycling uptake, two
 broad approaches have been particularly prominent in the literature. The
@@ -30,7 +28,7 @@ number of trips, e.g. by mode of travel to work on a typical working day
 between residential zone origins and workplace destinations. This
 approach was used in the Propensity to Cycle Tool (PCT), which was
 originally developed to support strategic cycle network planning based
-on commuter data for England (Lovelace et al. 2017). The ‘PCT approach’,
+on commuter data for England (Lovelace et al. 2017). The ‘PCT approach,’
 which is a particular implementation of the ‘origin-destination’
 approach that models cycling uptake in terms of ‘distance-hilliness
 decay’ functions (which can include other explanatory variables such as
@@ -44,19 +42,16 @@ England, with publicly available visualisations down to the street level
 # 2 Study area
 
 The case study area is the local authority district of Monmouthshire, in
-rural South Wales (Figure <a href="#fig:case">1</a>). The research took
-place in the context of the Welsh Active Travel Act (Welsh Government
-2020).
+rural South Wales (Figure <a href="#fig:case">2.1</a>). The research
+took place in the context of the Welsh Active Travel Act (Welsh
+Government 2020).
 
 <div class="figure">
 
 <img src="README_files/figure-gfm/unnamed-chunk-4-1.png" alt="Case study area, with the parishes of Chepstow and Abergavenny highlighted in red." width="672" />
-
 <p class="caption">
-
-Figure 1: Case study area, with the parishes of Chepstow and Abergavenny
-highlighted in red.
-
+Figure 2.1: Case study area, with the parishes of Chepstow and
+Abergavenny highlighted in red.
 </p>
 
 </div>
@@ -67,9 +62,9 @@ highlighted in red.
 
 # 4 References
 
-<div id="refs" class="references">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-aguilera_passenger_2014">
+<div id="ref-aguilera_passenger_2014" class="csl-entry">
 
 Aguil’era, Anne, and Jean Gr’ebert. 2014. “Passenger Transport Mode
 Share in Cities: Exploration of Actual and Future Trends with a
@@ -79,7 +74,7 @@ Management* 14 (3-4): 203–16.
 
 </div>
 
-<div id="ref-ahmad_comparison_2020">
+<div id="ref-ahmad_comparison_2020" class="csl-entry">
 
 Ahmad, Sohail, Anna Goodman, Felix Creutzig, James Woodcock, and Marko
 Tainio. 2020. “A Comparison of the Health and Environmental Impacts of
@@ -89,7 +84,7 @@ in Nashville, USA.” *Cities & Health* 4 (1): 55–65.
 
 </div>
 
-<div id="ref-beecham_visual_2012">
+<div id="ref-beecham_visual_2012" class="csl-entry">
 
 Beecham, Roger, Jo Wood, and Audrey Bowerman. 2012. “A Visual Analytics
 Approach to Understanding Cycling Behaviour.” In *2012 IEEE Conference
@@ -97,14 +92,14 @@ on Visual Analytics Science and Technology (VAST)*, 207–8. IEEE.
 
 </div>
 
-<div id="ref-boyce_forecasting_2015">
+<div id="ref-boyce_forecasting_2015" class="csl-entry">
 
 Boyce, David E., and Huw C. W. L. Williams. 2015. *Forecasting Urban
 Travel: Past, Present and Future*. Edward Elgar Publishing.
 
 </div>
 
-<div id="ref-goodman_scenarios_2019">
+<div id="ref-goodman_scenarios_2019" class="csl-entry">
 
 Goodman, Anna, Ilan Fridman Rojas, James Woodcock, Rachel Aldred,
 Nikolai Berkoff, Malcolm Morgan, Ali Abbas, and Robin Lovelace. 2019.
@@ -115,7 +110,7 @@ of Transport & Health* 12 (March): 263–78.
 
 </div>
 
-<div id="ref-grise_if_2018">
+<div id="ref-grise_if_2018" class="csl-entry">
 
 Gris’e, Emily, and Ahmed El-Geneidy. 2018. “If We Build It, Who Will
 Benefit? A Multi-Criteria Approach for the Prioritization of New Bicycle
@@ -124,7 +119,7 @@ Lanes in Quebec City, Canada.” *Journal of Transport and Land Use* 11
 
 </div>
 
-<div id="ref-larsen_build_2013">
+<div id="ref-larsen_build_2013" class="csl-entry">
 
 Larsen, Jacob, Zachary Patterson, and Ahmed El-Geneidy. 2013. “Build It.
 But Where? The Use of Geographic Information Systems in Identifying
@@ -133,7 +128,7 @@ Sustainable Transportation* 7 (4): 299–317.
 
 </div>
 
-<div id="ref-lovelace_propensity_2017">
+<div id="ref-lovelace_propensity_2017" class="csl-entry">
 
 Lovelace, Robin, Anna Goodman, Rachel Aldred, Nikolai Berkoff, Ali
 Abbas, and James Woodcock. 2017. “The Propensity to Cycle Tool: An Open
@@ -142,7 +137,7 @@ Transport and Land Use* 10 (1). <https://doi.org/10.5198/jtlu.2016.862>.
 
 </div>
 
-<div id="ref-raffler_cycling_2019">
+<div id="ref-raffler_cycling_2019" class="csl-entry">
 
 Raffler, Clemens, Tadej Brezina, and Günter Emberger. 2019. “Cycling
 Investment Expedience: Energy Expenditure Based Cost-Path Analysis of
@@ -152,13 +147,13 @@ A: Policy and Practice* 121 (March): 360–73.
 
 </div>
 
-<div id="ref-welshgovernment_active_2020">
+<div id="ref-welshgovernment_active_2020" class="csl-entry">
 
 Welsh Government. 2020. “Active Travel Guidance.” Welsh Government.
 
 </div>
 
-<div id="ref-zhang_prioritizing_2014">
+<div id="ref-zhang_prioritizing_2014" class="csl-entry">
 
 Zhang, Dapeng, David Jose Ahouagi Vaz Magalhaes, and Xiaokun (Cara)
 Wang. 2014. “Prioritizing Bicycle Paths in Belo Horizonte City, Brazil:
