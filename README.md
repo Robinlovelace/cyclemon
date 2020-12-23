@@ -1,5 +1,5 @@
-Modelling active travel in rural areas: a combined origin-destination
-and spatial network approach
+Combining origin-destination and spatial network approaches to estimate
+walking and cycling potential
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -12,13 +12,13 @@ and spatial network approach
 There has much research on mode shift since the origins of applied
 transport planning and modelling in the 1950s (Boyce and Williams 2015;
 Aguil’era and Gr’ebert 2014). Within this broad field of research,
-uptake of active modes has become a recent focus
-(**gotschi\_comprehensive\_2017?**). A range of methods have been used
-to understand and model walking and cycling levels, with ‘getting people
-cycling’ being the topic of numerous papers during the 2010 (e.g.
-Beecham, Wood, and Bowerman 2012; Gris’e and El-Geneidy 2018; Larsen,
-Patterson, and El-Geneidy 2013; Raffler, Brezina, and Emberger 2019;
-Zhang, Magalhaes, and Wang 2014).
+uptake of ‘active modes’ (walking and cycling) has become a recent focus
+(Götschi et al. 2017). A range of methods have been used to understand
+and model walking and cycling levels, with ‘getting people cycling’
+being the topic of numerous papers during the 2010 (e.g. Beecham, Wood,
+and Bowerman 2012; Gris’e and El-Geneidy 2018; Larsen, Patterson, and
+El-Geneidy 2013; Raffler, Brezina, and Emberger 2019; Zhang, Magalhaes,
+and Wang 2014).
 
 Within the wide range of approaches used to model cycling uptake, two
 broad approaches have been particularly prominent in the literature. The
@@ -39,7 +39,7 @@ to cycling for the ‘school commute’ in across all state schools in
 England, with publicly available visualisations down to the street level
 (Goodman et al. 2019).
 
-# 2 Study area
+# 2 Study area and input data
 
 The case study area is the local authority district of Monmouthshire, in
 rural South Wales (Figure <a href="#fig:case">2.1</a>). The research
@@ -56,11 +56,57 @@ Abergavenny highlighted in red.
 
 </div>
 
-# 3 Study area and data
+<!-- # Study area and data -->
 
-## 3.1 Road network visualisation
+## 2.1 Definition of travel watersheds
 
-# 4 References
+Explain how extent of analysis was computed (RL + CC)
+
+# 3 Origin-destination analysis
+
+Describe a generalised version of the ‘PCT approach’ with recent
+modifications, improvements and areas for improvement (RL)
+
+## 3.1 Origin-destination data processing
+
+Talk about data availability, possibility of modelling OD data with SIMs
+and od package (RL)
+
+## 3.2 Routing: OD data
+
+Different routing options (RL)
+
+## 3.3 Estimating cycling uptake
+
+Go Dutch and other options (RL)
+
+# 4 Spatial network analysis
+
+Explanation of the method and reproducible example (CC)
+
+## 4.1 Spatial network processing
+
+## 4.2 Network modelling
+
+## 4.3 Scenario analysis
+
+How the walking/cycling scenarios were implemented with sDNA (CC)
+
+# 5 Integrated OD and SNA network analysis
+
+RL + CC
+
+## 5.1 Road network visualisation
+
+# 6 Findings
+
+RL + CC
+
+# 7 Conclusions
+
+RL + CC
+
+# 8 References
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
@@ -107,6 +153,16 @@ Nikolai Berkoff, Malcolm Morgan, Ali Abbas, and Robin Lovelace. 2019.
 Carbon Impacts: Application of the ‘Propensity to Cycle Tool’.” *Journal
 of Transport & Health* 12 (March): 263–78.
 <https://doi.org/10.1016/j.jth.2019.01.008>.
+
+</div>
+
+<div id="ref-gotschi_comprehensive_2017" class="csl-entry">
+
+Götschi, Thomas, Audrey de Nazelle, Christian Brand, Regine Gerike, and
+Regine Gerike. 2017. “Towards a Comprehensive Conceptual Framework of
+Active Travel Behavior: A Review and Synthesis of Published Frameworks.”
+*Current Environmental Health Reports* 4 (3): 286–95.
+<https://doi.org/10.1007/s40572-017-0149-9>.
 
 </div>
 
