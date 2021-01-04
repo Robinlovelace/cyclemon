@@ -1,8 +1,8 @@
 ---
 # output: github_document
 output:
-  # bookdown::github_document2:
-  bookdown::word_document2:
+  bookdown::github_document2:
+  # bookdown::word_document2:
     number_sections: true
 # title: "Modelling cycling potential to inform interventions in rural areas: insights from a case study of Monmouthshire, Wales"
 # title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
@@ -22,6 +22,7 @@ knitr::opts_chunk$set(
 )
 library(tidyverse)
 library(sf)
+library(tmap)
 if(!file.exists("cyclemon.bib")) {
   download.file("https://github.com/Robinlovelace/cyclemon/releases/download/0.0.1/cyclemon.bib", "cyclemon.bib")
 }
@@ -59,18 +60,61 @@ The case study area is the local authority district of Monmouthshire, in rural S
 remotes::install_github("robinlovelace/ukboundaries")
 ```
 
-```{r, eval=FALSE}
-uklads = ukboundaries::lad2018
-# View(uklads %>% st_drop_geometry())
-monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
-mapview::mapview(monmouthshire)
-uk_codes = read_csv("~/hd/data/uk/codes/RGC_JUNE_2020_UK_v2.csv")
-View(uk_codes)
-```
-
 ```{r case, fig.cap="Case study area, with the parishes of Chepstow and Abergavenny highlighted in red."}
 knitr::include_graphics("README_files/figure-gfm/unnamed-chunk-4-1.png")
 ```
+
+To define the 'area of interest' associated with each parish, we used a 2 stage buffering process:
+
+1. Create a buffer around the zone of interest with a threshold distance (set to 10 km)
+2. Create a separate buffer around the region of interest to allow for some (more limited) inter-regional flow (set to 1 km)
+3. Calculate the intersection between the two buffers outlined in the previous stages
+
+<!-- This process is now available as a function, ... in the package stplanr. -->
+The process is illustrated in Figure \@ref(fig:buffers).
+
+```{r buffers, eval=TRUE, fig.cap="Illustration of the three stage buffering process to identify areas of interest within which travel to destinations in the zones could take place"}
+uklads = ukboundaries::lad2018
+# View(uklads %>% st_drop_geometry())
+monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
+# mapview::mapview(monmouthshire)
+# uk_codes = read_csv("~/hd/data/uk/codes/RGC_JUNE_2020_UK_v2.csv")
+# View(uk_codes)
+chepstow = sf::read_sf("input-data/chepstow.geojson")
+# aim: generate buffers (update stplanr)
+# chepstow_buffer = stplanr::geo_buffer(chepstow, dist = 10000) # fails
+buffer_dist = 10000
+region_buffer_dist = 1000 
+zone_buffer = chepstow %>% 
+  sf::st_transform(27700) %>% 
+  sf::st_buffer(buffer_dist) %>% 
+  sf::st_transform(4326)
+region_buffer = monmouthshire %>% 
+  sf::st_transform(27700) %>% 
+  sf::st_buffer(region_buffer_dist) %>% 
+  sf::st_transform(4326)
+zone_buffer_in_region = sf::st_intersection(zone_buffer, region_buffer)
+
+tm_shape(monmouthshire) +
+  tm_polygons(lwd = 5) + 
+  tm_shape(zone_buffer) +
+  tm_polygons(col = "green") +
+  tm_shape(region_buffer) +
+  tm_borders(lwd = 5, lty = 2) +
+  tm_shape(zone_buffer_in_region) +
+  tm_polygons(col = "blue", alpha = 0.4) +
+  tm_shape(monmouthshire) +
+  tm_borders(lwd = 5) +
+  tm_shape(chepstow) +
+  tm_polygons(col = "red") +
+  tm_scale_bar(position = "left")
+
+# mapview::mapview(chepstow_buffer_in_region)
+# plot(chepstow)
+# abber = readRDS("input-data/abergavenny.geojson")
+```
+
+
 
 <!-- # Study area and data -->
 

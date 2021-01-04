@@ -56,6 +56,31 @@ Abergavenny highlighted in red.
 
 </div>
 
+To define the ‘area of interest’ associated with each parish, we used a
+2 stage buffering process:
+
+1.  Create a buffer around the zone of interest with a threshold
+    distance (set to 10 km)
+2.  Create a separate buffer around the region of interest to allow for
+    some (more limited) inter-regional flow (set to 1 km)
+3.  Calculate the intersection between the two buffers outlined in the
+    previous stages
+
+<!-- This process is now available as a function, ... in the package stplanr. -->
+
+The process is illustrated in Figure <a href="#fig:buffers">2.2</a>.
+
+<div class="figure">
+
+<img src="README_files/figure-gfm/buffers-1.png" alt="Illustration of the three stage buffering process to identify areas of interest within which travel to destinations in the zones could take place"  />
+<p class="caption">
+Figure 2.2: Illustration of the three stage buffering process to
+identify areas of interest within which travel to destinations in the
+zones could take place
+</p>
+
+</div>
+
 <!-- # Study area and data -->
 
 ## 2.1 Definition of travel watersheds
