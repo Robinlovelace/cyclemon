@@ -64,16 +64,18 @@ remotes::install_github("robinlovelace/ukboundaries")
 knitr::include_graphics("README_files/figure-gfm/unnamed-chunk-4-1.png")
 ```
 
-To define the 'area of interest' associated with each parish, we used a 2 stage buffering process:
+To define the 'area of interest', two approaches were implemented: a simple buffer and a we used a 2 stage buffering process, as illustrated in Figure \@ref(fig:buffers).
+Reasons for wanting to go beyond the simple buffering approach were computational and policy-related: computationally, model run times (and visualisation load times in interactive maps) depend on the amount of data served, so there is an incentive to reduce the size of the input data; from a policy perspective, planners usually want to focus on a particular region over which they have control (and budget).
+The simple buffer approach was simply to create a buffer of a fixed distance (10 km in the first instance) around the destination (in this case the parishes of Chepstown and Abergavenny).
+Building on this, the three-stage process was as follows:
 
 1. Create a buffer around the zone of interest with a threshold distance (set to 10 km)
 2. Create a separate buffer around the region of interest to allow for some (more limited) inter-regional flow (set to 1 km)
 3. Calculate the intersection between the two buffers outlined in the previous stages
 
 <!-- This process is now available as a function, ... in the package stplanr. -->
-The process is illustrated in Figure \@ref(fig:buffers).
 
-```{r buffers, eval=TRUE, fig.cap="Illustration of the three stage buffering process to identify areas of interest within which travel to destinations in the zones could take place"}
+```{r buffers, eval=TRUE, fig.cap="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place", out.width="49%", fig.show='hold'}
 uklads = ukboundaries::lad2018
 # View(uklads %>% st_drop_geometry())
 monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
@@ -84,7 +86,7 @@ chepstow = sf::read_sf("input-data/chepstow.geojson")
 # aim: generate buffers (update stplanr)
 # chepstow_buffer = stplanr::geo_buffer(chepstow, dist = 10000) # fails
 buffer_dist = 10000
-region_buffer_dist = 1000 
+region_buffer_dist = 5000 
 zone_buffer = chepstow %>% 
   sf::st_transform(27700) %>% 
   sf::st_buffer(buffer_dist) %>% 
@@ -95,14 +97,28 @@ region_buffer = monmouthshire %>%
   sf::st_transform(4326)
 zone_buffer_in_region = sf::st_intersection(zone_buffer, region_buffer)
 
-tm_shape(monmouthshire) +
+tm_shape(zone_buffer, bbox = tmaptools::bb(zone_buffer, 1.5)) +
+  tm_polygons(col = "green", alpha = 0.4) +
+  tm_shape(monmouthshire) +
   tm_polygons(lwd = 5) + 
+  tm_shape(region_buffer) +
+  tm_borders(lwd = 5, lty = 2) +
   tm_shape(zone_buffer) +
-  tm_polygons(col = "green") +
+  tm_polygons(col = "green", alpha = 0.4) +
+  tm_shape(monmouthshire) +
+  tm_borders(lwd = 5) +
+  tm_shape(chepstow) +
+  tm_polygons(col = "red") +
+  tm_scale_bar(position = "left")
+
+tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)) +
+  tm_polygons(col = "green", alpha = 0.4) +
+  tm_shape(monmouthshire) +
+  tm_polygons(lwd = 5) + 
   tm_shape(region_buffer) +
   tm_borders(lwd = 5, lty = 2) +
   tm_shape(zone_buffer_in_region) +
-  tm_polygons(col = "blue", alpha = 0.4) +
+  tm_polygons(col = "green", alpha = 0.4) +
   tm_shape(monmouthshire) +
   tm_borders(lwd = 5) +
   tm_shape(chepstow) +

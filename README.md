@@ -56,8 +56,19 @@ Abergavenny highlighted in red.
 
 </div>
 
-To define the ‘area of interest’ associated with each parish, we used a
-2 stage buffering process:
+To define the ‘area of interest,’ two approaches were implemented: a
+simple buffer and a we used a 2 stage buffering process, as illustrated
+in Figure <a href="#fig:buffers">2.2</a>. Reasons for wanting to go
+beyond the simple buffering approach were computational and
+policy-related: computationally, model run times (and visualisation load
+times in interactive maps) depend on the amount of data served, so there
+is an incentive to reduce the size of the input data; from a policy
+perspective, planners usually want to focus on a particular region over
+which they have control (and budget). The simple buffer approach was
+simply to create a buffer of a fixed distance (10 km in the first
+instance) around the destination (in this case the parishes of Chepstown
+and Abergavenny). Building on this, the three-stage process was as
+follows:
 
 1.  Create a buffer around the zone of interest with a threshold
     distance (set to 10 km)
@@ -68,15 +79,13 @@ To define the ‘area of interest’ associated with each parish, we used a
 
 <!-- This process is now available as a function, ... in the package stplanr. -->
 
-The process is illustrated in Figure <a href="#fig:buffers">2.2</a>.
-
 <div class="figure">
 
-<img src="README_files/figure-gfm/buffers-1.png" alt="Illustration of the three stage buffering process to identify areas of interest within which travel to destinations in the zones could take place"  />
+<img src="README_files/figure-gfm/buffers-1.png" alt="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place" width="49%" /><img src="README_files/figure-gfm/buffers-2.png" alt="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place" width="49%" />
 <p class="caption">
-Figure 2.2: Illustration of the three stage buffering process to
-identify areas of interest within which travel to destinations in the
-zones could take place
+Figure 2.2: Illustration of the simple buffer and three stage buffering
+approaches to identify areas of interest within which travel to
+destinations in the zones could take place
 </p>
 
 </div>
