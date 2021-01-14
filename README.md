@@ -9,7 +9,7 @@ walking and cycling potential
 
 # 1 Introduction
 
-There has much research on mode shift since the origins of applied
+There has been much research on mode shift since the origins of applied
 transport planning and modelling in the 1950s (Boyce and Williams 2015;
 Aguil’era and Gr’ebert 2014). Within this broad field of research,
 uptake of ‘active modes’ (walking and cycling) has become a recent focus
@@ -38,6 +38,14 @@ low cycling levels (Ahmad et al. 2020) and the potential for mode shift
 to cycling for the ‘school commute’ in across all state schools in
 England, with publicly available visualisations down to the street level
 (Goodman et al. 2019).
+
+The aim of this paper is to demonstrate the relative merits of the
+‘origin-destination approach’ implemented in the PCT and the ‘spatial
+network’ approach implemented in the open source sDNA software. We do so
+using reproducible methods and open access input data to encourage
+others to employ the techniques in other areas to support evidence-based
+interventions to enable cycling uptake and as a basis for future
+research and development.
 
 # 2 Study area and input data
 
