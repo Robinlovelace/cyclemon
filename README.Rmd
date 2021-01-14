@@ -1,8 +1,8 @@
 ---
 # output: github_document
 output:
-  bookdown::github_document2:
-  # bookdown::word_document2:
+  # bookdown::github_document2:
+  bookdown::word_document2:
     number_sections: true
 # title: "Modelling cycling potential to inform interventions in rural areas: insights from a case study of Monmouthshire, Wales"
 # title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
@@ -52,7 +52,7 @@ There has been much research on mode shift since the origins of applied transpor
 
 Within the wide range of approaches used to model cycling uptake, two broad approaches have been particularly prominent in the literature. The *origin-destination approach* relies on estimates of current travel behaviour, represented in origin-destination datasets reporting the number of trips, e.g. by mode of travel to work on a typical working day between residential zone origins and workplace destinations. This approach was used in the Propensity to Cycle Tool (PCT), which was originally developed to support strategic cycle network planning based on commuter data for England [@lovelace_propensity_2017]. The 'PCT approach', which is a particular implementation of the 'origin-destination' approach that models cycling uptake in terms of 'distance-hilliness decay' functions (which can include other explanatory variables such as traffic levels) has subsequently been adapted to explore cycling potential in other contexts, including cycling uptake in US cities with low cycling levels [@ahmad_comparison_2020] and the potential for mode shift to cycling for the 'school commute' in across all state schools in England, with publicly available visualisations down to the street level [@goodman_scenarios_2019].
 
-The aim of this paper is to demonstrate the relative merits of the 'origin-destination approach' implemented in the PCT and the 'spatial network' approach implemented in the open source sDNA software.
+The aim of this paper is to demonstrate the relative merits of the 'origin-destination approach' implemented in the PCT and the 'spatial network' approach implemented in the open source sDNA software [@chan_using_2019].
 We do so using reproducible methods and open access input data to encourage others to employ the techniques in other areas to support evidence-based interventions to enable cycling uptake and as a basis for future research and development.
 
 # Study area and input data
@@ -68,13 +68,16 @@ knitr::include_graphics("README_files/figure-gfm/unnamed-chunk-4-1.png")
 ```
 
 To define the 'area of interest', two approaches were implemented: a simple buffer and a we used a 2 stage buffering process, as illustrated in Figure \@ref(fig:buffers).
-Reasons for wanting to go beyond the simple buffering approach were computational and policy-related: computationally, model run times (and visualisation load times in interactive maps) depend on the amount of data served, so there is an incentive to reduce the size of the input data; from a policy perspective, planners usually want to focus on a particular region over which they have control (and budget).
+Reasons for exploring options to go beyond the simple buffering approach were computational and policy-related: computationally, model run times (and visualisation load times in interactive maps) depend on the amount of data served, so there is an incentive to reduce the size of the input data; from a policy perspective, planners usually want to focus on a particular region over which they have control (and budget).
 The simple buffer approach was simply to create a buffer of a fixed distance (10 km in the first instance) around the destination (in this case the parishes of Chepstown and Abergavenny).
 Building on this, the three-stage process was as follows:
 
 1. Create a buffer around the zone of interest with a threshold distance (set to 10 km)
 2. Create a separate buffer around the region of interest to allow for some (more limited) inter-regional flow (set to 1 km)
 3. Calculate the intersection between the two buffers outlined in the previous stages
+
+The advantages of the simple buffer approach included simplicity and minimisation of parameters that had to be hard-coded into the analysis. 
+Taking both factors into account, we use the simple approach represented in the left hand plot of Figure \@ref(fig:buffers), saving the three stage approach for contexts where it is advantageous to model cross-region flow but also to reduce the proportion of trips modelled crossing regional/state boundaries.
 
 <!-- This process is now available as a function, ... in the package stplanr. -->
 
