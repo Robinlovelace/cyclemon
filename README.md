@@ -41,11 +41,11 @@ England, with publicly available visualisations down to the street level
 
 The aim of this paper is to demonstrate the relative merits of the
 ‘origin-destination approach’ implemented in the PCT and the ‘spatial
-network’ approach implemented in the open source sDNA software. We do so
-using reproducible methods and open access input data to encourage
-others to employ the techniques in other areas to support evidence-based
-interventions to enable cycling uptake and as a basis for future
-research and development.
+network’ approach implemented in the open source sDNA software (Chan and
+Cooper 2019). We do so using reproducible methods and open access input
+data to encourage others to employ the techniques in other areas to
+support evidence-based interventions to enable cycling uptake and as a
+basis for future research and development.
 
 # 2 Study area and input data
 
@@ -64,19 +64,17 @@ Abergavenny highlighted in red.
 
 </div>
 
-To define the ‘area of interest,’ two approaches were implemented: a
-simple buffer and a we used a 2 stage buffering process, as illustrated
-in Figure <a href="#fig:buffers">2.2</a>. Reasons for wanting to go
-beyond the simple buffering approach were computational and
-policy-related: computationally, model run times (and visualisation load
-times in interactive maps) depend on the amount of data served, so there
-is an incentive to reduce the size of the input data; from a policy
-perspective, planners usually want to focus on a particular region over
-which they have control (and budget). The simple buffer approach was
-simply to create a buffer of a fixed distance (10 km in the first
+We tested two approaches to define the ‘area of interest’: a simple
+buffer and a three-stage buffering process, as illustrated in Figure
+<a href="#fig:buffers">2.2</a>. The simple buffer approach involved
+creating polygon with borders a fixed distance (10 km in the first
 instance) around the destination (in this case the parishes of Chepstown
-and Abergavenny). Building on this, the three-stage process was as
-follows:
+and Abergavenny). Model run times (and visualisation load times in
+interactive maps) depend on the amount of data served, creating an
+incentive reduce the size of the input data, and from a policy
+perspective, it makes sense to focus on the area over which local
+planners have control (and budget). In this context, the three-stage
+process was developed as follows:
 
 1.  Create a buffer around the zone of interest with a threshold
     distance (set to 10 km)
@@ -85,6 +83,8 @@ follows:
 3.  Calculate the intersection between the two buffers outlined in the
     previous stages
 
+<!-- The advantages of the simple buffer approach included simplicity and minimisation of parameters that had to be hard-coded into the analysis.  -->
+<!-- Taking both factors into account, we use the simple approach represented in the left hand plot of Figure <a href="#fig:buffers">2.2</a>, saving the three stage approach for contexts where it is advantageous to model cross-region flow but also to reduce the proportion of trips modelled crossing regional/state boundaries. -->
 <!-- This process is now available as a function, ... in the package stplanr. -->
 
 <div class="figure">
@@ -184,6 +184,14 @@ on Visual Analytics Science and Technology (VAST)*, 207–8. IEEE.
 
 Boyce, David E., and Huw C. W. L. Williams. 2015. *Forecasting Urban
 Travel: Past, Present and Future*. Edward Elgar Publishing.
+
+</div>
+
+<div id="ref-chan_using_2019" class="csl-entry">
+
+Chan, Eric Yin Cheung, and Crispin HV Cooper. 2019. “Using Road Class as
+a Replacement for Predicted Motorized Traffic Flow in Spatial Network
+Models of Cycling.” *Scientific Reports* 9 (1): 1–12.
 
 </div>
 
