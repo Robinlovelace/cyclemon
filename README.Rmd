@@ -82,13 +82,31 @@ These can be obtained from OpenStreetMap with the tags (key-value pairs) `amenit
 library(osmdata)
 osm_schools = opq(sf::st_bbox(monmouthshire)) %>% 
   add_osm_feature(key = "amenity", value = "school") %>% 
-  osmdata_sf()  
-osm_schools_poly = osm_schools$osm_polygons
-mapview::mapview(osm_schools_poly)
+  osmdata_sf()
+osm_leisure = opq(sf::st_bbox(monmouthshire)) %>% 
+  # add_osm_feature(key = "leisure", value = "sports_centre") %>% # few responses
+  add_osm_feature(key = "leisure") %>% 
+  osmdata_sf()
+
+saveRDS(osm_schools, "osm_schools_list_monmouthshire.Rds")
+saveRDS(osm_leisure, "osm_leisure_list_monmouthshire.Rds")
 ```
 
+```{r}
+osm_schools = readRDS("osm_schools_list_monmouthshire.Rds")
+osm_leisure = readRDS("osm_leisure_list_monmouthshire.Rds")
+osm_schools_poly = osm_schools$osm_polygons %>% 
+  select(osm_id, name)
+osm_leisure_poly = osm_leisure$osm_polygons %>% 
+  select(osm_id, name)
+# mapview::mapview(osm_leisure_poly)
+# mapview::mapview(osm_schools_poly)
+chepstow_comp = osm_schools_poly %>% 
+  filter(str_detect(string = name, pattern = "Chepstow Comp")) 
+```
 
-We tested two approaches to define the 'area of interest': a simple buffer and a three-stage buffering process, as illustrated in Figure \@ref(fig:buffers).
+Other than destinations of interest, the other key input was the boundary of the region responsible for the transport system in the local area.
+We tested two approaches to define the 'area of interest' defining the area within which routes were calculated: a simple buffer and a three-stage buffering process, as illustrated in Figure \@ref(fig:buffers).
 The simple buffer approach involved creating polygon with borders a fixed distance (5 km in the first instance) around the destination (in this case the parishes of Chepstown and Abergavenny).
 Model run times (and visualisation load times in interactive maps) depend on the amount of data served, creating an incentive reduce the size of the input data, and from a policy perspective, it makes sense to focus on the area over which local planners have control (and budget).
 In this context, the three-stage process was developed as follows:
@@ -102,13 +120,13 @@ In this context, the three-stage process was developed as follows:
 
 <!-- This process is now available as a function, ... in the package stplanr. -->
 
-```{r buffers, eval=TRUE, fig.cap="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place", out.width="49%", fig.show='hold'}
+```{r buffers, eval=TRUE, fig.cap="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place. The D represents the desination of interest.", out.width="49%", fig.show='hold'}
 chepstow = sf::read_sf("input-data/chepstow.geojson")
 # aim: generate buffers (update stplanr)
 # chepstow_buffer = stplanr::geo_buffer(chepstow, dist = 10000) # fails
 buffer_dist = 5000
 region_buffer_dist = 2000 
-zone_buffer = chepstow %>% 
+zone_buffer = chepstow_comp %>% 
   sf::st_transform(27700) %>% 
   sf::st_buffer(buffer_dist) %>% 
   sf::st_transform(4326)
@@ -130,7 +148,8 @@ tm_shape(zone_buffer, bbox = tmaptools::bb(zone_buffer, 1.5)) +
   tm_borders(lwd = 5) +
   tm_shape(chepstow) +
   tm_polygons(col = "red") +
-  tm_scale_bar(position = "left")
+  tm_scale_bar(position = "left") +
+  qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
 
 tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)) +
   tm_polygons(col = "green", alpha = 0.4) +
@@ -144,7 +163,8 @@ tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)
   tm_borders(lwd = 5) +
   tm_shape(chepstow) +
   tm_polygons(col = "red") +
-  tm_scale_bar(position = "left")
+  tm_scale_bar(position = "left") +
+  qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
 
 # mapview::mapview(chepstow_buffer_in_region)
 # plot(chepstow)
@@ -166,7 +186,75 @@ piggyback::pb_upload("desire_lines_abergavenny.geojson")
 
 <!-- Explain how extent of analysis was computed (RL + CC) -->
 
-Other than the school location and parish 
+The other key input is origin-destination (OD) data.
+OD data can be obtained from a number of sources, the most reliable being a list of geocoded addresses or postcodes associated with people who visit each destination regularly.
+In cases where OD datasets derived from from surveys or official/commercial records are missing, they can be simulated using a range of techniques.
+For the purposes of this paper, to enable full reproducibility, we simulate origins by sampling from buildings in the study area, as illustrated below.
+
+```{r, eval=FALSE}
+# Aim: get OSM buildings and sample from them
+library(osmextract)
+osm_buildings = oe_get(chepstow_comp, layer = "multipolygons")
+names(osm_buildings)
+osm_buildings_in_region = osm_buildings[zone_buffer, ] %>% 
+  # filter(building == "residential") %>% # too few
+  filter(str_detect(string = building, pattern = "resi|yes|house")) %>% # too few
+  select(osm_id, name, building)
+mapview::mapview(osm_buildings_in_region)
+```
+
+```{r, eval=FALSE}
+# try getting the data from worldpop
+remotes::install_github("wpgp/wpgpDownloadR")
+library(wpgpDownloadR)
+countries = wpgpListCountries()
+wpgpListCountryDatasets("GBR")
+df = wpgpGetCountryDataset(ISO3 = "GBR", covariate = "ppp_2020")
+df
+library(raster)
+r = raster(df)
+r_local = raster::crop(r, zone_buffer)
+plot(r_local)
+r_points = raster::rasterToPoints(r_local)
+r_points_df = data.frame(r_points)
+summary(r_points_df$gbr_ppp_2020)
+sum(r_points_df$gbr_ppp_2020) # 23k ppl = reasonable
+
+# dfx = read_csv("../cyclemonData/cleaned-data/abergavenny-school-origins.csv")
+# dfx
+
+r_points_sf = sf::st_as_sf(r_points_df, coords = c("x", "y"), crs = 4326)
+r_points_region = r_points_sf[zone_buffer, ]
+mapview::mapview(r_points_region) # works ~100m resolution
+nrow(r_points_region) # 13k
+pop_dest = 1000
+r_points_region$pop_od = r_points_region$gbr_ppp_2020 / (sum(r_points_region$gbr_ppp_2020) / pop_dest)
+
+# integerise
+# https://spatial-microsim-book.robinlovelace.net/smsimr.html#sintegerisation
+int_trs <- function(x){
+  # For generalisation purpose, x becomes a vector
+  xv <- as.vector(x) # allows trs to work on matrices
+  xint <- floor(xv) # integer part of the weight
+  r <- xv - xint # decimal part of the weight
+  def <- round(sum(r)) # the deficit population
+  # the weights be 'topped up' (+ 1 applied)
+  topup <- sample(length(x), size = def, prob = r)
+  xint[topup] <- xint[topup] + 1
+  dim(xint) <- dim(x)
+  dimnames(xint) <- dimnames(x)
+  xint
+}
+
+r_points_region$pop_trs = int_trs(r_points_region$po)
+table(r_points_region$pop_trs)
+sum(r_points_region$pop_trs)
+r_points_integer = r_points_region %>% 
+  filter(pop_trs > 0)
+mapview::mapview(r_points_integer)
+```
+
+
 
 # Origin-destination analysis
 

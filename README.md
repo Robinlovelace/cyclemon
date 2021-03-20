@@ -64,10 +64,17 @@ Abergavenny highlighted in red.
 
 </div>
 
-We tested two approaches to define the ‘area of interest’: a simple
-buffer and a three-stage buffering process, as illustrated in Figure
+The main destinations of interest were schools and leisure centres.
+These can be obtained from OpenStreetMap with the tags (key-value pairs)
+`amenity=school` and `leisure=sports_centre`.
+
+Other than destinations of interest, the other key input was the
+boundary of the region responsible for the transport system in the local
+area. We tested two approaches to define the ‘area of interest’ defining
+the area within which routes were calculated: a simple buffer and a
+three-stage buffering process, as illustrated in Figure
 <a href="#fig:buffers">2.2</a>. The simple buffer approach involved
-creating polygon with borders a fixed distance (10 km in the first
+creating polygon with borders a fixed distance (5 km in the first
 instance) around the destination (in this case the parishes of Chepstown
 and Abergavenny). Model run times (and visualisation load times in
 interactive maps) depend on the amount of data served, creating an
@@ -77,9 +84,9 @@ planners have control (and budget). In this context, the three-stage
 process was developed as follows:
 
 1.  Create a buffer around the zone of interest with a threshold
-    distance (set to 10 km)
+    distance (set to 5 km)
 2.  Create a separate buffer around the region of interest to allow for
-    some (more limited) inter-regional flow (set to 1 km)
+    some (more limited) inter-regional flow (set to 2 km)
 3.  Calculate the intersection between the two buffers outlined in the
     previous stages
 
@@ -89,20 +96,21 @@ process was developed as follows:
 
 <div class="figure">
 
-<img src="README_files/figure-gfm/buffers-1.png" alt="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place" width="49%" /><img src="README_files/figure-gfm/buffers-2.png" alt="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place" width="49%" />
+<img src="README_files/figure-gfm/buffers-1.png" alt="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place. The D represents the desination of interest." width="49%" /><img src="README_files/figure-gfm/buffers-2.png" alt="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place. The D represents the desination of interest." width="49%" />
 <p class="caption">
 Figure 2.2: Illustration of the simple buffer and three stage buffering
 approaches to identify areas of interest within which travel to
-destinations in the zones could take place
+destinations in the zones could take place. The D represents the
+desination of interest.
 </p>
 
 </div>
 
 <!-- # Study area and data -->
+<!-- ## Definition of travel watersheds -->
+<!-- Explain how extent of analysis was computed (RL + CC) -->
 
-## 2.1 Definition of travel watersheds
-
-Explain how extent of analysis was computed (RL + CC)
+Other than the school location and parish
 
 # 3 Origin-destination analysis
 
