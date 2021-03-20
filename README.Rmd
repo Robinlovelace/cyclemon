@@ -252,8 +252,32 @@ sum(r_points_region$pop_trs)
 r_points_integer = r_points_region %>% 
   filter(pop_trs > 0)
 mapview::mapview(r_points_integer)
+saveRDS(r_points_integer, "r_points_integer.Rds")
 ```
 
+```{r}
+r_points_integer = readRDS("r_points_integer.Rds")
+r_od = r_points_integer %>% 
+  mutate(o = seq(nrow(r_points_integer)), d = chepstow_comp$name) %>% 
+  dplyr::select(o, d, n = pop_trs)
+od = r_od %>% sf::st_drop_geometry()
+desire_lines = od::od_to_sf(od, r_od, zd = chepstow_comp %>% dplyr::select(name))
+tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)) +
+  tm_polygons(col = "green", alpha = 0.4) +
+  tm_shape(monmouthshire) +
+  tm_polygons(lwd = 5) + 
+  tm_shape(region_buffer) +
+  tm_borders(lwd = 5, lty = 2) +
+  tm_shape(zone_buffer_in_region) +
+  tm_polygons(col = "green", alpha = 0.4) +
+  tm_shape(monmouthshire) +
+  tm_borders(lwd = 5) +
+  tm_shape(chepstow) +
+  tm_polygons(col = "red") +
+  tm_scale_bar(position = "left") +
+  qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2) +
+  qtm(desire_lines, lines.lwd = "n", scale = 0.3)
+```
 
 
 # Origin-destination analysis
