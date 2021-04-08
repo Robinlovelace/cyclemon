@@ -186,7 +186,7 @@ piggyback::pb_upload("desire_lines_abergavenny.geojson")
 
 <!-- Explain how extent of analysis was computed (RL + CC) -->
 
-The other key input is origin-destination (OD) data.
+A key input is origin-destination (OD) data.
 OD data can be obtained from a number of sources, the most reliable being a list of geocoded addresses or postcodes associated with people who visit each destination regularly.
 In cases where OD datasets derived from from surveys or official/commercial records are missing, they can be simulated using a range of techniques.
 For the purposes of this paper, to enable full reproducibility, we simulate origins by sampling from buildings in the study area, as illustrated below.
@@ -214,7 +214,19 @@ df
 library(raster)
 r = raster(df)
 r_local = raster::crop(r, zone_buffer)
+
+# export to shapefile
 plot(r_local)
+r_local_stars = stars::st_as_stars(r_local)
+plot(r_local_stars)
+r_local_sf = sf::st_as_sf(r_local_stars)
+plot(r_local_sf)
+dir.create("worldpop-chepstow")
+sf::write_sf(r_local_sf, "worldpop-chepstow/r_local_sf.shp")
+zip("worldpop-chepstow.zip", "worldpop-chepstow")
+piggyback::pb_upload("worldpop-chepstow.zip")
+piggyback::pb_download_url("worldpop-chepstow.zip")
+
 r_points = raster::rasterToPoints(r_local)
 r_points_df = data.frame(r_points)
 summary(r_points_df$gbr_ppp_2020)
@@ -255,7 +267,7 @@ mapview::mapview(r_points_integer)
 saveRDS(r_points_integer, "r_points_integer.Rds")
 ```
 
-```{r}
+```{r, fig.cap="Origin-destination data, represented as 'desire lines' emanating from residential origins with the destination fixed to the destination."}
 r_points_integer = readRDS("r_points_integer.Rds")
 r_od = r_points_integer %>% 
   mutate(o = seq(nrow(r_points_integer)), d = chepstow_comp$name) %>% 
@@ -279,6 +291,9 @@ tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)
   qtm(desire_lines, lines.lwd = "n", scale = 0.3)
 ```
 
+The other key input, for spatial network analysis, is route network data.
+This can be obtained from OpenStreetMap, which has global coverage (although quality varies).
+The OSM data 
 
 # Origin-destination analysis
 

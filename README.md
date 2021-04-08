@@ -110,16 +110,29 @@ desination of interest.
 <!-- ## Definition of travel watersheds -->
 <!-- Explain how extent of analysis was computed (RL + CC) -->
 
-The other key input is origin-destination (OD) data. OD data can be
-obtained from a number of sources, the most reliable being a list of
-geocoded addresses or postcodes associated with people who visit each
-destination regularly. In cases where OD datasets derived from from
-surveys or official/commercial records are missing, they can be
-simulated using a range of techniques. For the purposes of this paper,
-to enable full reproducibility, we simulate origins by sampling from
-buildings in the study area, as illustrated below.
+A key input is origin-destination (OD) data. OD data can be obtained
+from a number of sources, the most reliable being a list of geocoded
+addresses or postcodes associated with people who visit each destination
+regularly. In cases where OD datasets derived from from surveys or
+official/commercial records are missing, they can be simulated using a
+range of techniques. For the purposes of this paper, to enable full
+reproducibility, we simulate origins by sampling from buildings in the
+study area, as illustrated below.
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+<div class="figure">
+
+<img src="README_files/figure-gfm/unnamed-chunk-10-1.png" alt="Origin-destination data, represented as 'desire lines' emanating from residential origins with the destination fixed to the destination."  />
+<p class="caption">
+Figure 2.3: Origin-destination data, represented as ‘desire lines’
+emanating from residential origins with the destination fixed to the
+destination.
+</p>
+
+</div>
+
+The other key input, for spatial network analysis, is route network
+data. This can be obtained from OpenStreetMap, which has global coverage
+(although quality varies). The OSM data
 
 # 3 Origin-destination analysis
 
