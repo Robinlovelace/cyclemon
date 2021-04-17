@@ -1,6 +1,9 @@
 ---
 # # Shared content:
-title: Combining origin-destination and spatial network approaches to estimate walking and cycling potential
+title: "An automated toolset for planning of walking and cycling networks serving specific destinations"
+# title: Combining origin-destination and spatial network approaches to estimate walking and cycling potential
+# title: "Modelling cycling potential to inform interventions in rural areas: insights from a case study of Monmouthshire, Wales"
+# title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
 bibliography: cyclemon.bib
 
 # # Generic outputs:
@@ -9,8 +12,6 @@ bibliography: cyclemon.bib
 #   bookdown::github_document2:
 #   # bookdown::word_document2:
 #     number_sections: true
-# title: "Modelling cycling potential to inform interventions in rural areas: insights from a case study of Monmouthshire, Wales"
-# title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
 
 
 # # JTLU version:
@@ -19,20 +20,17 @@ bibliography: cyclemon.bib
 # shorttitle: "Short title"
 # output: jtludown::jtlu_article
 # to use bookdown cross references:
-author1: First Lastname
-org1: University of Life
-author2: First Lastname
-org2: University of Life
-author3: First Lastname
-org3: University of Life
-author4: First Lastname
-org4: University of Life
-author5: First Lastname
-org5: University of Life
-thanks: "title. email address"
+author1: Robin Lovelace
+org1: University of Leeds
+author2: Crispin Cooper
+org2: University of Cardiff
+thanks: "r.lovelace@ leeds.ac.uk"
 abstract: |
   Add your article abstract here,
   test test test.
+  lots and lots
+  and lots and lots
+  of text.....................................
 output:
  bookdown::pdf_book:
    base_format: jtludown::jtlu_article
@@ -71,6 +69,7 @@ piggyback::pb_download_url("cyclemon.bib")
 
 ```{r, engine='bash', eval=FALSE}
 cp ~/repos/jtludown/inst/
+cp README.pdf paper.pdf
 ```
 
 
