@@ -1,13 +1,42 @@
 ---
-# output: github_document
-output:
-  bookdown::github_document2:
-  # bookdown::word_document2:
-    number_sections: true
-# title: "Modelling cycling potential to inform interventions in rural areas: insights from a case study of Monmouthshire, Wales"
-# title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
+# # Shared content:
 title: Combining origin-destination and spatial network approaches to estimate walking and cycling potential
 bibliography: cyclemon.bib
+
+# # Generic outputs:
+# output: github_document
+# output:
+#   bookdown::github_document2:
+#   # bookdown::word_document2:
+#     number_sections: true
+# title: "Modelling cycling potential to inform interventions in rural areas: insights from a case study of Monmouthshire, Wales"
+# title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
+
+
+# # JTLU version:
+# title: "Long Title for Journal of Transport and Land Use"
+# subtitle: "Subtitle"
+# shorttitle: "Short title"
+# output: jtludown::jtlu_article
+# to use bookdown cross references:
+author1: First Lastname
+org1: University of Life
+author2: First Lastname
+org2: University of Life
+author3: First Lastname
+org3: University of Life
+author4: First Lastname
+org4: University of Life
+author5: First Lastname
+org5: University of Life
+thanks: "title. email address"
+abstract: |
+  Add your article abstract here,
+  test test test.
+output:
+ bookdown::pdf_book:
+   base_format: jtludown::jtlu_article
+   latex_engine: xelatex
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -39,6 +68,11 @@ citr::tidy_bib_file(rmd_file = "README.Rmd", messy_bibliography = "~/uaf/allrefs
 piggyback::pb_upload("cyclemon.bib")
 piggyback::pb_download_url("cyclemon.bib")
 ```
+
+```{r, engine='bash', eval=FALSE}
+cp ~/repos/jtludown/inst/
+```
+
 
 <!-- badges: start -->
 
