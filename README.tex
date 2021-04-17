@@ -99,6 +99,8 @@ of text\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots.
 ]
 \saythanks
 
+\onecolumn
+
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
@@ -139,7 +141,12 @@ We do so using reproducible methods and open access input data to encourage othe
 The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \ref{fig:case}). The research took place in the context of the Welsh Active Travel Act (Welsh Government 2020).
 
 \begin{figure}
-\includegraphics[width=9.33in]{README_files/figure-gfm/unnamed-chunk-4-1} \caption{Case study area, with the parishes of Chepstow and Abergavenny highlighted in red.}\label{fig:case}
+
+{\centering \includegraphics[width=0.4\linewidth]{README_files/figure-gfm/study-area-cropped} 
+
+}
+
+\caption{Case study area, with the parishes of Chepstow and Abergavenny highlighted in red.}\label{fig:case}
 \end{figure}
 
 The main destinations of interest were schools and leisure centres.
@@ -147,19 +154,18 @@ These can be obtained from OpenStreetMap with the tags (key-value pairs) \texttt
 
 Other than destinations of interest, the other key input was the boundary of the region responsible for the transport system in the local area.
 
-\begin{figure}
-\includegraphics[width=0.49\linewidth]{README_files/figure-latex/buffers-1} \includegraphics[width=0.49\linewidth]{README_files/figure-latex/buffers-2} \caption{Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place. The D represents the desination of interest.}\label{fig:buffers}
-\end{figure}
-
 A key input is origin-destination (OD) data.
 OD data can be obtained from a number of sources, the most reliable being a list of geocoded addresses or postcodes associated with people who visit each destination regularly.
 In cases where OD datasets derived from from surveys or official/commercial records are missing, they can be simulated using a range of techniques.
 For the purposes of this paper, to enable full reproducibility, we simulate origins by sampling from buildings in the study area, as illustrated below.
 
 \begin{figure}
-\centering
-\includegraphics{README_files/figure-latex/unnamed-chunk-11-1.pdf}
-\caption{\label{fig:unnamed-chunk-11}Origin-destination data, represented as `desire lines' emanating from residential origins with the destination fixed to the destination.}
+
+{\centering \includegraphics{README_files/figure-latex/unnamed-chunk-11-1} 
+
+}
+
+\caption{Origin-destination data, represented as 'desire lines' emanating from residential origins with the destination fixed to the destination.}\label{fig:unnamed-chunk-11}
 \end{figure}
 
 The other key input, for spatial network analysis, is route network data.

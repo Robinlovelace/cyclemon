@@ -45,7 +45,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   echo = FALSE,
   message = FALSE,
-  warning = FALSE
+  warning = FALSE,
+  fig.align = "center"
 )
 library(tidyverse)
 library(sf)
@@ -81,6 +82,7 @@ cp README.pdf paper.pdf
 
 <!-- This repo contains reproducible code to support the analysis of cycling potential in Monmouthshire, Wales. -->
 
+\onecolumn
 # Introduction
 
 There has been much research on mode shift since the origins of applied transport planning and modelling in the 1950s [@boyce_forecasting_2015; @aguilera_passenger_2014]. Within this broad field of research, uptake of 'active modes' (walking and cycling) has become a recent focus [@gotschi_comprehensive_2017]. A range of methods have been used to understand and model walking and cycling levels, with 'getting people cycling' being the topic of numerous papers during the 2010 [e.g. @beecham_visual_2012; @grise_if_2018; @larsen_build_2013; @raffler_cycling_2019; @zhang_prioritizing_2014].
@@ -129,8 +131,9 @@ The case study area is the local authority district of Monmouthshire, in rural S
 remotes::install_github("robinlovelace/ukboundaries")
 ```
 
-```{r case, fig.cap="Case study area, with the parishes of Chepstow and Abergavenny highlighted in red."}
-knitr::include_graphics("README_files/figure-gfm/unnamed-chunk-4-1.png")
+```{r case, fig.cap="Case study area, with the parishes of Chepstow and Abergavenny highlighted in red.", out.width="40%"}
+# fig.env='figure*',
+knitr::include_graphics("README_files/figure-gfm/study-area-cropped.png")
 ```
 
 The main destinations of interest were schools and leisure centres.
@@ -198,35 +201,35 @@ region_buffer = monmouthshire %>%
   sf::st_transform(4326)
 zone_buffer_in_region = sf::st_intersection(zone_buffer, region_buffer)
 
-tm_shape(zone_buffer, bbox = tmaptools::bb(zone_buffer, 1.5)) +
-  tm_polygons(col = "green", alpha = 0.4) +
-  tm_shape(monmouthshire) +
-  tm_polygons(lwd = 5) + 
-  tm_shape(region_buffer) +
-  tm_borders(lwd = 5, lty = 2) +
-  tm_shape(zone_buffer) +
-  tm_polygons(col = "green", alpha = 0.4) +
-  tm_shape(monmouthshire) +
-  tm_borders(lwd = 5) +
-  tm_shape(chepstow) +
-  tm_polygons(col = "red") +
-  tm_scale_bar(position = "left") +
-  qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
-
-tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)) +
-  tm_polygons(col = "green", alpha = 0.4) +
-  tm_shape(monmouthshire) +
-  tm_polygons(lwd = 5) + 
-  tm_shape(region_buffer) +
-  tm_borders(lwd = 5, lty = 2) +
-  tm_shape(zone_buffer_in_region) +
-  tm_polygons(col = "green", alpha = 0.4) +
-  tm_shape(monmouthshire) +
-  tm_borders(lwd = 5) +
-  tm_shape(chepstow) +
-  tm_polygons(col = "red") +
-  tm_scale_bar(position = "left") +
-  qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
+# tm_shape(zone_buffer, bbox = tmaptools::bb(zone_buffer, 1.5)) +
+#   tm_polygons(col = "green", alpha = 0.4) +
+#   tm_shape(monmouthshire) +
+#   tm_polygons(lwd = 5) + 
+#   tm_shape(region_buffer) +
+#   tm_borders(lwd = 5, lty = 2) +
+#   tm_shape(zone_buffer) +
+#   tm_polygons(col = "green", alpha = 0.4) +
+#   tm_shape(monmouthshire) +
+#   tm_borders(lwd = 5) +
+#   tm_shape(chepstow) +
+#   tm_polygons(col = "red") +
+#   tm_scale_bar(position = "left") +
+#   qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
+# 
+# tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)) +
+#   tm_polygons(col = "green", alpha = 0.4) +
+#   tm_shape(monmouthshire) +
+#   tm_polygons(lwd = 5) + 
+#   tm_shape(region_buffer) +
+#   tm_borders(lwd = 5, lty = 2) +
+#   tm_shape(zone_buffer_in_region) +
+#   tm_polygons(col = "green", alpha = 0.4) +
+#   tm_shape(monmouthshire) +
+#   tm_borders(lwd = 5) +
+#   tm_shape(chepstow) +
+#   tm_polygons(col = "red") +
+#   tm_scale_bar(position = "left") +
+#   qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
 
 # mapview::mapview(chepstow_buffer_in_region)
 # plot(chepstow)
@@ -337,20 +340,21 @@ r_od = r_points_integer %>%
 od = r_od %>% sf::st_drop_geometry()
 desire_lines = od::od_to_sf(od, r_od, zd = chepstow_comp %>% dplyr::select(name))
 tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)) +
-  tm_polygons(col = "green", alpha = 0.4) +
+  tm_fill(col = NA, alpha = 0) +
   tm_shape(monmouthshire) +
   tm_polygons(lwd = 5) + 
-  tm_shape(region_buffer) +
-  tm_borders(lwd = 5, lty = 2) +
-  tm_shape(zone_buffer_in_region) +
-  tm_polygons(col = "green", alpha = 0.4) +
+  # tm_shape(region_buffer) +
+  # tm_borders(lwd = 5, lty = 2) +
+  # tm_shape(zone_buffer_in_region) +
+  # tm_polygons(col = "green", alpha = 0.4) +
   tm_shape(monmouthshire) +
   tm_borders(lwd = 5) +
   tm_shape(chepstow) +
   tm_polygons(col = "red") +
   tm_scale_bar(position = "left") +
   qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2) +
-  qtm(desire_lines, lines.lwd = "n", scale = 0.3)
+  tm_shape(desire_lines) +
+  tm_lines(lwd = "n", scale = 0.3, alpha = 0.2, legend.lwd.show = FALSE)
 ```
 
 The other key input, for spatial network analysis, is route network data.
@@ -432,3 +436,4 @@ RL + CC
 RL + CC
 
 # References
+

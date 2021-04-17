@@ -4,7 +4,8 @@
 
 %% ============= Base class is paper.cls from ''journal'' package on CTAN/TexLIVE ====== %%
 % Set basic options:
-\LoadClass[11pt,twocolumn,twoside,notitlepage]{paper} % Base documentclass w/options
+% \LoadClass[11pt,twocolumn,twoside,notitlepage]{paper} % Base documentclass w/options
+\LoadClass[11pt,twoside,notitlepage]{paper} % Base documentclass w/options
 
 %% =========== Generate the issue info and article copyright from === %%
 %% =========== tags in the document source:  ======================== %%
@@ -13,7 +14,7 @@
 {\scshape vol.~{\@jtluvolume} no.~{\@jtluissue}} [\@jtluquarter{}~\@jtluyear{}] pp.~\thepage--\pageref*{LastPage} \hspace{.8em}\doi{10.5198/jtlu.v{\@jtluvolume}i{\@jtluissue}.{\@jtluid}}
 }
 
-% Compatibility with Writer2LaTeX math  export (better to re-set equations  manually though): 
+% Compatibility with Writer2LaTeX math  export (better to re-set equations  manually though):
 \newcommand\normalsubformula[1]{\text{\mathversion{normal}$#1$}}
 
 % Notes at the bottom of figures and tables:
@@ -35,7 +36,7 @@
 % The "layout" mode uses B5 paper, no line numbers, normal first page and no footers.
 %
 % Options for edit mode:
-\DeclareOption{edit}{% 
+\DeclareOption{edit}{%
 	% Options for the geometry package, specifying page layout in draft mode:
 	\PassOptionsToPackage{letterpaper,includeheadfoot,%
 		textwidth=185mm,height=255mm,top=15mm,marginparwidth=35mm,left=15mm}{geometry}%
@@ -50,7 +51,7 @@
 		\pagestyle{fancy} % Turn on fancyhead
 		\pagewiselinenumbers %\switchlinenumbers* % Configure line numbering
 		\fancyfoot[C]{\sf\large DRAFT -- FOR AUTHOR REVIEW}} % Add draft footer
-	% Special stuff for first page of article:	
+	% Special stuff for first page of article:
 	\newcommand\ps@firstpage{% Format first page, edit mode
  		\let\@evenhead\@empty\let\@oddhead\@empty%
 		% \def\@oddfoot{%
@@ -62,9 +63,9 @@
                 \def\@oddhead{\raisebox{20\p@}[\z@]{%
 			\begin{minipage}[t]{0.7\textwidth}\vspace{4pt}\large\sf FOR AUTHOR REVIEW\newline Scheduled for JTLU \@jtluvolume{}.\@jtluissue{}\end{minipage}
 	\begin{minipage}[t]{0.3\textwidth}\vspace{0pt}\hfill\includegraphics{jtlu-logo-red}\end{minipage}
-	}}}		
+	}}}
 	}
-%	
+%
 % Options for final layout mode:
 \DeclareOption{galley}{%
 	% Options for geometry package, specifying page layout when run in "layout" mode:
@@ -82,11 +83,11 @@
 			\begin{minipage}[t]{0.7\textwidth}\vspace{4pt}\makeissueinfo\end{minipage}
 			\begin{minipage}[t]{0.3\textwidth}\vspace{0pt}\hfill\includegraphics{jtlu-logo-red}\end{minipage}
 	}}}
-	% Commands to be executed immediately following \begin{document}:	
- \AtBeginDocument{ 
+	% Commands to be executed immediately following \begin{document}:
+ \AtBeginDocument{
   	\pagestyle{fancy} % Turn on fancyhead
 	}}
-% 	
+%
 \ProcessOptions\relax % Now, do all of the above and move on...
 %% ============= End of options section ============ %%
 
@@ -101,7 +102,7 @@
 \RequirePackage[urw-garamond]{mathdesign} % Math mode fonts = URW-Garamond to match Adobe Garamond body text. Load before fontspec.
 \RequirePackage[no-math]{fontspec}% Font control. Let mathdesign handle math; need recent fontspec for no-math option.
 \RequirePackage{xltxtra,xunicode} % XeTeX extras
-\RequirePackage{amsmath} % Math typesetting 
+\RequirePackage{amsmath} % Math typesetting
 \RequirePackage{lscape} % For landscape page layout, e.g. wide multipage tables/figures
 \RequirePackage{fancyhdr} % Page formatting, running heads
 \RequirePackage{lastpage} % To get number of last page for the first page header
@@ -126,7 +127,7 @@
 \RequirePackage[referable]{threeparttablex} % Modified threeparttable.sty for table notes in tabu/longtable environments
 \RequirePackage{booktabs} % Nice table layout w/horizontal rules & spacing
 
-% Bibliographic: 
+% Bibliographic:
 % (Also, use the jtlu.bst style file to format the references list)
 \RequirePackage[sort]{natbib} % Author-date references
 \RequirePackage{hypernat} % Make hyperref and natbib work together; hyperlinks in the references list
@@ -162,8 +163,8 @@
 \clubpenalty=10000
 
 %% ========== Set up basic fonts using fontspec ========== %%
-% NB: Fontspec will not work with Extensis Suitcase if you store fonts in the Font Vault. 
-% You need to have fonts installed on local filesystem or Fontspec will complain about missing tfm files. 
+% NB: Fontspec will not work with Extensis Suitcase if you store fonts in the Font Vault.
+% You need to have fonts installed on local filesystem or Fontspec will complain about missing tfm files.
 \defaultfontfeatures{Mapping=tex-text}
 \setmainfont[]{Garamond Premier Pro}
 \setsansfont[Scale=MatchLowercase]{Myriad Pro}
@@ -184,7 +185,7 @@
 \setlength{\columnsep}{2.5em}
 \setlength{\headsep}{2.2ex}
 \setlength{\headheight}{1.5em}
-\fancyfoot{} 
+\fancyfoot{}
 \fancyhead[RO,LE]{\addfontfeatures{Numbers=OldStyle}\thepage}
 \fancyhead[RE]{\addfontfeatures{Numbers=OldStyle}{\sc journal of transport and land use }{\@jtluvolume}.{\@jtluissue}}
 \fancyhead[LO]{\itshape\@shorttitle}
@@ -225,7 +226,7 @@
     \renewcommand\thefootnote{\alph{footnote}}%
     \def\@makefnmark{\hbox to\z@{$\m@th^{\text{\@thefnmark}}$\hss}}%
     \long\def\@makefntext##1{\parindent 1em\noindent
-            \hbox to 1.8em{\hss$\m@th^{\@thefnmark}$}##1}% 
+            \hbox to 1.8em{\hss$\m@th^{\@thefnmark}$}##1}%
       \newpage
       \global\@topnum\z@
       \@maketitle
@@ -301,7 +302,7 @@
 \setlength{\bibsep}{0pt} % Don't add space between ref list entries
 
 %% ========== Accommodate tables converted by Writer2LaTeX === %%
-\newcommand\arraybslash{\let\\\@arraycr} 
+\newcommand\arraybslash{\let\\\@arraycr}
 
 %% ========== Easier decimal column definition ========== %%
 % NOTE: Deprecated; use the "S" column type from siunitx.sty
