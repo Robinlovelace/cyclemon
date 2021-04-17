@@ -62,7 +62,9 @@ readLines("~/projects/cyclemon/bid-spec.html")[1:30]
 system("pandoc ~/projects/cyclemon/bid-spec.html -o bid-spec.md")
 browseURL("README.pdf")
 # citations
-citr::tidy_bib_file(rmd_file = "README.Rmd", messy_bibliography = "~/uaf/allrefs.bib", file = "cyclemon.bib")
+# citr::tidy_bib_file(rmd_file = "README.Rmd", messy_bibliography = "~/uaf/allrefs.bib", file = "cyclemon.bib")
+library(rbbt)
+bbt_write_bib("cyclemon.bib", bbt_detect_citations("README.Rmd"), overwrite = TRUE)
 piggyback::pb_upload("cyclemon.bib")
 piggyback::pb_download_url("cyclemon.bib")
 ```
@@ -82,11 +84,35 @@ cp README.pdf paper.pdf
 # Introduction
 
 There has been much research on mode shift since the origins of applied transport planning and modelling in the 1950s [@boyce_forecasting_2015; @aguilera_passenger_2014]. Within this broad field of research, uptake of 'active modes' (walking and cycling) has become a recent focus [@gotschi_comprehensive_2017]. A range of methods have been used to understand and model walking and cycling levels, with 'getting people cycling' being the topic of numerous papers during the 2010 [e.g. @beecham_visual_2012; @grise_if_2018; @larsen_build_2013; @raffler_cycling_2019; @zhang_prioritizing_2014].
+<!-- Todo: Me to insert refs to comparable policy interest in walking (CC) -->
 
-Within the wide range of approaches used to model cycling uptake, two broad approaches have been particularly prominent in the literature. The *origin-destination approach* relies on estimates of current travel behaviour, represented in origin-destination datasets reporting the number of trips, e.g. by mode of travel to work on a typical working day between residential zone origins and workplace destinations. This approach was used in the Propensity to Cycle Tool (PCT), which was originally developed to support strategic cycle network planning based on commuter data for England [@lovelace_propensity_2017]. The 'PCT approach', which is a particular implementation of the 'origin-destination' approach that models cycling uptake in terms of 'distance-hilliness decay' functions (which can include other explanatory variables such as traffic levels) has subsequently been adapted to explore cycling potential in other contexts, including cycling uptake in US cities with low cycling levels [@ahmad_comparison_2020] and the potential for mode shift to cycling for the 'school commute' in across all state schools in England, with publicly available visualisations down to the street level [@goodman_scenarios_2019].
+Recent policy interest has been shown in planning active transportation networks for specific destinations, such as schools and major employers.
+Encouraging active travel is not just about network infrastructure but complete package of policies, promotion, education, incentives, facilities at destinations [@forsyth_urban_2011; @handy_promoting_2014; @mccormack_search_2011; @pucher_walking_2010].
+Within this context the specific-destination approach allows for more focused management of the ‘complete package’ as relevant to that destination.
+However as modellers we are also keen to ensure that specific-destination approaches do not neglect integration with the wider network [@forsyth_urban_2011].
+It is difficult, in planning practice, to create calibrated models of walking and cycling behaviour, for the following reasons: 
 
-The aim of this paper is to demonstrate the relative merits of the 'origin-destination approach' implemented in the PCT and the 'spatial network' approach implemented in the open source sDNA software [@chan_using_2019].
+1. Models of active modes of transportation are underdeveloped compared to vehicular models
+2. The small scale of trips makes them sensitive to small scale features of the network. These can include: minor streets (often excluded from vehicle models altogether yet essential for active models); a greater variety of origin/destination points (not only zone centroids or a limited set of representative points within each zone, as with vehicular models); features such as cycle lane, sidewalk and footpath locations and condition, route attractiveness (as measured by e.g. green vegetation) and street lighting, none of which are reliably mapped.
+3. The case of cycling suffers from an additional challenge, in that current levels of uptake are low. It is reasonable to assume that as uptake increases, cultural and safety-in-numbers effects may create significant nonlinearity in the response of cycling mode share to cycling infrastructure, as has already happened in e.g. Holland and Denmark, yet we lack the data to calibrate this [@hollander_transport_2016].
+4. Reliable, recent local data on mode choice and flows is often not available. 
+5. Finally, the funds invested in construction of active transportation networks --- and hence also in their modelling --- are low compared to typical spending on vehicular networks and their models.
+
+These challenges notwithstanding, two broad approaches to modelling cycling uptake have been particularly prominent in the literature.
+<!-- Comment from CC: I think better not to categorize Go Dutch as an O_D model here, firstly because we’re not comparing to spatial network analysis, secondly because in context of ‘specific destination’ planning (or whatever we call it) it’s going to get confusing -->
+<!-- Maybe better here to explain how Go Dutch addresses point 3 above? -->
+<!-- Todo: what did you mean by "This approach" in the tracked changes Crispin? (RL) -->
+The *origin-destination approach* relies on estimates of current travel behaviour, represented in origin-destination datasets reporting the number of trips, e.g. by mode of travel to work on a typical working day between residential zone origins and workplace destinations. This approach was used in the Propensity to Cycle Tool (PCT), which was originally developed to support strategic cycle network planning based on commuter data for England [@lovelace_propensity_2017]. The 'PCT approach', which is a particular implementation of the 'origin-destination' approach that models cycling uptake in terms of 'distance-hilliness decay' functions (which can include other explanatory variables such as traffic levels) has subsequently been adapted to explore cycling potential in other contexts, including cycling uptake in US cities with low cycling levels [@ahmad_comparison_2020] and the potential for mode shift to cycling for the 'school commute' in across all state schools in England, with publicly available visualisations down to the street level [@goodman_scenarios_2019].
+
+<!-- Here I will introduce spatial network analysis (Chan & Cooper, 2019; Cooper, 2017, 2018). -->
+An alternative approach is to use the topology of the transport network as the basis of modelling using spatial network analysis (SNA) techniques [@chan_using_2019; @cooper_predictive_2018; @cooper_cycletopia_2017].
+Within the context of the above challenges, this paper introduces an automated toolchain to assist in production of planning aids for active transportation focused on specific destinations but also highlighting integration with the wider network.
+The approach of automation keeps the expense of deployment realistic for active transportation budgets. Given the challenges of reliable prediction of walking and cycling mode choice and flows, the aim at this stage is not to produce calibrated predictions, but to visualize likely walking and cycling behaviours within settlements in a manner useful to the planning process. 
 We do so using reproducible methods and open access input data to encourage others to employ the techniques in other areas to support evidence-based interventions to enable cycling uptake and as a basis for future research and development.
+
+<!-- Should we mention the aim of the paper? Previously it was: (RL) -->
+<!-- The aim of this paper is to demonstrate the relative merits of the 'origin-destination approach' implemented in the PCT and the 'spatial network' approach implemented in the open source sDNA software [@chan_using_2019]. -->
+<!-- We do so using reproducible methods and open access input data to encourage others to employ the techniques in other areas to support evidence-based interventions to enable cycling uptake and as a basis for future research and development. -->
 
 # Study area and input data
 
@@ -139,14 +165,17 @@ chepstow_comp = osm_schools_poly %>%
 ```
 
 Other than destinations of interest, the other key input was the boundary of the region responsible for the transport system in the local area.
-We tested two approaches to define the 'area of interest' defining the area within which routes were calculated: a simple buffer and a three-stage buffering process, as illustrated in Figure \@ref(fig:buffers).
-The simple buffer approach involved creating polygon with borders a fixed distance (5 km in the first instance) around the destination (in this case the parishes of Chepstown and Abergavenny).
-Model run times (and visualisation load times in interactive maps) depend on the amount of data served, creating an incentive reduce the size of the input data, and from a policy perspective, it makes sense to focus on the area over which local planners have control (and budget).
-In this context, the three-stage process was developed as follows:
+<!-- Todo: resolve this comment (CC): -->
+<!-- I haven’t buffered in this way – I’m still reluctant to discard out-of-region flows (although I do cut everything off at the severn bridge) -->
+<!-- From a data quantity perspective I have fixed a lot of issues in recent automation. Turns out OSM had a lot of pseudonodes leading to much higher link counts than necessary especially after running through my sidewalk tool. These are fixed now.  -->
+<!-- We tested two approaches to define the 'area of interest' defining the area within which routes were calculated: a simple buffer and a three-stage buffering process, as illustrated in Figure \@ref(fig:buffers). -->
+<!-- The simple buffer approach involved creating polygon with borders a fixed distance (5 km in the first instance) around the destination (in this case the parishes of Chepstown and Abergavenny). -->
+<!-- Model run times (and visualisation load times in interactive maps) depend on the amount of data served, creating an incentive reduce the size of the input data, and from a policy perspective, it makes sense to focus on the area over which local planners have control (and budget). -->
+<!-- In this context, the three-stage process was developed as follows: -->
 
-1. Create a buffer around the zone of interest with a threshold distance (set to 5 km)
-2. Create a separate buffer around the region of interest to allow for some (more limited) inter-regional flow (set to 2 km)
-3. Calculate the intersection between the two buffers outlined in the previous stages
+<!-- 1. Create a buffer around the zone of interest with a threshold distance (set to 5 km) -->
+<!-- 2. Create a separate buffer around the region of interest to allow for some (more limited) inter-regional flow (set to 2 km) -->
+<!-- 3. Calculate the intersection between the two buffers outlined in the previous stages -->
 
 <!-- The advantages of the simple buffer approach included simplicity and minimisation of parameters that had to be hard-coded into the analysis.  -->
 <!-- Taking both factors into account, we use the simple approach represented in the left hand plot of Figure \@ref(fig:buffers), saving the three stage approach for contexts where it is advantageous to model cross-region flow but also to reduce the proportion of trips modelled crossing regional/state boundaries. -->
