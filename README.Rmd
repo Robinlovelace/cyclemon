@@ -6,12 +6,12 @@ title: "An automated toolset for planning of walking and cycling networks servin
 # title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
 bibliography: cyclemon.bib
 
-# # Generic outputs:
-# output: github_document
+# # # Generic outputs:
+# # output: github_document
 # output:
-#   bookdown::github_document2:
-#   # bookdown::word_document2:
+#   bookdown::word_document2:
 #     number_sections: true
+# #   bookdown::github_document2:
 
 
 # # JTLU version:
@@ -73,6 +73,7 @@ piggyback::pb_download_url("cyclemon.bib")
 ```{r, engine='bash', eval=FALSE}
 cp ~/repos/jtludown/inst/
 cp README.pdf paper.pdf
+cp README.docx paper.docx
 ```
 
 
@@ -359,24 +360,29 @@ tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)
 
 The other key input, for spatial network analysis, is route network data.
 This can be obtained from OpenStreetMap, which has global coverage (although quality varies).
-The OSM data 
+The OSM data for the study area is represented in Figure \@ref(fig:osminput).
 
-# Origin-destination analysis
+```{r, eval=FALSE, echo=FALSE}
+library(osmdata)
+bb = sf::st_bbox(desire_lines)
+osm_data_all = opq(bbox = bb) %>% 
+  add_osm_feature(key = "highway") %>% 
+  osmdata_sf()
+plot(osm_data_all$osm_lines)
+osm_highways = osm_data_all$osm_lines
+mapview::mapview(osm_highways["highway"])
+osm_highways$highway_simple = trafficalmr::
+```
 
-Describe a generalised version of the 'PCT approach' with recent modifications, improvements and areas for improvement (RL)
+```{r osminput, fig.cap="OSM data for the study area (placeholder - RL to update)"}
+knitr::include_graphics("figures/osm-infra-chepstow.png")
+```
 
 
-## Origin-destination data processing 
 
-Talk about data availability, possibility of modelling OD data with SIMs and od package (RL)
+<!-- ## Estimating cycling uptake -->
 
-## Routing: OD data
-
-Different routing options (RL)
-
-## Estimating cycling uptake
-
-Go Dutch and other options (RL)
+<!-- Go Dutch and other options (RL) -->
 
 # Spatial network analysis
 
