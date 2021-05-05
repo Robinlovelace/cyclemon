@@ -48,3 +48,7 @@ test.*
 worldpop-chepstow
 JTLU_template.tex
 *.log
+
+# our intermediate/output data
+/intermediate-data-scratch/
+/output-data/
