@@ -1,0 +1,152 @@
+{
+	"views": [{
+			"filename": "metadata-cycling-go-dutch.single-layer-metadata.json",
+			"mode": "Cycling",
+			"label": "\u00f0\u0178\u201d\u2018 Potential flows to destination (PCT Go Dutch)",
+			"description": "Shows potential flows from residential zones to destination under the Go Dutch scenario in the Propensity to Cycle Tool.",
+			"layers": [{
+					"file": "rnet_pct_dutch.shp",
+					"scalar_field": "n_cycle",
+					"scalar_field_units": "trips",
+					"classes": "jenks"
+				}
+			]
+		}, {
+			"filename": "metadata-walking-destination-flows.single-layer-metadata.json",
+			"mode": "Walking",
+			"label": "\u00f0\u0178\u201d\u2018 Potential flows & crossings (routes to destination)",
+			"description": "Shows potential student flows for routes to destination, and significant crossings with highest flows. ",
+			"layers": [{
+					"file": "walking-destination-flows.shp.justcrossingsD.shp",
+					"scalar_field": "BtCWe3000",
+					"symbol_field": "symbol",
+					"scalar_field_units": "trips",
+					"classes": "jenks",
+					"table_fields": [{
+							"field": "RoadClass",
+							"label": "Road Class"
+						}, {
+							"field": "RCSeverity",
+							"label": "Road Class severity"
+						}, {
+							"field": "Crosstype",
+							"label": "Crossing Type"
+						}, {
+							"field": "BtCWe3000",
+							"label": "trips"
+						}
+					]
+				}, {
+					"file": "walking-destination-flows.shp",
+					"scalar_field": "BtCWe3000",
+					"scalar_field_units": "trips",
+					"classes": "jenks"
+				}
+			]
+		}, {
+			"filename": "metadata-walking-destination-severance.single-layer-metadata.json",
+			"mode": "Walking",
+			"label": "\u00f0\u0178\u201d\u2018 Severance (journey to destination)",
+			"description": "Shows extra metres that must be walked to destination from each point, compared to desire line. ",
+			"layers": [{
+					"file": "walking-destination-severance.shp",
+					"scalar_field": "Div",
+					"scalar_field_units": "Metres",
+					"classes": "quantile"
+				}
+			]
+		}, {
+			"filename": "metadata-walking-everywhere-flows.single-layer-metadata.json",
+			"mode": "Walking",
+			"label": "\u00f0\u0178\u201d\u2018 All predicted flows and crossings (everywhere to everywhere)",
+			"description": "Indication of predicted flows between all origins and destinations. This shows relative importance of links in the overall pedestrian network (it is not calibrated to actual flow levels). Also shows crossings with highest predicted relative flows for whole network. ",
+			"layers": [{
+					"file": "walking-everywhere-flows-severance.shp.justcrossingsE.shp",
+					"scalar_field": "BtC1500c",
+					"symbol_field": "symbol",
+					"scalar_field_units": "Relative Flow (uncalibrated)",
+					"classes": "jenks",
+					"table_fields": [{
+							"field": "RoadClass",
+							"label": "Road Class"
+						}, {
+							"field": "RCSeverity",
+							"label": "Road Class severity"
+						}, {
+							"field": "Crosstype",
+							"label": "Crossing Type"
+						}, {
+							"field": "BtC1500c",
+							"label": "Relative flow"
+						}
+					]
+				}, {
+					"file": "walking-everywhere-flows-severance.shp",
+					"scalar_field": "BtC1500c",
+					"scalar_field_units": "Relative flow (uncalibrated)",
+					"classes": "jenks"
+				}
+			]
+		}, {
+			"filename": "metadata-walking-everywhere-severance.single-layer-metadata.json",
+			"mode": "Walking",
+			"label": "Severance (all destinations)",
+			"description": "Shows ratio of length of paths to everywhere within 1.5km, desire lines",
+			"layers": [{
+					"file": "walking-everywhere-flows-severance.shp",
+					"scalar_field": "DivC1500c",
+					"scalar_field_units": "(ratio)",
+					"classes": "quantile"
+				}
+			]
+		}, {
+			"filename": "metadata-cycling-destination-flowsdiff.single-layer-metadata.json",
+			"mode": "Cycling",
+			"label": "\u00f0\u0178\u201d\u2018 Change in potential flows to destination in absence of motorized traffic (sDNA)",
+			"description": "Indication of change in potential flows to destination in the absence of motorized traffic. This can help to highlight routes for which cycling infrastructure should be prioritized.",
+			"layers": [{
+					"file": "cycling-destination-combined.shp",
+					"scalar_field": "diff",
+					"scalar_field_units": "trips",
+					"classes": "equal"
+				}
+			]
+		}, {
+			"filename": "metadata-cycling-destination-flows.single-layer-metadata.json",
+			"mode": "Cycling",
+			"label": "Potential flows to destination (sDNA)",
+			"description": "Shows potential flows from residential zones to destination.",
+			"layers": [{
+					"file": "cycling-destination-combined.shp",
+					"scalar_field": "BtHWe10000",
+					"scalar_field_units": "trips",
+					"classes": "jenks"
+				}
+			]
+		}, {
+			"filename": "metadata-cycling-everywhere-flows.single-layer-metadata.json",
+			"mode": "Cycling",
+			"label": "\u00f0\u0178\u201d\u2018 All predicted flows (everywhere to everywhere sDNA)",
+			"description": "Indication of predicted flows between all origins and destinations. This shows relative importance of links in the overall cycling network (it is not calibrated to actual flow levels)",
+			"layers": [{
+					"file": "cycling-everywhere-combined.shp",
+					"scalar_field": "BtH5000",
+					"scalar_field_units": "Relative flow (uncalibrated)",
+					"classes": "jenks"
+				}
+			]
+		}, {
+			"filename": "metadata-cycling-everywhere-flowsdiff.single-layer-metadata.json",
+			"mode": "Cycling",
+			"label": "Change in all predicted flows in absence of motorized traffic (sDNA)",
+			"description": "Indication of change in predicted flows between all origins and destinations in the absence of motorized traffic. This can help to highlight routes for which cycling infrastructure should be prioritized. Numbers show the relative importance of links in the overall cycling network (they are not calibrated to actual flow levels)",
+			"layers": [{
+					"file": "cycling-everywhere-combined.shp",
+					"scalar_field": "diff",
+					"scalar_field_units": "Difference in relative flow (uncalibrated)",
+					"classes": "equal"
+				}
+			]
+		}
+	]
+}

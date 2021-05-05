@@ -13,22 +13,22 @@ qgis-process=cmd //C "C:\Program Files\QGIS 3.14\OSGeo4W.bat" qgis_process-qgis
 # sDNA configurations. Note that for destination analyses, origin and destination are reversed for efficiency
 
 # Cycling flows to destination
-sdna-cycle-destination-config=metric=HYBRID;weight_type=Link;radii=30000;radmetric=MATCH_ANALYTICAL;;nojunctions;nohull;disable=bikenet==0; zonesums=eucsum=euc@POSTCODE;  destweightformula = trips*proportion(euc,eucsum);  skipzeroweightorigins; lineformula=_a=0.2,_s=1,_t=0.04,_slope = hg/euc*100,_slopefac = _slope<2?1:(_slope<4?1.371:(_slope<6?2.203:4.239)),_slopeb = hl/euc*100,_slopefacb = _slopeb<2?1:(_slopeb<4?1.371:(_slopeb<6?2.203:4.239)),_cdc=cyclist_de,_trafficfac = 0.84*exp(_cdc/1000), euc* (_slopefac^_s + _slopefacb^_s) * (_trafficfac^_t) + _a*67.2/90*ang*2;juncformula=0.2*67.2/90*ang*2
+sdna-cycle-destination-config=metric=CYCLE_ROUNDTRIP;weight_type=Link;radii=10000;;nojunctions;nohull;disable=bikenet==0; zonesums=eucsum=euc@code;  destweightformula = trips*proportion(euc,eucsum);  skipzeroweightorigins; a=0.2;s=1;t=0.04; aadtfield=cyclist_de
 
 # Cycling flows to destination, no-traffic scenario
-sdna-cycle-destination-notraf-config=metric=HYBRID;weight_type=Link;radii=30000;radmetric=MATCH_ANALYTICAL;;nojunctions;nohull;disable=bikenet==0; zonesums=eucsum=euc@POSTCODE;  destweightformula = trips*proportion(euc,eucsum);  skipzeroweightorigins; lineformula=_a=0.2,_s=1,_t=0.04,_slope = hg/euc*100,_slopefac = _slope<2?1:(_slope<4?1.371:(_slope<6?2.203:4.239)),_slopeb = hl/euc*100,_slopefacb = _slopeb<2?1:(_slopeb<4?1.371:(_slopeb<6?2.203:4.239)),_cdc=0,_trafficfac = 0.84*exp(_cdc/1000), euc* (_slopefac^_s + _slopefacb^_s) * (_trafficfac^_t) + _a*67.2/90*ang*2;juncformula=0.2*67.2/90*ang*2;pre=tf
+sdna-cycle-destination-notraf-config=metric=CYCLE_ROUNDTRIP;weight_type=Link;radii=10000;;nojunctions;nohull;disable=bikenet==0; zonesums=eucsum=euc@code;  destweightformula = trips*proportion(euc,eucsum);  skipzeroweightorigins;pre=tf; a=0.2;s=1;t=0; aadtfield=cyclist_de
 
 # Cycling flows everywhere
-sdna-cycle-everywhere-config="metric=HYBRID;aadtfield=cyclist_de;radii=15000;radmetric=MATCH_ANALYTICAL;nojunctions;nohull;disable=bikenet==0;lineformula=_a=0.2,_s=1,_t=0.04,_slope = hg/euc*100,_slopefac = _slope<2?1:(_slope<4?1.371:(_slope<6?2.203:4.239)),_slopeb = hl/euc*100,_slopefacb = _slopeb<2?1:(_slopeb<4?1.371:(_slopeb<6?2.203:4.239)),_cdc=cyclist_de,_trafficfac = 0.84*exp(_cdc/1000), euc* (_slopefac^_s + _slopefacb^_s) * (_trafficfac^_t) + _a*67.2/90*ang*2;juncformula=0.2*67.2/90*ang*2"
+sdna-cycle-everywhere-config="metric=CYCLE_ROUNDTRIP;radii=5000;nojunctions;nohull;disable=bikenet==0; a=0.2;s=1;t=0.04; aadtfield=cyclist_de"
 
 # Cycling flows everywhere, no-traffic scenario
-sdna-cycle-everywhere-notraf-config="metric=HYBRID;aadtfield=cyclist_de;radii=15000;radmetric=MATCH_ANALYTICAL;nojunctions;nohull;disable=bikenet==0;lineformula=_a=0.2,_s=1,_t=0.04,_slope = hg/euc*100,_slopefac = _slope<2?1:(_slope<4?1.371:(_slope<6?2.203:4.239)),_slopeb = hl/euc*100,_slopefacb = _slopeb<2?1:(_slopeb<4?1.371:(_slopeb<6?2.203:4.239)),_cdc=0,_trafficfac = 0.84*exp(_cdc/1000), euc* (_slopefac^_s + _slopefacb^_s) * (_trafficfac^_t) + _a*67.2/90*ang*2;juncformula=0.2*67.2/90*ang*2;pre=tf"
+sdna-cycle-everywhere-notraf-config="metric=CYCLE_ROUNDTRIP;radii=5000;nojunctions;nohull;disable=bikenet==0;pre=tf; a=0.2;s=1;t=0; aadtfield=cyclist_de"
 
 # Walking flows and severance everywhere
-sdna-walk-everywhere-config="metric=CUSTOM;custommetric=SdWlkrM;radii=1500;radmetric=EUCLIDEAN;nojunctions;nohull;skipzeroweightorigins;weight=SdWlkrWt;cont;textdatatokeep=SdWlkrT,highway"
+sdna-walk-everywhere-config="metric=CUSTOM;custommetric=SdWlkrM;radii=1500;nojunctions;nohull;skipzeroweightorigins;weight=SdWlkrWt;cont;textdatatokeep=SdWlkrT,highway"
 
 # Walking flows to destination
-sdna-walk-destination-flow-config=metric=CUSTOM;custommetric=SdWlkrM;radii=3000;radmetric=EUCLIDEAN;nojunctions;nohull;zonesums=wtsum=SdWlkrWt@POSTCODE;  destweightformula = trips*proportion(SdWlkrWt,wtsum);skipzeroweightorigins;textdatatokeep=SdWlkrT,highway
+sdna-walk-destination-flow-config=metric=CUSTOM;custommetric=SdWlkrM;radii=3000;nojunctions;nohull;zonesums=wtsum=SdWlkrWt@code;  destweightformula = trips*proportion(SdWlkrWt,wtsum);skipzeroweightorigins;textdatatokeep=SdWlkrT,highway
 
 # Walking severance to destination
 sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;outputdestinations;radii=3000;skipzeroweightorigins;
@@ -45,7 +45,16 @@ sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;output
 #  - summary-walk-qgis contains a few key walking views ready for presentation
 #  - summary-cycle-qgis contains a few key cycling views ready for presentation
 
-%-town-all: %-town-data ../output-data/towns/%/all-town-metadata.json ../output-data/towns/%/all-outputs-qgis.qgs ../output-data/towns/%/summary-walk-qgis.qgs ../output-data/towns/%/summary-cycle-qgis.qgs ;
+%-town-all: %-town-directories %-town-contents ;
+
+%-town-directories:
+	town_name=$(subst -town-directories,,$@) &&\
+	mkdir -p ../intermediate-data-scratch/towns/$${town_name} &&\
+	mkdir -p ../output-data/towns/$${town_name}
+
+%-town-contents: %-town-data %-town-metadata ;
+
+%-town-metadata: ../output-data/towns/%/all-town-metadata.json ../output-data/towns/%/all-outputs-qgis.qgs ../output-data/towns/%/summary-walk-qgis.qgs ../output-data/towns/%/summary-cycle-qgis.qgs ;
 
 %-town-data: %-town-walking %-town-cycling ;
 
@@ -93,29 +102,28 @@ sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;output
 	$(qgis-process) run script:walksummaryproject --FOLDER=$(dir $@) --DESTFLOWSSHP=$(word 1,$^) --DESTCROSSINGSSHP=$(word 2,$^) --ALLFLOWSSHP=$(word 3,$^) --ALLCROSSINGSSHP=$(word 4,$^) --ALLFLOWSFIELD=BtC1500c --DESTFLOWSFIELD=BtCWe3000
 
 ../output-data/towns/%/summary-cycle-qgis.qgs: ../output-data/towns/%/rnet_pct_dutch.shp ../output-data/towns/%/cycling-everywhere-combined.shp qgis_scripts/create-qgis-cycle-summary.py
-	$(qgis-process) run script:cyclesummaryproject --FOLDER=$(dir $@) --PCTSHAPE=$(word 1,$^) --ALLCYCLESHAPE=$(word 2,$^) --PCTFIELD=n_cycle --ALLFLOWSFIELD=BtH15000 
+	$(qgis-process) run script:cyclesummaryproject --FOLDER=$(dir $@) --PCTSHAPE=$(word 1,$^) --ALLCYCLESHAPE=$(word 2,$^) --PCTFIELD=n_cycle --ALLFLOWSFIELD=BtH5000 
     
 #####################
 # Output data targets
 
-# TODO: Robin insert rule to make ../output-data/towns/%/rnet_pct_dutch.shp from ../input-data/towns/%/destination-zones.csv and ../input-data/towns/%/destinations.shp
+# TODO: Robin insert rule to make ../output-data/towns/%/rnet_pct_dutch.shp from ../input-data/towns/%/trip-origin-zones.csv and ../input-data/towns/%/destinations.shp
 
 # Combines with- and without-traffic cycling models into a single shapefile holding both models and the difference in flows between them
 ../output-data/towns/%/cycling-everywhere-combined.shp: ../intermediate-data-scratch/towns/%/cycling-everywhere-notraffic-flows.shp ../intermediate-data-scratch/towns/%/cycling-everywhere-flows.shp combine_cycle_layers.py
-	python combine_cycle_layers.py --INFILE1=$(word 1,$^) --INFILE2=$(word 2,$^) --OUTFILE=$@ --DIFFFIELD=diff --FIELD1=tfBtH15000 --FIELD2=BtH15000 
+	python combine_cycle_layers.py --INFILE1=$(word 1,$^) --INFILE2=$(word 2,$^) --OUTFILE=$@ --DIFFFIELD=diff --FIELD1=tfBtH5000 --FIELD2=BtH5000 
 
 # Combines with- and without-traffic cycling models into a single shapefile holding both models and the difference in flows between them
 ../output-data/towns/%/cycling-destination-combined.shp: ../intermediate-data-scratch/towns/%/cycle-flows-multipc-destination-notraf.shp-aggregate.shp ../intermediate-data-scratch/towns/%/cycle-flows-multipc-destination.shp-aggregate.shp combine_cycle_layers.py
-	python combine_cycle_layers.py --INFILE1=$(word 1,$^) --INFILE2=$(word 2,$^) --OUTFILE=$@ --DIFFFIELD=diff --FIELD1=tfBtHWe300 --FIELD2=BtHWe30000 
+	python combine_cycle_layers.py --INFILE1=$(word 1,$^) --INFILE2=$(word 2,$^) --OUTFILE=$@ --DIFFFIELD=diff --FIELD1=tfBtHWe100 --FIELD2=BtHWe10000 
 
 # Run the walk-everywhere model
 ../output-data/towns/%/walking-everywhere-flows-severance.shp: ../intermediate-data-scratch/towns/%/sidewalks.shp 
-	mkdir $(subst walking-everywhere-flows-severance.shp,,$@); \
-	python $(sdnabase)/sdnaintegral.py --im "net=$(word 1,$^)" --om "net=$@" $(sdna-walk-everywhere-config) 
+	python $(sdnaopenbase)/sdnaintegral.py --im "net=$(word 1,$^)" --om "net=$@" $(sdna-walk-everywhere-config) 
 
 # Run severance model for destination
 ../output-data/towns/%/walking-destination-severance.shp: ../intermediate-data-scratch/towns/%/sidewalks-destmarked.shp 
-	python $(sdnabase)/sdnaintegral.py --im "net=$^" --om destinations=$@ "$(sdna-walk-destination-severance-config);origweight=destination;nonetdata"
+	python $(sdnaopenbase)/sdnaintegral.py --im "net=$^" --om destinations=$@ "$(sdna-walk-destination-severance-config);origweight=destinatio;nonetdata"
 
 # Copy destination flows shapefile from intermediate-data-scratch and give it a simpler name
 ../output-data/towns/%/walking-destination-flows.shp: ../intermediate-data-scratch/towns/%/walk-flows-multipc-destination.shp-aggregate.shp
@@ -134,16 +142,16 @@ sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;output
 # nb these are all based on *-multizonejoin.shp networks (see below)
 
 # Model of cycle flows to destination
-../intermediate-data-scratch/towns/%/cycle-flows-multipc-destination.shp : ../intermediate-data-scratch/towns/%/network-draped-destmarked.shp-multizonejoin.shp ../intermediate-data-scratch/towns/%/destination-zones-sdna.csv
-	python $(sdnabase)/sdnaintegral.py --im "net=$(word 1,$^);tables=$(word 2,$^)" --om net=$@ "$(sdna-cycle-destination-config);origweightformula=destination"
+../intermediate-data-scratch/towns/%/cycle-flows-multipc-destination.shp : ../intermediate-data-scratch/towns/%/network-draped-destmarked.shp-multizonejoin.shp ../input-data/towns/%/trip-origin-zones.csv
+	python $(sdnaopenbase)/sdnaintegral.py --im "net=$(word 1,$^);tables=$(word 2,$^)" --om net=$@ "$(sdna-cycle-destination-config);origweightformula=destinatio"
     
 # Model of cycle flows to destination without traffic
-../intermediate-data-scratch/towns/%/cycle-flows-multipc-destination-notraf.shp : ../intermediate-data-scratch/towns/%/network-draped-destmarked.shp-multizonejoin.shp ../intermediate-data-scratch/towns/%/destination-zones-sdna.csv
-	python $(sdnabase)/sdnaintegral.py --im "net=$(word 1,$^);tables=$(word 2,$^)" --om net=$@ "$(sdna-cycle-destination-notraf-config);origweightformula=destination"
+../intermediate-data-scratch/towns/%/cycle-flows-multipc-destination-notraf.shp : ../intermediate-data-scratch/towns/%/network-draped-destmarked.shp-multizonejoin.shp ../input-data/towns/%/trip-origin-zones.csv
+	python $(sdnaopenbase)/sdnaintegral.py --im "net=$(word 1,$^);tables=$(word 2,$^)" --om net=$@ "$(sdna-cycle-destination-notraf-config);origweightformula=destinatio"
 
 # Model of walking flows to destination
-../intermediate-data-scratch/towns/%/walk-flows-multipc-destination.shp : ../intermediate-data-scratch/towns/%/sidewalks-destmarked.shp-multizonejoin.shp ../intermediate-data-scratch/towns/%/destination-zones-sdna.csv
-	python $(sdnabase)/sdnaintegral.py --im "net=$(word 1,$^);tables=$(word 2,$^)" --om net=$@ "$(sdna-walk-destination-flow-config);origweightformula=destination"
+../intermediate-data-scratch/towns/%/walk-flows-multipc-destination.shp : ../intermediate-data-scratch/towns/%/sidewalks-destmarked.shp-multizonejoin.shp ../input-data/towns/%/trip-origin-zones.csv
+	python $(sdnaopenbase)/sdnaintegral.py --im "net=$(word 1,$^);tables=$(word 2,$^)" --om net=$@ "$(sdna-walk-destination-flow-config);origweightformula=destinatio"
 
 #####################
 # Destination marking
@@ -166,26 +174,24 @@ sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;output
 %-aggregate.shp : % aggregate_multi_layer.py
 	python aggregate_multi_layer.py --INPUT=$(word 1,$^) --OUTPUT=$@ 
 
-%-multizonejoin.shp: % ../intermediate-data/zone-polys/all-zone-polys.shp
-	$(qgis-process) run native:joinattributesbylocation --INPUT=$(word 1,$^) --JOIN=$(word 2,$^) --PREDICATE=0 --JOIN_FIELDS=POSTCODE --METHOD=0 --DISCARD_NONMATCHING=0 --OUTPUT=$@
+%-multizonejoin.shp: % ../input-data/all-zone-polys.shp
+	$(qgis-process) run native:joinattributesbylocation --INPUT=$(word 1,$^) --JOIN=$(word 2,$^) --PREDICATE=0 --JOIN_FIELDS=code --METHOD=0 --DISCARD_NONMATCHING=0 --OUTPUT=$@
 
 #############################################################################################
 # Cycling analyses (intermediate - the with- and without-traffic versions are later combined)
 
 ../intermediate-data-scratch/towns/%/cycling-everywhere-flows.shp: ../intermediate-data-scratch/towns/%/network-draped.shp
-	mkdir $(subst cycling-everywhere-flows.shp,,$@); \
-	python $(sdnabase)/sdnaintegral.py --im "net=$(word 1,$^)" --om "net=$@" $(sdna-cycle-everywhere-config)
+	python $(sdnaopenbase)/sdnaintegral.py --im "net=$(word 1,$^)" --om "net=$@" $(sdna-cycle-everywhere-config)
     
 ../intermediate-data-scratch/towns/%/cycling-everywhere-notraffic-flows.shp: ../intermediate-data-scratch/towns/%/network-draped.shp
-	mkdir $(subst cycling-everywhere-notraffic-flows.shp,,$@); \
-	python $(sdnabase)/sdnaintegral.py --im "net=$(word 1,$^)" --om "net=$@" $(sdna-cycle-everywhere-notraf-config)
+	python $(sdnaopenbase)/sdnaintegral.py --im "net=$(word 1,$^)" --om "net=$@" $(sdna-cycle-everywhere-notraf-config)
 
 #####################
 # Network preparation
 
 # Drape network over terrain to get 3d network for cycling models
 ../intermediate-data-scratch/towns/%/network-draped.shp: ../intermediate-data-scratch/towns/%/network-prepared.shp
-	$(qgis-process) run grass7:v.drape --elevation=../intermediate-data-scratch/terrain.tif --input=$^ --method=1 --null_value=0 --output=$@ --scale=1 --type=1
+	$(qgis-process) run grass7:v.drape --elevation=../input-data/terrain.tif --input=$^ --method=1 --null_value=0 --output=$@ --scale=1 --type=1
 
 # Auto-split roads with 'divide' field ==1 into separate links representing each side, informal crossings at link ends and formal crossings where present in data
 ../intermediate-data-scratch/towns/%/sidewalks.shp : ../intermediate-data-scratch/towns/%/network-prepared.shp ../intermediate-data-scratch/towns/%/crossings_snapped.shp qgis_scripts/sidewalker.py
@@ -214,8 +220,4 @@ sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;output
 #  - divide (1 for links we wish to model each side of separately; set where road class is TERTIARY or higher)
 ../intermediate-data-scratch/towns/%/network-with-decoded-tags.shp ../intermediate-data-scratch/towns/%/crossings.shp: ../input-data/towns/%/cycle-buffer.shp osm_download.py
 	outroot=$(subst input-data,intermediate-data-scratch,$(subst cycle-buffer.shp,,$(word 1,$^))) && \
-	mkdir $${outroot} ; python osm_download.py --BUFFER=$(word 1,$^) --NET_OUTPUT=$${outroot}/network-with-decoded-tags.shp --CROSSINGS_OUTPUT=$${outroot}/crossings.shp --ERROR_OUTPUT=$${outroot}/tag-decode-errors.gpkg
-
-# Format destination-zones.csv file (containing number of trips per origin zone) as sDNA expects to see it
-../intermediate-data-scratch/towns/%/destination-zones-sdna.csv: ../input-data/towns/%/destination-zones.csv
-	python process-zones-for-sdna.py --INFILE=$^ --OUTFILE=$@ --PCFIELD=1
+	python osm_download.py --BUFFER=$(word 1,$^) --NET_OUTPUT=$${outroot}/network-with-decoded-tags.shp --CROSSINGS_OUTPUT=$${outroot}/crossings.shp --ERROR_OUTPUT=$${outroot}/tag-decode-errors.gpkg
