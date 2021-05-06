@@ -28,7 +28,7 @@ points = gp.read_file(options.points)
 
 points = points.to_crs("EPSG:7405")
 
-distfield="sdlkfjsdl"
+distfield="distance_to_destination_point"
 
 for _,point in points.iterrows():
     net[distfield] = net.apply(lambda row: point.geometry.distance(row.geometry),axis=1)

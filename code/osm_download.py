@@ -92,18 +92,6 @@ def divide(row):
     return row["highway"] in ["trunk","trunk_link","primary","primary_link","secondary","secondary_link",
                                                  "tertiary","tertiary_link"]
        
-# error_messages = []
-# error_geometries = []
-
-# def add_error(row,message):
-    # error_messages += [message]
-    # error_geometries += [row["geometry"]]
-    
-# def write_errors():
-    # edf = pd.DataFrame.from_dict({message:error_messages,geometry:error_geometries})
-    # egdf = gp.GeoDataFrame(edf, geometry=df.geometry)
-    # egdf.to_file(options.errfile)
-
 def write_to_file(gdf,file,wanted_outfields):
     gdf = gdf.to_crs("EPSG:7405")
     wanted_outfields += ["geometry"]
@@ -113,7 +101,7 @@ def write_to_file(gdf,file,wanted_outfields):
     if len(gdf)==0:
         print("Empty file not written: "+file)
     else:
-        gdf.to_file(file)#,driver="GPKG") # gpkg seems to get touched when GRASS uses as input which messes up makefile dependencies, so stick to shp
+        gdf.to_file(file)#,driver="GPKG") # gpkg files seem to get touched when GRASS uses them as input which messes up makefile dependencies, so stick to shp
 
 net = net[~net.highway.isin([None,"construction","proposed","raceway","","NULL"])]
 net = net[net.access.isin(["yes","permissive","unknown",None,"","NULL"])]

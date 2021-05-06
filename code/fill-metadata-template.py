@@ -19,7 +19,7 @@ op.add_option("--TEMPLATE",dest="template",help="Input templates",metavar="FILE"
 op.add_option("--OUTPUT",dest="outfile",help="Output file",metavar="FILE")
 (options,args) = op.parse_args()
 
-# search for metadata template with matching filename field (this is filename for metadata file)
+# search for a metadata template with a filename field that matches the metadata file we want to create
 
 with open(options.template) as f:
   data = json.load(f)

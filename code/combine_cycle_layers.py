@@ -29,7 +29,6 @@ op.add_option("--FIELD2",dest="field2",help="Field2",metavar="FIELDNAME")
 file1 = gp.read_file(options.file1)
 file2 = gp.read_file(options.file2)
 
-#join = pd.concat([file1,file2], axis=1, join="inner")
 join = file1.join(file2,rsuffix="2")
 
 if "ID" in join.columns:

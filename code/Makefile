@@ -10,27 +10,56 @@ sdnaopenbase=D:/sdna_open/arcscripts/bin
 qgis-process=cmd //C "C:\Program Files\QGIS 3.14\OSGeo4W.bat" qgis_process-qgis
 
 #############################################################################################################
-# sDNA configurations. Note that for destination analyses, origin and destination are reversed for efficiency
+# sDNA configuration strings, explained in a little detail in comments.
+# Note that for destination analyses, origin and destination are reversed for efficiency
 
 # Cycling flows to destination
+#
+# CYCLE_ROUNDTRIP metric is used to determine route choice
+# Parameters for CYCLE_ROUNDTRIP metric (following https://doi.org/10.1016/j.jtrangeo.2016.12.003 )
+#  Directional change sensitivity a=0.2 
+#  Slope sensitivity s=1
+#  Traffic sensitivity t=0.04
+#  aadtfield=cyclist_de specifies that we look for traffic flow estimates in the cyclist_de field on network (cyclist_deterrence trancated to 10 characters in shapefile)
+#
+# 10km radius (Euclidean network distance)
+# Disable links that can't be cycled
+# Distribute trips in each zone over all links within the zone, by length. Zone is specified by 'code' field on network; trips by 'trips' column in csv file input
+# skipzeroweightorigins - much more efficient as we only consider 1 'origin' (actually the destination)
+# nojunctions; nohull - don't compute things we don't need
+#
+# Putting that all together:
 sdna-cycle-destination-config=metric=CYCLE_ROUNDTRIP;weight_type=Link;radii=10000;;nojunctions;nohull;disable=bikenet==0; zonesums=eucsum=euc@code;  destweightformula = trips*proportion(euc,eucsum);  skipzeroweightorigins; a=0.2;s=1;t=0.04; aadtfield=cyclist_de
 
-# Cycling flows to destination, no-traffic scenario
+# Cycling flows to destination, no-traffic scenario. As above but t=0 and prefix output field names with 'tf' (traffic free)
 sdna-cycle-destination-notraf-config=metric=CYCLE_ROUNDTRIP;weight_type=Link;radii=10000;;nojunctions;nohull;disable=bikenet==0; zonesums=eucsum=euc@code;  destweightformula = trips*proportion(euc,eucsum);  skipzeroweightorigins;pre=tf; a=0.2;s=1;t=0; aadtfield=cyclist_de
 
-# Cycling flows everywhere
+# Cycling flows everywhere. As for 'cycling flows to destination' but smaller radius and no zone trips to distribute
 sdna-cycle-everywhere-config="metric=CYCLE_ROUNDTRIP;radii=5000;nojunctions;nohull;disable=bikenet==0; a=0.2;s=1;t=0.04; aadtfield=cyclist_de"
 
-# Cycling flows everywhere, no-traffic scenario
+# Cycling flows everywhere, no-traffic scenario. As for 'cycling flows everywhere' but now t=0 and prefix output field names with 'tf' (traffic free)
 sdna-cycle-everywhere-notraf-config="metric=CYCLE_ROUNDTRIP;radii=5000;nojunctions;nohull;disable=bikenet==0;pre=tf; a=0.2;s=1;t=0; aadtfield=cyclist_de"
 
 # Walking flows and severance everywhere
+#
+# CUSTOM metric taken from field SdWlkrM on network determines the route choice
+# Radius of 1.5km
+# Origin and destination weight determined by field SdWlkrWt (to correctly handle roads, sides of roads, crossings output from sidewalker)
+# 'cont' specifies continuous space to increase accuracy on small scales, see https://doi.org/10.1016/j.softx.2020.100525
+# textdatatokeep specifies to copy SdWlkrT (link type - formal/informal crossing, etc) and highway (OSM highway tag) to output, for later extraction to display crossings
+# Other keywords explained above in cycling flows to destination
 sdna-walk-everywhere-config="metric=CUSTOM;custommetric=SdWlkrM;radii=1500;nojunctions;nohull;skipzeroweightorigins;weight=SdWlkrWt;cont;textdatatokeep=SdWlkrT,highway"
 
 # Walking flows to destination
+# As for 'walking flows and severence everywhere' but
+# radius of 3km
+# Distribute trips in each zone over all links within the zone, by SdWlkrWt (sidewalker weight). Zone is specified by 'code' field on network; trips by 'trips' column in csv file input
 sdna-walk-destination-flow-config=metric=CUSTOM;custommetric=SdWlkrM;radii=3000;nojunctions;nohull;zonesums=wtsum=SdWlkrWt@code;  destweightformula = trips*proportion(SdWlkrWt,wtsum);skipzeroweightorigins;textdatatokeep=SdWlkrT,highway
 
 # Walking severance to destination
+# As for 'walking flows to destination' but without weighting (it's not used for severance)
+# we include the keyword 'outputdestinations' (n.b. origins, in reverse analysis) to show stats for each individual origin
+# skipzeroweightorigins is now very essential as it not only increases speed but also prevents output of a similar volume of data for every possible destination
 sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;outputdestinations;radii=3000;skipzeroweightorigins;
 
 ###################

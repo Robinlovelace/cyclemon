@@ -31,7 +31,7 @@ for fieldname in df.columns:
     if fieldname not in wanted_fields:
         del df[fieldname]
 
-wkbfield = "sdlkjfds"
+wkbfield = "geom_wkb_for_efficient_matching"
 df[wkbfield] = df.apply(lambda row: row.geometry.wkb, axis=1)
 dfsum = df.dissolve(by=wkbfield,aggfunc='sum')
 dfsum = dfsum.reset_index()
