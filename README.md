@@ -32,6 +32,7 @@ The directory input-data/ should contain the following
 
 * Open `code/Makefile` and check the paths at the top match your install locations of QGIS and sDNA_Open.    
 * Open `code/osm_download.py` and edit the following line, changing `wales` to the appropriate region supported by pyrosm (see https://pyrosm.readthedocs.io/en/latest/basics.html#available-datasets), such as `great_britain` ... unless of course, your model falls entirely in Wales):
+
         `data = pyrosm.get_data("wales",directory="../intermediate-data-scratch") `
 * Open QGIS, navigate to `Settings -> Options -> Processing -> Scripts -> Scripts folder(s)`: add the full path to `cyclemon\code\qgis_scripts` to the list of folders. Close and re-open QGIS to make sure your change persisted.
 
