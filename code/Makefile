@@ -136,7 +136,7 @@ sdna-walk-destination-severance-config=metric=CUSTOM;custommetric=SdWlkrM;output
 #####################
 # Output data targets
 
-# TODO: Robin insert rule to make ../output-data/towns/%/rnet_pct_dutch.shp from ../input-data/towns/%/trip-origin-zones.csv and ../input-data/towns/%/destinations.shp
+# TODO: Robin insert rule to make ../output-data/towns/%/rnet_pct_dutch.shp from ../input-data/towns/%/trip-origin-zones.csv, ../input-data/towns/%/destinations.shp and ../input-data/towns/%/cycle-buffer.shp
 
 # Combines with- and without-traffic cycling models into a single shapefile holding both models and the difference in flows between them
 ../output-data/towns/%/cycling-everywhere-combined.shp: ../intermediate-data-scratch/towns/%/cycling-everywhere-notraffic-flows.shp ../intermediate-data-scratch/towns/%/cycling-everywhere-flows.shp combine_cycle_layers.py
