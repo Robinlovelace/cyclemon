@@ -35,6 +35,8 @@ output:
  bookdown::pdf_book:
    base_format: jtludown::jtlu_article
    latex_engine: xelatex
+   
+
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -156,8 +158,16 @@ saveRDS(osm_leisure, "osm_leisure_list_monmouthshire.Rds")
 ```
 
 ```{r}
-osm_schools = readRDS("osm_schools_list_monmouthshire.Rds")
-osm_leisure = readRDS("osm_leisure_list_monmouthshire.Rds")
+u = "https://github.com/Robinlovelace/cyclemon/releases/download/0.0.1/osm_schools_list_monmouthshire.Rds"
+f = basename(u)
+if(!file.exists(f)) download.file(url = u, destfile = f)
+osm_schools = readRDS(f)
+
+u = "https://github.com/Robinlovelace/cyclemon/releases/download/0.0.1/osm_leisure_list_monmouthshire.Rds"
+f = basename(u)
+if(!file.exists(f)) download.file(url = u, destfile = f)
+osm_leisure = readRDS(f)
+
 osm_schools_poly = osm_schools$osm_polygons %>% 
   select(osm_id, name)
 osm_leisure_poly = osm_leisure$osm_polygons %>% 
@@ -187,7 +197,7 @@ Other than destinations of interest, the other key input was the boundary of the
 <!-- This process is now available as a function, ... in the package stplanr. -->
 
 ```{r buffers, eval=TRUE, fig.cap="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place. The D represents the desination of interest.", out.width="49%", fig.show='hold'}
-chepstow = sf::read_sf("input-data/chepstow.geojson")
+chepstow = sf::read_sf("../input-data/chepstow.geojson")
 # aim: generate buffers (update stplanr)
 # chepstow_buffer = stplanr::geo_buffer(chepstow, dist = 10000) # fails
 buffer_dist = 5000
@@ -234,7 +244,7 @@ zone_buffer_in_region = sf::st_intersection(zone_buffer, region_buffer)
 
 # mapview::mapview(chepstow_buffer_in_region)
 # plot(chepstow)
-# abber = readRDS("input-data/abergavenny.geojson")
+# abber = readRDS("../input-data/abergavenny.geojson")
 ```
 
 
@@ -242,7 +252,7 @@ zone_buffer_in_region = sf::st_intersection(zone_buffer, region_buffer)
 <!-- # Study area and data -->
 
 ```{r, eval=FALSE, echo=FALSE}
-desire_lines_abergavenny = readRDS("input-data/school_data_desire_lines_chepstow.Rds")
+desire_lines_abergavenny = readRDS("../input-data/school_data_desire_lines_chepstow.Rds")
 mapview::mapview(desire_lines_abergavenny)
 sf::write_sf(desire_lines_abergavenny, "desire_lines_abergavenny.geojson")
 piggyback::pb_upload("desire_lines_abergavenny.geojson")
@@ -331,9 +341,14 @@ r_points_integer = r_points_region %>%
   filter(pop_trs > 0)
 mapview::mapview(r_points_integer)
 saveRDS(r_points_integer, "r_points_integer.Rds")
+piggyback::pb_upload("r_points_integer.Rds")
+piggyback::pb_download_url("r_points_integer.Rds")
 ```
 
 ```{r, fig.cap="Origin-destination data, represented as 'desire lines' emanating from residential origins with the destination fixed to the destination."}
+u = "https://github.com/Robinlovelace/cyclemon/releases/download/0.0.1/r_points_integer.Rds"
+f = basename(u)
+if(!file.exists(f)) download.file(url = u, destfile = f)
 r_points_integer = readRDS("r_points_integer.Rds")
 r_od = r_points_integer %>% 
   mutate(o = seq(nrow(r_points_integer)), d = chepstow_comp$name) %>% 
@@ -403,7 +418,7 @@ RL + CC
 ## Road network visualisation
 
 ```{r, eval=FALSE}
-school_data_route_segments = readRDS("input-data/school_data_route_segments_balanced_chepstow.Rds")
+school_data_route_segments = readRDS("../input-data/school_data_route_segments_balanced_chepstow.Rds")
 
 
 system.time({
@@ -429,7 +444,7 @@ tm_shape(rnet) +
            palette = "Blues") +
   tm_scale_bar()
 
-saveRDS(school_data_route_segments, "input-data/school_data_route_segments_balanced_chepstow.Rds")
+saveRDS(school_data_route_segments, "../input-data/school_data_route_segments_balanced_chepstow.Rds")
 
 ```
 
