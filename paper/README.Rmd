@@ -59,29 +59,15 @@ if(!file.exists("cyclemon.bib")) {
 ```
 
 ```{r, eval=FALSE}
-# set-up
-browseURL("~/projects/cyclemon/draft-active-travel-guidance.pdf") # welsh active travel guidance
-readLines("~/projects/cyclemon/bid-spec.html")[1:30]
-system("pandoc ~/projects/cyclemon/bid-spec.html -o bid-spec.md")
-browseURL("README.pdf")
-# citations
-# citr::tidy_bib_file(rmd_file = "README.Rmd", messy_bibliography = "~/uaf/allrefs.bib", file = "cyclemon.bib")
 library(rbbt)
 bbt_write_bib("paper/cyclemon.bib", bbt_detect_citations("paper/README.Rmd"), overwrite = TRUE)
 ```
 
 ```{r, engine='bash', eval=FALSE}
 cp ~/repos/jtludown/inst/
-cp README.pdf paper.pdf
-cp README.docx paper.docx
+cp paper/README.pdf paper/cyclemon-paper.pdf
 ```
 
-
-<!-- badges: start -->
-
-<!-- badges: end -->
-
-<!-- This repo contains reproducible code to support the analysis of cycling potential in Monmouthshire, Wales. -->
 
 \onecolumn
 # Introduction
@@ -152,7 +138,8 @@ monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
 ```
 
 
-The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \@ref(fig:case)). The research took place in the context of the Welsh Active Travel Act [@welshgovernment_active_2020].
+The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \@ref(fig:case)).
+The research took place in the context of the Active Travel (Wales) Act 2013, which requires local authorities to prepare and submit strategic walking and cycling network plans for approval by the devolved national government [@welshgovernment_active_2020].
 
 ```{r, eval=FALSE}
 remotes::install_github("robinlovelace/ukboundaries")
