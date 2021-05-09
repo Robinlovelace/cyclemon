@@ -217,13 +217,79 @@ Feedback from planners indicated a need for a simplified set of outputs, therefo
 \caption{Hierarchy of modelling outputs, with key layers (those included in walking/cycling summaries) shown in red.}\label{fig:flowchart}
 \end{figure}
 
-\hypertarget{network-modelling}{%
-\subsection{Network modelling}\label{network-modelling}}
+\hypertarget{cycling-models}{%
+\subsection{Cycling models}\label{cycling-models}}
 
-\hypertarget{scenario-analysis}{%
-\subsection{Scenario analysis}\label{scenario-analysis}}
+Cycling models are presented both from the PCT approach and via a SpNA approach. SpNA (spatial network analysis) is realized through use of the sDNA (spatial design network analysis) software (\textbf{cooper\_sdna\_2020?}).
+It should be noted that these two approaches each define `potential' differently:
 
-How the walking/cycling scenarios were implemented with sDNA (CC)
+-PCT Go Dutch views potential as an ideal/target scenario with no traffic, and where overall cycling levels match those in Holland
+-sDNA models assume people cycle all trips under a threshold `perceived distance.' Presence/absence of motorized traffic has an impact on cyclist perception of distance, therefore comparing with- and without-traffic scenarios indicates locations where traffic-free cycling infrastructure may be beneficial. In the case of specific-destination flows, sDNA outputs indicate counts of people based on SD data. Conversely in the case of everywhere-to-everywhere flows, these are unscaled; the primary aim in their inclusion is to show integration with the wider network.
+
+\hypertarget{modelling-cycling-potential-the-pct-approach}{%
+\subsubsection{Modelling cycling potential: the PCT approach}\label{modelling-cycling-potential-the-pct-approach}}
+
+Shows potential flows from student home postcodes to specific destinations under the Go Dutch scenario in the Propensity to Cycle Tool. These are quantified as potential counts of travellers, using calibration derived from \ldots{} {[}cite{]} {[}Robin to expand{]}
+
+\hypertarget{sdna-cycling-models}{%
+\subsubsection{sDNA cycling models}\label{sdna-cycling-models}}
+
+sDNA cycling models are based on `perceived distance' computed as follows, based on Chan and Cooper (2019):
+
+Where multipliers, calculated for each link in the network are given in Table \ref{tab:multipliers}, and change of direction penalty = 15 metres for every 90 degrees.
+Cyclist perceived distance is always calculated for return trips to take account of opposite slopes on the return journey (what goes down must come up!).
+
+\begin{table}
+\caption{\label{tab:multipliers}Distance multipliers for different road classes and slopes in cycling model}
+
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+Link slope & Distance multiplier\\
+\midrule
+<2\% & 1.0\\
+2-4\% & 1.4\\
+4-6\% & 2.2\\
+>6\% & 4.2\\
+\bottomrule
+\end{tabular}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+Link road class & Distance multiplier\\
+\midrule
+Trunk & 3.85\\
+Primary & 1.94\\
+Secondary & 1.04\\
+Tertiary & 1.03\\
+Living/Residential & 0.95\\
+\addlinespace
+Traffic free & 0.95\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In the current models, sDNA cycling potential is based on the scenario where all return trips with perceived distance under 30km are cycled.
+Note that with multipliers applied this translates to much shorter single trip distances in practice, e.g.~3-4 km on a trunk road, or a road with high gradient, but distances up to 15km under ideal conditions (a level, traffic free route).
+
+For use of SD data, we employ sDNA's ability to import inter-zonal flow matrices. sDNA automatically distributes these over all links within each zone, rather than attaching them to zonal centroids, a known cause of inaccuracy in active travel models which must account for smaller scales than typical in vehicular models (\textbf{cooper\_using\_2017?}).
+This process is complicated by the fact that some network links form the boundary between postcode zones and hence represent origins and destinations in more than one zone.
+To resolve the issue, a one-to-many spatial join is carried out to assign zone labels to network links, i.e.~where links appear in multiple zones, they are duplicated for the purpose of analysis.
+Following assignment of flows to links, a many-to-one database table join is conducted to aggregate flows from all links thus duplicated, into a single record for each link.
+
+\hypertarget{walking-models-computed-by-spatial-network-analysis}{%
+\subsection{Walking models computed by spatial network analysis}\label{walking-models-computed-by-spatial-network-analysis}}
+
+sDNA walking propensity figures for specific destinations are based on the scenario that all trips under 3km are walked (at a brisk walking pace this is a journey of approximately 35 minutes, realistic for a commute to school).
+Everywhere-to-everywhere flows use instead a cutoff of 1.5km as the majority of walking trips in this more general context will be shorter than this latter figure.
+
+The barriers presented to pedestrian transport by the necessity of crossing major roads are well known, and typically referred to as severance, though this term can also refer to a number of different approaches to measuring the same phenomenon (\textbf{james\_understanding\_2005?}; \textbf{mindell\_community\_2012?}; \textbf{quigley\_literature\_2011?}).
+We choose to model this explicitly in pedestrian route choice in order to identify locations where crossing infrastructure can be improved.
+The road network is thus pre-processed by a script which splits any road of tertiary, or higher, classification into two in order to model each side of the road separately.
+Formal crossings are inserted wherever indicated by the network data, and informal crossings are inserted at all junctions (in reality pedestrians may cross anywhere along each link, but in the absence of data describing this, we do not model this detail: the difference in walking distance caused by exact crossing position is minimal in any case).
+
+A route choice study in the town of Hereford (conveniently under 30km from our own study area, but taken to be representative of UK regional towns) (\textbf{anciaes\_comprehensive\_2020?}) derived a revealed preference model of ``willingness to walk.''
+In the current study these figures were translated to distance by assuming a walk speed of 4km/h; therefore we penalize crossings as follows (for the purpose of determining route choice, not whether or not the trip is walked):
 
 \hypertarget{integrated-od-and-sna-network-analysis}{%
 \section{Integrated OD and SNA network analysis}\label{integrated-od-and-sna-network-analysis}}

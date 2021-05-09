@@ -373,13 +373,88 @@ knitr::include_graphics("figures/flowchart.png")
 Cycling models are presented both from the PCT approach and via a SpNA approach. SpNA (spatial network analysis) is realized through use of the sDNA (spatial design network analysis) software [@cooper_sdna_2020].
 It should be noted that these two approaches each define ‘potential’ differently: 
 
+-PCT Go Dutch views potential as an ideal/target scenario with no traffic, and where overall cycling levels match those in Holland
+-sDNA models assume people cycle all trips under a threshold ‘perceived distance’. Presence/absence of motorized traffic has an impact on cyclist perception of distance, therefore comparing with- and without-traffic scenarios indicates locations where traffic-free cycling infrastructure may be beneficial. In the case of specific-destination flows, sDNA outputs indicate counts of people based on SD data. Conversely in the case of everywhere-to-everywhere flows, these are unscaled; the primary aim in their inclusion is to show integration with the wider network.
 
+### Modelling cycling potential: the PCT approach
 
-## Network modelling
+Shows potential flows from student home postcodes to specific destinations under the Go Dutch scenario in the Propensity to Cycle Tool. These are quantified as potential counts of travellers, using calibration derived from … [cite] [Robin to expand]
 
-## Scenario analysis
+### sDNA cycling models
 
-How the walking/cycling scenarios were implemented with sDNA (CC)
+sDNA cycling models are based on ‘perceived distance’ computed as follows, based on @chan_using_2019:
+
+Where multipliers, calculated for each link in the network are given in Table \@ref(tab:multipliers), and change of direction penalty = 15 metres for every 90 degrees.
+Cyclist perceived distance is always calculated for return trips to take account of opposite slopes on the return journey (what goes down must come up!).
+
+```{r multipliers}
+links = readr::read_csv("tables/links.csv")
+links_cleaned = tidyr::fill(links, 1)
+d1 = links_cleaned %>%
+  filter(stringr::str_detect(string = Value, pattern = "%")) %>% 
+  rename(`Link slope` = Value) %>% 
+  select(-contains("Link characteristic"))
+d2 = links_cleaned %>%
+  filter(!stringr::str_detect(string = Value, pattern = "%")) %>% 
+  rename(`Link road class` = Value) %>% 
+  select(-contains("Link characteristic"))
+
+kt = knitr::kable(
+  list(d1, d2),
+  caption = 'Distance multipliers for different road classes and slopes in cycling model',
+  booktabs = TRUE, valign = 't'
+)
+kt
+```
+
+In the current models, sDNA cycling potential is based on the scenario where all return trips with perceived distance under 30km are cycled.
+Note that with multipliers applied this translates to much shorter single trip distances in practice, e.g. 3-4 km on a trunk road, or a road with high gradient, but distances up to 15km under ideal conditions (a level, traffic free route).
+
+For use of SD data, we employ sDNA's ability to import inter-zonal flow matrices. sDNA automatically distributes these over all links within each zone, rather than attaching them to zonal centroids, a known cause of inaccuracy in active travel models which must account for smaller scales than typical in vehicular models [@cooper_using_2017].
+This process is complicated by the fact that some network links form the boundary between postcode zones and hence represent origins and destinations in more than one zone.
+To resolve the issue, a one-to-many spatial join is carried out to assign zone labels to network links, i.e. where links appear in multiple zones, they are duplicated for the purpose of analysis.
+Following assignment of flows to links, a many-to-one database table join is conducted to aggregate flows from all links thus duplicated, into a single record for each link.
+
+## Walking models computed by spatial network analysis
+
+sDNA walking propensity figures for specific destinations are based on the scenario that all trips under 3km are walked (at a brisk walking pace this is a journey of approximately 35 minutes, realistic for a commute to school).
+Everywhere-to-everywhere flows use instead a cutoff of 1.5km as the majority of walking trips in this more general context will be shorter than this latter figure.
+
+The barriers presented to pedestrian transport by the necessity of crossing major roads are well known, and typically referred to as severance, though this term can also refer to a number of different approaches to measuring the same phenomenon [@james_understanding_2005; @mindell_community_2012; @quigley_literature_2011].
+We choose to model this explicitly in pedestrian route choice in order to identify locations where crossing infrastructure can be improved.
+The road network is thus pre-processed by a script which splits any road of tertiary, or higher, classification into two in order to model each side of the road separately.
+Formal crossings are inserted wherever indicated by the network data, and informal crossings are inserted at all junctions (in reality pedestrians may cross anywhere along each link, but in the absence of data describing this, we do not model this detail: the difference in walking distance caused by exact crossing position is minimal in any case).
+
+A route choice study in the town of Hereford (conveniently under 30km from our own study area, but taken to be representative of UK regional towns) @anciaes_comprehensive_2020 derived a revealed preference model of "willingness to walk".
+In the current study these figures were translated to distance by assuming a walk speed of 4km/h; therefore we penalize crossings as follows (for the purpose of determining route choice, not whether or not the trip is walked):
+
+<!-- - trunk, primary or secondary road, informal crossing +340 metres -->
+<!-- - tertiary road informal crossing +191 metres -->
+<!-- - any formal crossing +60 metres (As OSM data on crossing type was not found to be reliable at the time of the study, we take the average of signalized and refuge crossing coefficients to obtain this penalty.) -->
+
+<!-- In addition to predicting walking flows on both links and crossings, we also produce layers measuring severance by showing circuity --- the extra distance that must be walked to the destination from each point, compared to straight line distance. -->
+<!-- This identifies areas which are cut off not only by major road crossings but also by physical barriers such as river, or railways, or urban layouts lacking in permeability. In the case of specific destinations, this is displayed as extra distance experienced by trips from each origin; in the case of everywhere-to-everywhere flows this is instead shown as a ratio of distances as the absolute distance must be interpreted in the context of each destination. -->
+
+<!-- As with the cycling models, for specific-destination flows a one-to-many spatial join is carried out to assign zone labels to network links, and following the main analysis, a many-to-one table join to aggregate flows to a single record per link. -->
+
+<!-- ## Automation -->
+
+<!-- In addition to the core modelling processes, we produced a fully automated workflow including data preparation and presentation.  -->
+<!-- Top level workflow management is coordinated by a makefile, a declarative build system well-known to Unix users which automatically determines which outputs need to be updated at any point, thus avoiding unnecessary repetition of computationally expensive models. We prefer remake Bernstein_2011 to interpret the makefile due to its enhanced debugging ability over standard GNU Make GNU Project - Free Software Foundation_2020 though it is also possible to build our models using the latter. Although makefiles are widely understood, we found ourselves limited by the fact that each target can match at most one pattern; in future implementations we would consider choosing an alternative system for declarative workflow management. -->
+
+<!-- For general processing of geodata we use GeoPandas Kelsey Jordahl_Joris Van den Bossche_Martin Fleischmann_James McBride_Jacob Wasserman_Jeffrey Gerard_Adrian Garcia Badaracco_Alan D. Snow_Jeff Tratner_Matthew Perry_et al._2021, shapely Gillies_others_2007 and pyshp GeospatialPython.com_2019. -->
+
+<!-- Network data is automatically downloaded from OpenStreetMap based on a user-provided buffer polygon for the model area, using pyrosm Henrikki Tenkanen_2020. At the time of writing, a further step is scripted using QGIS QGIS Development Team_2021 to snap downloaded pedestrian crossing points to the relevant nodes due to a bug in pyrosm; however we anticipate this will be resolved in the near future, removing the need for this step. To allow greater flexibility we define our own rules (in our script osm_download.py) for walking and cycling access to each network link; erring on the side of permissiveness in cases where OSM tagging data is ambiguous. We also define here a ‘cyclist deterrence’ field based on the OSM highway classification tag; this is a dummy motorized annual average daily traffic flow (measured in vehicles per hour) representative of each road class as defined in Chan & Cooper 2019 and is later used to determine the multipliers shown in table XX above. -->
+
+<!-- We use Grass v.clean David Gerdes_Radim Blazek_Martin Landa_2020 to break OSM polylines where they share nodes, thus converting the downloaded network to routable form complying with an endpoint connectivity rule Cooper_2019. sDNA Prepare Cooper_Chiaradia_2020 is used to remove isolated systems and pseudonodes except where they are required to preserve different access, deterrence or splitting rules for subsections of links; this greatly reduces the link count and hence computational load.  -->
+<!-- Metadata is automatically generated in json format alongside modelling outputs, based on the view-metadata-template.jsontemplate file. We define hierarchy of “views”, each of which contain one or more data layers, complete with descriptions of the data and recommended symbology for display. These are automatically processed to form (1) data dictionaries in HTML format, (2) a web-based interactive map of outputs, (3) QGIS project files containing all generated data displayed in the recommended manner, generated by our create-qgis-project-from-metadata.py script. The latter form a useful starting point for users of the data to produce their own custom maps. -->
+<!-- Finally, following feedback from our planning clients we created two summary output maps per town – one for cycling (Figure \@ref(fig:sdnaresult), left), and one for walking (Figure \@ref(fig:sdnaresult), right). -->
+
+<!-- These are generated using the create-qgis-cycle-summary.py and create-qgis-walk-summary.py scripts, and include the layers shaded red in figure X.  -->
+<!-- # ```{r sdnaresult, fig.cap="Cycling 'Go Dutch' scenario for Monmouth school (red) overlaid on unscaled everywhere-to-everywhere cycle flows (purple) to show the relationship of desirable routes to school (given suitable infrastructure) with the wider active travel network (left). Predicted walking flows to Monmouth school (red) overlaid on everywhere-to-everywhere flows (purple). Circles show formal road crossings; stars show informal crossings; size of crossing symbol indicates severity of road. Automated rendering thanks to QGIS, network data and background mapping © OpenStreetMap contributors.", out.width="49%", fig.show='hold'} -->
+<!-- # knitr::include_graphics(c("figures/sdnaresult.png", "figures/sdnaresult2.png")) -->
+<!-- # ``` -->
+
 
 # Integrated OD and SNA network analysis
 
