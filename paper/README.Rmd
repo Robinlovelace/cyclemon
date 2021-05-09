@@ -7,34 +7,34 @@ title: "An automated toolset for planning of walking and cycling networks servin
 bibliography: cyclemon.bib
 
 # # # Generic outputs:
-# # output: github_document
-# output:
-#   bookdown::word_document2:
-#     number_sections: true
-# #   bookdown::github_document2:
+output:
+  bookdown::github_document2:
+  # bookdown::word_document2:
+    number_sections: true
+#   bookdown::github_document2:
 
 
 # # JTLU version:
-# title: "Long Title for Journal of Transport and Land Use"
-# subtitle: "Subtitle"
-# shorttitle: "Short title"
-# output: jtludown::jtlu_article
-# to use bookdown cross references:
-author1: Robin Lovelace
-org1: University of Leeds
-author2: Crispin Cooper
-org2: University of Cardiff
-thanks: "r.lovelace@ leeds.ac.uk"
-abstract: |
-  Add your article abstract here,
-  test test test.
-  lots and lots
-  and lots and lots
-  of text.....................................
-output:
- bookdown::pdf_book:
-   base_format: jtludown::jtlu_article
-   latex_engine: xelatex
+# # title: "Long Title for Journal of Transport and Land Use"
+# # subtitle: "Subtitle"
+# # shorttitle: "Short title"
+# # output: jtludown::jtlu_article
+# # to use bookdown cross references:
+# author1: Robin Lovelace
+# org1: University of Leeds
+# author2: Crispin Cooper
+# org2: University of Cardiff
+# thanks: "r.lovelace@ leeds.ac.uk"
+# abstract: |
+#   Add your article abstract here,
+#   test test test.
+#   lots and lots
+#   and lots and lots
+#   of text.....................................
+# output:
+#  bookdown::pdf_book:
+#    base_format: jtludown::jtlu_article
+#    latex_engine: xelatex
    
 
 ---
@@ -67,9 +67,7 @@ browseURL("README.pdf")
 # citations
 # citr::tidy_bib_file(rmd_file = "README.Rmd", messy_bibliography = "~/uaf/allrefs.bib", file = "cyclemon.bib")
 library(rbbt)
-bbt_write_bib("cyclemon.bib", bbt_detect_citations("README.Rmd"), overwrite = TRUE)
-piggyback::pb_upload("cyclemon.bib")
-piggyback::pb_download_url("cyclemon.bib")
+bbt_write_bib("paper/cyclemon.bib", bbt_detect_citations("paper/README.Rmd"), overwrite = TRUE)
 ```
 
 ```{r, engine='bash', eval=FALSE}
