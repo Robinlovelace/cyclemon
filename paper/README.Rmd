@@ -107,6 +107,17 @@ These challenges notwithstanding, two broad approaches to modelling cycling upta
 <!-- Maybe better here to explain how Go Dutch addresses point 3 above? -->
 <!-- Todo: what did you mean by "This approach" in the tracked changes Crispin? (RL) -->
 The *origin-destination approach* relies on estimates of current travel behaviour, represented in origin-destination datasets reporting the number of trips, e.g. by mode of travel to work on a typical working day between residential zone origins and workplace destinations. This approach was used in the Propensity to Cycle Tool (PCT), which was originally developed to support strategic cycle network planning based on commuter data for England [@lovelace_propensity_2017]. The 'PCT approach', which is a particular implementation of the 'origin-destination' approach that models cycling uptake in terms of 'distance-hilliness decay' functions (which can include other explanatory variables such as traffic levels) has subsequently been adapted to explore cycling potential in other contexts, including cycling uptake in US cities with low cycling levels [@ahmad_comparison_2020] and the potential for mode shift to cycling for the 'school commute' in across all state schools in England, with publicly available visualisations down to the street level [@goodman_scenarios_2019].
+The PCT has been used by the majority of highway authorities to inform strategic network prioritisation across England [@lovelace_open_2020].^[
+See the 'PCT Impact' report (Nov 2020) and many case studies of the use of the PCT in practice at https://www.pct.bike/manual.html. 
+An indication of the level of use of the PCT by local, regional and national government can be obtained by searching for "propensity to cycle tool" on web pages hosted on the .gov.uk on services such as [Google](https://www.google.com/search?channel=fs&q=site%3A.gov.uk+%22propensity+to+cycle+tool%22).
+At the time of writing the search yielded 814 results, many of which document how the PCT has been used to support Local Cycling and Walking Investment Plans.
+]
+The Rapid Cycleway Prioritisation Tool, which was developed as an extension to the PCT during COVID-19-induced lockdown and subsequent reduction in usage of public transport and peak hour motor traffic to help local authorities prioritise road space reallocation schemes [@lovelace_methods_2020], has also been widely used.^[
+A Department for Transport survey of local authority bids to the Active Travel Fund indicated that 75% of non-London local authorities used the PCT or Rapid cycleway prioritisation tool to inform and prioritise their proposed schemes (Department for Transport, personal communication). 
+]
+The PCT approach is not without limitations:
+it omits walking and cannot be used to assess the impacts of existing and potential future infrastructure interventions on mode choice.
+Furthermore, detailed origin-destination data is only available from the 10-yearly census, making the data on which the PCT is based increasingly out-of-date.
 
 <!-- Here I will introduce spatial network analysis (Chan & Cooper, 2019; Cooper, 2017, 2018). -->
 An alternative approach is to use the topology of the transport network as the basis of modelling using spatial network analysis (SNA) techniques [@chan_using_2019; @cooper_predictive_2018; @cooper_cycletopia_2017].
