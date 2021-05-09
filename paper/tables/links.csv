@@ -1,0 +1,11 @@
+Link characteristic,Value,Distance multiplier
+Slope,<2%,1
+,2-4%,1.4
+,4-6%,2.2
+,>6%,4.2
+Road Class,Trunk,3.85
+,Primary,1.94
+,Secondary,1.04
+,Tertiary,1.03
+,Living/Residential,0.95
+,Traffic free,0.95
