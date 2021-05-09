@@ -93,7 +93,7 @@ Recently there has been an increase in research activity on various pedestrian m
 Recent policy interest has been shown in planning active transportation networks for specific destinations, such as schools and major employers [@larouche_built_2015; @uttley_cycling_2016].
 Encouraging active travel is not just about network infrastructure but complete package of policies, promotion, education, incentives, facilities at destinations [@forsyth_urban_2011; @handy_promoting_2014; @mccormack_search_2011; @pucher_walking_2010].
 Within this context the specific-destination approach allows for more focused management of the ‘complete package’ as relevant to that destination.
-However as modellers we are also keen to ensure that specific-destination approaches do not neglect integration with the wider network [@forsyth_urban_2011].
+However, modelling active travel potential to specific destinations should not neglect consideration of, and the potential for new infrastructure to integration with, wider walking and cycling networks [@forsyth_urban_2011].
 It is difficult, in planning practice, to create calibrated models of walking and cycling behaviour, for the following reasons: 
 
 1. Models of active modes of transportation are underdeveloped compared to vehicular models
