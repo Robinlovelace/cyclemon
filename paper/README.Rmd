@@ -121,6 +121,8 @@ Furthermore, detailed origin-destination data is only available from the 10-year
 
 <!-- Here I will introduce spatial network analysis (Chan & Cooper, 2019; Cooper, 2017, 2018). -->
 An alternative approach is to use the topology of the transport network as the basis of modelling using spatial network analysis (SNA) techniques [@chan_using_2019; @cooper_predictive_2018; @cooper_cycletopia_2017].
+Historically SNA analysis has been done without origin-destination data, something that can be considered a strength --- because data requirements are reduced --- yet also a weakness: origin-destination data can provide useful information about travel behaviour that networks alone do not reveal. 
+
 Within the context of the above challenges, this paper introduces an automated toolchain to assist in production of planning aids for active transportation focused on specific destinations but also highlighting integration with the wider network.
 The approach of automation keeps the expense of deployment realistic for active transportation budgets. Given the challenges of reliable prediction of walking and cycling mode choice and flows, the aim at this stage is not to produce calibrated predictions, but to visualize likely walking and cycling behaviours within settlements in a manner useful to the planning process. 
 We do so using reproducible methods and open access input data to encourage others to employ the techniques in other areas to support evidence-based interventions to enable cycling uptake and as a basis for future research and development.
