@@ -1,6 +1,6 @@
 # CycleMon: automated generation of basic walking and cycling analysis from open data
 
-Academic paper: see paper/ subdirectory
+Academic paper: see the paper/ subdirectory [here](https://github.com/Robinlovelace/cyclemon/tree/master/paper).
 
 # Usage
 
