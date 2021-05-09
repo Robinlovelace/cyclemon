@@ -6,35 +6,35 @@ title: "An automated toolset for planning of walking and cycling networks servin
 # title: "Modelling active travel in rural areas: a combined origin-destination and spatial network approach to estimate walking and cycling potential and prioritise interventions"
 bibliography: cyclemon.bib
 
-# # # Generic outputs:
-output:
-  bookdown::github_document2:
-  # bookdown::word_document2:
-    number_sections: true
-#   bookdown::github_document2:
-
-
-# # JTLU version:
-# # title: "Long Title for Journal of Transport and Land Use"
-# # subtitle: "Subtitle"
-# # shorttitle: "Short title"
-# # output: jtludown::jtlu_article
-# # to use bookdown cross references:
-# author1: Robin Lovelace
-# org1: University of Leeds
-# author2: Crispin Cooper
-# org2: University of Cardiff
-# thanks: "r.lovelace@ leeds.ac.uk"
-# abstract: |
-#   Add your article abstract here,
-#   test test test.
-#   lots and lots
-#   and lots and lots
-#   of text.....................................
+# # # # Generic outputs:
 # output:
-#  bookdown::pdf_book:
-#    base_format: jtludown::jtlu_article
-#    latex_engine: xelatex
+#   bookdown::github_document2:
+#   # bookdown::word_document2:
+#     number_sections: true
+# #   bookdown::github_document2:
+
+
+# JTLU version:
+# title: "Long Title for Journal of Transport and Land Use"
+# subtitle: "Subtitle"
+# shorttitle: "Short title"
+# output: jtludown::jtlu_article
+# to use bookdown cross references:
+author1: Robin Lovelace
+org1: University of Leeds
+author2: Crispin Cooper
+org2: University of Cardiff
+thanks: "r.lovelace@ leeds.ac.uk"
+abstract: |
+  Add your article abstract here,
+  test test test.
+  lots and lots
+  and lots and lots
+  of text.....................................
+output:
+ bookdown::pdf_book:
+   base_format: jtludown::jtlu_article
+   latex_engine: xelatex
    
 
 ---
@@ -138,7 +138,7 @@ monmouthshire = uklads %>% filter(lau118nm == "Monmouthshire")
 ```
 
 
-The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \@ref(fig:case)).
+The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \@ref(fig:buffers) left).
 The research took place in the context of the Active Travel (Wales) Act 2013, which requires local authorities to prepare and submit strategic walking and cycling network plans for approval by the devolved national government [@welshgovernment_active_2020].
 
 ```{r, eval=FALSE}
@@ -147,11 +147,8 @@ remotes::install_github("robinlovelace/ukboundaries")
 
 ```{r case, fig.cap="Case study area, with the parishes of Chepstow and Abergavenny highlighted in red.", out.width="40%"}
 # fig.env='figure*',
-knitr::include_graphics("README_files/figure-gfm/study-area-cropped.png")
+# knitr::include_graphics("README_files/figure-gfm/study-area-cropped.png")
 ```
-
-The main destinations of interest were schools and leisure centres.
-These can be obtained from OpenStreetMap with the tags (key-value pairs) `amenity=school` and `leisure=sports_centre`.
 
 ```{r, eval=FALSE}
 # run code once to get schools data
@@ -189,94 +186,6 @@ chepstow_comp = osm_schools_poly %>%
   filter(str_detect(string = name, pattern = "Chepstow Comp")) 
 ```
 
-Other than destinations of interest, the other key input was the boundary of the region responsible for the transport system in the local area.
-<!-- Todo: resolve this comment (CC): -->
-<!-- I haven’t buffered in this way – I’m still reluctant to discard out-of-region flows (although I do cut everything off at the severn bridge) -->
-<!-- From a data quantity perspective I have fixed a lot of issues in recent automation. Turns out OSM had a lot of pseudonodes leading to much higher link counts than necessary especially after running through my sidewalk tool. These are fixed now.  -->
-<!-- We tested two approaches to define the 'area of interest' defining the area within which routes were calculated: a simple buffer and a three-stage buffering process, as illustrated in Figure \@ref(fig:buffers). -->
-<!-- The simple buffer approach involved creating polygon with borders a fixed distance (5 km in the first instance) around the destination (in this case the parishes of Chepstown and Abergavenny). -->
-<!-- Model run times (and visualisation load times in interactive maps) depend on the amount of data served, creating an incentive reduce the size of the input data, and from a policy perspective, it makes sense to focus on the area over which local planners have control (and budget). -->
-<!-- In this context, the three-stage process was developed as follows: -->
-
-<!-- 1. Create a buffer around the zone of interest with a threshold distance (set to 5 km) -->
-<!-- 2. Create a separate buffer around the region of interest to allow for some (more limited) inter-regional flow (set to 2 km) -->
-<!-- 3. Calculate the intersection between the two buffers outlined in the previous stages -->
-
-<!-- The advantages of the simple buffer approach included simplicity and minimisation of parameters that had to be hard-coded into the analysis.  -->
-<!-- Taking both factors into account, we use the simple approach represented in the left hand plot of Figure \@ref(fig:buffers), saving the three stage approach for contexts where it is advantageous to model cross-region flow but also to reduce the proportion of trips modelled crossing regional/state boundaries. -->
-
-<!-- This process is now available as a function, ... in the package stplanr. -->
-
-```{r buffers, eval=TRUE, fig.cap="Illustration of the simple buffer and three stage buffering approaches to identify areas of interest within which travel to destinations in the zones could take place. The D represents the desination of interest.", out.width="49%", fig.show='hold'}
-chepstow = sf::read_sf("../input-data/chepstow.geojson")
-# aim: generate buffers (update stplanr)
-# chepstow_buffer = stplanr::geo_buffer(chepstow, dist = 10000) # fails
-buffer_dist = 5000
-region_buffer_dist = 2000 
-zone_buffer = chepstow_comp %>% 
-  sf::st_transform(27700) %>% 
-  sf::st_buffer(buffer_dist) %>% 
-  sf::st_transform(4326)
-region_buffer = monmouthshire %>% 
-  sf::st_transform(27700) %>% 
-  sf::st_buffer(region_buffer_dist) %>% 
-  sf::st_transform(4326)
-zone_buffer_in_region = sf::st_intersection(zone_buffer, region_buffer)
-
-# tm_shape(zone_buffer, bbox = tmaptools::bb(zone_buffer, 1.5)) +
-#   tm_polygons(col = "green", alpha = 0.4) +
-#   tm_shape(monmouthshire) +
-#   tm_polygons(lwd = 5) + 
-#   tm_shape(region_buffer) +
-#   tm_borders(lwd = 5, lty = 2) +
-#   tm_shape(zone_buffer) +
-#   tm_polygons(col = "green", alpha = 0.4) +
-#   tm_shape(monmouthshire) +
-#   tm_borders(lwd = 5) +
-#   tm_shape(chepstow) +
-#   tm_polygons(col = "red") +
-#   tm_scale_bar(position = "left") +
-#   qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
-# 
-# tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)) +
-#   tm_polygons(col = "green", alpha = 0.4) +
-#   tm_shape(monmouthshire) +
-#   tm_polygons(lwd = 5) + 
-#   tm_shape(region_buffer) +
-#   tm_borders(lwd = 5, lty = 2) +
-#   tm_shape(zone_buffer_in_region) +
-#   tm_polygons(col = "green", alpha = 0.4) +
-#   tm_shape(monmouthshire) +
-#   tm_borders(lwd = 5) +
-#   tm_shape(chepstow) +
-#   tm_polygons(col = "red") +
-#   tm_scale_bar(position = "left") +
-#   qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2)
-
-# mapview::mapview(chepstow_buffer_in_region)
-# plot(chepstow)
-# abber = readRDS("../input-data/abergavenny.geojson")
-```
-
-
-
-<!-- # Study area and data -->
-
-```{r, eval=FALSE, echo=FALSE}
-desire_lines_abergavenny = readRDS("../input-data/school_data_desire_lines_chepstow.Rds")
-mapview::mapview(desire_lines_abergavenny)
-sf::write_sf(desire_lines_abergavenny, "desire_lines_abergavenny.geojson")
-piggyback::pb_upload("desire_lines_abergavenny.geojson")
-```
-
-<!-- ## Definition of travel watersheds -->
-
-<!-- Explain how extent of analysis was computed (RL + CC) -->
-
-A key input is origin-destination (OD) data.
-OD data can be obtained from a number of sources, the most reliable being a list of geocoded addresses or postcodes associated with people who visit each destination regularly.
-In cases where OD datasets derived from from surveys or official/commercial records are missing, they can be simulated using a range of techniques.
-For the purposes of this paper, to enable full reproducibility, we simulate origins by sampling from buildings in the study area, as illustrated below.
 
 ```{r, eval=FALSE}
 # Aim: get OSM buildings and sample from them
@@ -356,7 +265,23 @@ piggyback::pb_upload("r_points_integer.Rds")
 piggyback::pb_download_url("r_points_integer.Rds")
 ```
 
-```{r, fig.cap="Origin-destination data, represented as 'desire lines' emanating from residential origins with the destination fixed to the destination."}
+```{r buffers, eval=TRUE, fig.cap="Illustration of the study area (left) and origin-destination data, represented as desire lines emanating from residential origins with the destination fixed to the destination, simulated from WorldPop data to the destination (right).", fig.show='hold', out.height="10cm", out.width=c('40%', '50%')}
+knitr::include_graphics("README_files/figure-gfm/study-area-cropped.png")
+
+chepstow = sf::read_sf("../input-data/chepstow.geojson")
+buffer_dist = 5000
+region_buffer_dist = 2000 
+zone_buffer = chepstow_comp %>% 
+  sf::st_transform(27700) %>% 
+  sf::st_buffer(buffer_dist) %>% 
+  sf::st_transform(4326)
+region_buffer = monmouthshire %>% 
+  sf::st_transform(27700) %>% 
+  sf::st_buffer(region_buffer_dist) %>% 
+  sf::st_transform(4326)
+zone_buffer_in_region = sf::st_intersection(zone_buffer, region_buffer)
+
+# # create OD map
 u = "https://github.com/Robinlovelace/cyclemon/releases/download/0.0.1/r_points_integer.Rds"
 f = basename(u)
 if(!file.exists(f)) download.file(url = u, destfile = f)
@@ -379,14 +304,44 @@ tm_shape(zone_buffer_in_region, bbox = tmaptools::bb(zone_buffer_in_region, 1.5)
   tm_shape(chepstow) +
   tm_polygons(col = "red") +
   tm_scale_bar(position = "left") +
-  qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2) +
+  qtm(chepstow_comp) +
+  # qtm(chepstow_comp %>% mutate(txt = "D")) + tm_text("txt", bg.color = "white", size = 2) +
   tm_shape(desire_lines) +
   tm_lines(lwd = "n", scale = 0.3, alpha = 0.2, legend.lwd.show = FALSE)
 ```
 
+<!-- # Study area and data -->
+
+```{r, eval=FALSE, echo=FALSE}
+desire_lines_abergavenny = readRDS("../input-data/school_data_desire_lines_chepstow.Rds")
+mapview::mapview(desire_lines_abergavenny)
+sf::write_sf(desire_lines_abergavenny, "desire_lines_abergavenny.geojson")
+piggyback::pb_upload("desire_lines_abergavenny.geojson")
+```
+
+<!-- ## Definition of travel watersheds -->
+
+<!-- Explain how extent of analysis was computed (RL + CC) -->
+
+The destinations of interest for which travel data was available were schools and leisure centres.
+For the purposes of this paper, the locations of these destinations were obtained from OpenStreetMap with the tags (key-value pairs) `amenity=school` and `leisure=sports_centre`.
+[Add to Figure \@ref(fig:buffers) ?]
+
+The main input dataset was a list of postcodes associated with each destination which, after being geocoded, were converted into origin-destination (OD) data.
+**[Todo, add table showing what this looks like with specific OD pairs linked to a map?]**
+The other key input was the boundary of the region responsible for the transport system in the local area, available from the UK's official open data web repository data.gov.uk.
+
+Data on approximate locations from which people travel regularly to a particular destination can be obtained from a number of sources, the most reliable being a list of anonymous geocoded addresses or postcodes associated with people who visit each destination regularly.
+In cases where such datasets, derived from routine databases surveys or official/commercial records, are missing, they can be simulated using a range of techniques.
+For the purposes of this paper, records of the number of people travelling from each postcode to each destination is confidential.
+To enable full reproducibility to demonstrate the methods, we simulate origins using WorldPop data [@tatem_worldpop_2017], resulting in desire lines illustrated in Figure \@ref(fig:buffers) right.^[
+For accuracy we recommend using real not simulated data where available.
+]
+
 The other key input, for spatial network analysis, is route network data.
 This can be obtained from OpenStreetMap, which has global coverage (although quality varies).
 The OSM data for the study area is represented in Figure \@ref(fig:osminput).
+Terrain data was included by draping the OSM network over a digital elevation model constructed from the open licensed Ordnance Survey Terrain 50 data (open access digital elevation data is available for most places, although not at the 50 m resolution used in this study).
 
 ```{r, eval=FALSE, echo=FALSE}
 library(osmdata)
@@ -397,24 +352,28 @@ osm_data_all = opq(bbox = bb) %>%
 plot(osm_data_all$osm_lines)
 osm_highways = osm_data_all$osm_lines
 mapview::mapview(osm_highways["highway"])
-osm_highways$highway_simple = trafficalmr::
+# osm_highways$highway_simple = trafficalmr::
 ```
 
-```{r osminput, fig.cap="OSM data for the study area (placeholder - RL to update)"}
+```{r osminput, fig.cap="OSM data for the study area (placeholder - RL to update)", out.width="50%"}
 knitr::include_graphics("figures/osm-infra-chepstow.png")
 ```
 
+# Methods
+
+Figure \@ref(fig:flowchart) shows a summary of the modelling layers output from our toolchain; these are described in greater detail below.
+Feedback from planners indicated a need for a simplified set of outputs, therefore we also identified key layers to be included in two summaries (one for walking, one for cycling) --- key layers are identified in red in Figure \@ref(fig:flowchart).
+
+```{r flowchart, fig.cap="Hierarchy of modelling outputs, with key layers (those included in walking/cycling summaries) shown in red.", out.width="60%"}
+knitr::include_graphics("figures/flowchart.png")
+```
+
+## Cycling models
+
+Cycling models are presented both from the PCT approach and via a SpNA approach. SpNA (spatial network analysis) is realized through use of the sDNA (spatial design network analysis) software [@cooper_sdna_2020].
+It should be noted that these two approaches each define ‘potential’ differently: 
 
 
-<!-- ## Estimating cycling uptake -->
-
-<!-- Go Dutch and other options (RL) -->
-
-# Spatial network analysis
-
-Explanation of the method and reproducible example (CC)
-
-## Spatial network processing
 
 ## Network modelling
 

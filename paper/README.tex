@@ -104,12 +104,14 @@ of text\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots.
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-There has been much research on mode shift since the origins of applied transport planning and modelling in the 1950s (Boyce and Williams 2015; Aguil'era and Gr'ebert 2014). Within this broad field of research, uptake of `active modes' (walking and cycling) has become a recent focus (\textbf{gotschi\_comprehensive\_2017?}). A range of methods have been used to understand and model walking and cycling levels, with `getting people cycling' being the topic of numerous papers during the 2010 (e.g. Beecham, Wood, and Bowerman 2012; Gris'e and El-Geneidy 2018; Larsen, Patterson, and El-Geneidy 2013; Raffler, Brezina, and Emberger 2019; Zhang, Magalhaes, and Wang 2014).
+There has been much research on mode shift since the origins of applied transport planning and modelling in the 1950s (Boyce and Williams 2015; Aguiléra and Grébert 2014). Within this broad field of research, uptake of `active modes' (walking and cycling) has become a recent focus (Götschi et al. 2017). A range of methods have been used to understand and model walking and cycling levels, with `getting people cycling' being the topic of numerous papers during the 2010 (e.g. Beecham, Wood, and Bowerman 2012; Grisé and El-Geneidy 2018; Larsen, Patterson, and El-Geneidy 2013; Raffler, Brezina, and Emberger 2019; Zhang, Magalhaes, and Wang 2014).
+Likewise, getting people walking is worthwhile on environmental (Cervero and Kockelman 1997; Frank and Pivo 1994), community cohesion and health grounds (S. L. Handy 2005; S. L. Handy et al. 2002).
+Recently there has been an increase in research activity on various pedestrian models supporting uptake of walking (Aoun 2015; C. H. V. Cooper et al. 2019; Ewing et al. 2014; Griswold et al. 2019; Kuzmyak et al. 2014; Martinez-Gil, Lozano, and Fernández 2017; Munira and Sener 2017; Turner 2017).
 
-Recent policy interest has been shown in planning active transportation networks for specific destinations, such as schools and major employers.
-Encouraging active travel is not just about network infrastructure but complete package of policies, promotion, education, incentives, facilities at destinations (\textbf{forsyth\_urban\_2011?}; \textbf{handy\_promoting\_2014?}; \textbf{mccormack\_search\_2011?}; \textbf{pucher\_walking\_2010?}).
+Recent policy interest has been shown in planning active transportation networks for specific destinations, such as schools and major employers (Larouche 2015; Uttley and Lovelace 2016).
+Encouraging active travel is not just about network infrastructure but complete package of policies, promotion, education, incentives, facilities at destinations (Forsyth and Krizek 2011; S. Handy, van Wee, and Kroesen 2014; McCormack and Shiell 2011; Pucher et al. 2010).
 Within this context the specific-destination approach allows for more focused management of the `complete package' as relevant to that destination.
-However as modellers we are also keen to ensure that specific-destination approaches do not neglect integration with the wider network (\textbf{forsyth\_urban\_2011?}).
+However, modelling active travel potential to specific destinations should not neglect consideration of, and the potential for new infrastructure to integration with, wider walking and cycling networks (Forsyth and Krizek 2011).
 It is difficult, in planning practice, to create calibrated models of walking and cycling behaviour, for the following reasons:
 
 \begin{enumerate}
@@ -120,7 +122,7 @@ It is difficult, in planning practice, to create calibrated models of walking an
 \item
   The small scale of trips makes them sensitive to small scale features of the network. These can include: minor streets (often excluded from vehicle models altogether yet essential for active models); a greater variety of origin/destination points (not only zone centroids or a limited set of representative points within each zone, as with vehicular models); features such as cycle lane, sidewalk and footpath locations and condition, route attractiveness (as measured by e.g.~green vegetation) and street lighting, none of which are reliably mapped.
 \item
-  The case of cycling suffers from an additional challenge, in that current levels of uptake are low. It is reasonable to assume that as uptake increases, cultural and safety-in-numbers effects may create significant nonlinearity in the response of cycling mode share to cycling infrastructure, as has already happened in e.g.~Holland and Denmark, yet we lack the data to calibrate this (\textbf{hollander\_transport\_2016?}).
+  The case of cycling suffers from an additional challenge, in that current levels of uptake are low. It is reasonable to assume that as uptake increases, cultural and safety-in-numbers effects may create significant nonlinearity in the response of cycling mode share to cycling infrastructure, as has already happened in e.g.~Holland and Denmark, yet we lack the data to calibrate this (Hollander 2016).
 \item
   Reliable, recent local data on mode choice and flows is often not available.
 \item
@@ -129,65 +131,91 @@ It is difficult, in planning practice, to create calibrated models of walking an
 
 These challenges notwithstanding, two broad approaches to modelling cycling uptake have been particularly prominent in the literature.
 The \emph{origin-destination approach} relies on estimates of current travel behaviour, represented in origin-destination datasets reporting the number of trips, e.g.~by mode of travel to work on a typical working day between residential zone origins and workplace destinations. This approach was used in the Propensity to Cycle Tool (PCT), which was originally developed to support strategic cycle network planning based on commuter data for England (Lovelace et al. 2017). The `PCT approach,' which is a particular implementation of the `origin-destination' approach that models cycling uptake in terms of `distance-hilliness decay' functions (which can include other explanatory variables such as traffic levels) has subsequently been adapted to explore cycling potential in other contexts, including cycling uptake in US cities with low cycling levels (Ahmad et al. 2020) and the potential for mode shift to cycling for the `school commute' in across all state schools in England, with publicly available visualisations down to the street level (Goodman et al. 2019).
+The PCT has been used by the majority of highway authorities to inform strategic network prioritisation across England (Lovelace, Parkin, and Cohen 2020).\footnote{
+  See the `PCT Impact' report (Nov 2020) and many case studies of the use of the PCT in practice at \url{https://www.pct.bike/manual.html}.
+  An indication of the level of use of the PCT by local, regional and national government can be obtained by searching for ``propensity to cycle tool'' on web pages hosted on the .gov.uk on services such as \href{https://www.google.com/search?channel=fs\&q=site\%3A.gov.uk+\%22propensity+to+cycle+tool\%22}{Google}.
+  At the time of writing the search yielded 814 results, many of which document how the PCT has been used to support Local Cycling and Walking Investment Plans.}
+The Rapid Cycleway Prioritisation Tool, which was developed as an extension to the PCT during COVID-19-induced lockdown and subsequent reduction in usage of public transport and peak hour motor traffic to help local authorities prioritise road space reallocation schemes (Lovelace et al. 2020), has also been widely used.\footnote{
+  A Department for Transport survey of local authority bids to the Active Travel Fund indicated that 75\% of non-London local authorities used the PCT or Rapid cycleway prioritisation tool to inform and prioritise their proposed schemes (Department for Transport, personal communication).}
+The PCT approach is not without limitations:
+it omits walking and cannot be used to assess the impacts of existing and potential future infrastructure interventions on mode choice.
+Furthermore, detailed origin-destination data is only available from the 10-yearly census, making the data on which the PCT is based increasingly out-of-date.
 
-An alternative approach is to use the topology of the transport network as the basis of modelling using spatial network analysis (SNA) techniques (\textbf{chan\_using\_2019?}; \textbf{cooper\_predictive\_2018?}; \textbf{cooper\_cycletopia\_2017?}).
+An alternative approach is to use the topology of the transport network as the basis of modelling using spatial network analysis (SNA) techniques (Chan and Cooper 2019; Crispin H. V. Cooper 2018; J. Cooper and Leahy 2017).
+Historically, SNA analysis has been done without origin-destination data, something that can be considered a strength --- because data requirements are reduced --- yet also a weakness: origin-destination data can provide useful information about travel behaviour that networks alone do not reveal.
+
 Within the context of the above challenges, this paper introduces an automated toolchain to assist in production of planning aids for active transportation focused on specific destinations but also highlighting integration with the wider network.
-The approach of automation keeps the expense of deployment realistic for active transportation budgets. Given the challenges of reliable prediction of walking and cycling mode choice and flows, the aim at this stage is not to produce calibrated predictions, but to visualize likely walking and cycling behaviours within settlements in a manner useful to the planning process.
-We do so using reproducible methods and open access input data to encourage others to employ the techniques in other areas to support evidence-based interventions to enable cycling uptake and as a basis for future research and development.
+Instead of requiring comprehensive origin-destination data, the approach can leverage single-destination data which is generally available from organizations keen to support active travel planning efforts and more up-to-date then Census data.
+The approach was originally developed for Monmouthshire County Council who, like most local authorities across the UK and many local government organisations worldwide, hold data on journeys to public schools and leisure centres. Specific-destination models for cycling were developed using the PCT approach, while specific-destination models for walking were incorporated into the SNA approach.
+In addition to showing specific-destination models, however, network-only SNA models are also employed to highlight integration of specific-destination routes with the wider active travel network, the importance of which is highlighted by Forsyth and Krizek (2011).
+
+Considering the challenges associated with accurate prediction and monitoring of walking and cycling mode choice and flows, the aim was not to produce calibrated predictions.
+Instead, the aim was to estimate and visualize potential walking and cycling behaviours to support the planning process.
+The approach maintains simplicity by deliberately omitting recalibration (the process of updating model results following monitoring): instead it re-uses coefficients describing cycling and walking behaviour calculated in previous research.
+
+As discussed in the final section, the simplicity of the single-destination has several advantages: it keeps modelling costs low, enables transparency of modelling assumptions, and gives users of the outputs the information they need to determine whether unexpected outputs are (a) due to unmet modelling assumptions, or (b) indicative of valid areas of concern in future network plans.
+That said, in most cases, modelling outputs showed strong alignment with networks previously planned on the basis of local knowledge.
+
+The approach of automation keeps the expense of deployment realistic for active transportation budgets.
+We do so with reproducible methods and open access input data to encourage others to employ the techniques in other areas to support evidence-based interventions to enable cycling uptake and as a basis for future research and development.
 
 \hypertarget{study-area-and-input-data}{%
 \section{Study area and input data}\label{study-area-and-input-data}}
 
-The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \ref{fig:case}). The research took place in the context of the Welsh Active Travel Act (\textbf{welshgovernment\_active\_2020?}).
+The case study area is the local authority district of Monmouthshire, in rural South Wales (Figure \ref{fig:buffers} left).
+The research took place in the context of the Active Travel (Wales) Act 2013, which requires local authorities to prepare and submit strategic walking and cycling network plans for approval by the devolved national government (Welsh Government 2020).
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.4\linewidth]{README_files/figure-gfm/study-area-cropped} 
+{\centering \includegraphics[width=0.4\linewidth,height=10cm]{README_files/figure-gfm/study-area-cropped} \includegraphics[width=0.5\linewidth,height=10cm]{README_files/figure-latex/buffers-2} 
 
 }
 
-\caption{Case study area, with the parishes of Chepstow and Abergavenny highlighted in red.}\label{fig:case}
+\caption{Illustration of the study area (left) and origin-destination data, represented as desire lines emanating from residential origins with the destination fixed to the destination, simulated from WorldPop data to the destination (right).}\label{fig:buffers}
 \end{figure}
 
-The main destinations of interest were schools and leisure centres.
-These can be obtained from OpenStreetMap with the tags (key-value pairs) \texttt{amenity=school} and \texttt{leisure=sports\_centre}.
+The destinations of interest for which travel data was available were schools and leisure centres.
+For the purposes of this paper, the locations of these destinations were obtained from OpenStreetMap with the tags (key-value pairs) \texttt{amenity=school} and \texttt{leisure=sports\_centre}.
+{[}Add to Figure \ref{fig:buffers} ?{]}
 
-Other than destinations of interest, the other key input was the boundary of the region responsible for the transport system in the local area.
+The main input dataset was a list of postcodes associated with each destination which, after being geocoded, were converted into origin-destination (OD) data.
+\textbf{{[}Todo, add table showing what this looks like with specific OD pairs linked to a map?{]}}
+The other key input was the boundary of the region responsible for the transport system in the local area, available from the UK's official open data web repository data.gov.uk.
 
-A key input is origin-destination (OD) data.
-OD data can be obtained from a number of sources, the most reliable being a list of geocoded addresses or postcodes associated with people who visit each destination regularly.
-In cases where OD datasets derived from from surveys or official/commercial records are missing, they can be simulated using a range of techniques.
-For the purposes of this paper, to enable full reproducibility, we simulate origins by sampling from buildings in the study area, as illustrated below.
-
-\begin{figure}
-
-{\centering \includegraphics{README_files/figure-latex/unnamed-chunk-11-1} 
-
-}
-
-\caption{Origin-destination data, represented as 'desire lines' emanating from residential origins with the destination fixed to the destination.}\label{fig:unnamed-chunk-11}
-\end{figure}
+Data on approximate locations from which people travel regularly to a particular destination can be obtained from a number of sources, the most reliable being a list of anonymous geocoded addresses or postcodes associated with people who visit each destination regularly.
+In cases where such datasets, derived from routine databases surveys or official/commercial records, are missing, they can be simulated using a range of techniques.
+For the purposes of this paper, records of the number of people travelling from each postcode to each destination is confidential.
+To enable full reproducibility to demonstrate the methods, we simulate origins using WorldPop data (\textbf{tatem\_worldpop\_2017?}), resulting in desire lines illustrated in Figure \ref{fig:buffers} right.\footnote{
+  For accuracy we recommend using real not simulated data where available.}
 
 The other key input, for spatial network analysis, is route network data.
 This can be obtained from OpenStreetMap, which has global coverage (although quality varies).
 The OSM data for the study area is represented in Figure \ref{fig:osminput}.
+Terrain data was included by draping the OSM network over a digital elevation model constructed from the open licensed Ordnance Survey Terrain 50 data (open access digital elevation data is available for most places, although not at the 50 m resolution used in this study).
 
 \begin{figure}
 
-{\centering \includegraphics[width=12.46in]{figures/osm-infra-chepstow} 
+{\centering \includegraphics[width=0.5\linewidth]{figures/osm-infra-chepstow} 
 
 }
 
 \caption{OSM data for the study area (placeholder - RL to update)}\label{fig:osminput}
 \end{figure}
 
-\hypertarget{spatial-network-analysis}{%
-\section{Spatial network analysis}\label{spatial-network-analysis}}
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
 
-Explanation of the method and reproducible example (CC)
+Figure \ref{fig:flowchart} shows a summary of the modelling layers output from our toolchain; these are described in greater detail below.
+Feedback from planners indicated a need for a simplified set of outputs, therefore we also identified key layers to be included in two summaries (one for walking, one for cycling) --- key layers are identified in red in Figure \ref{fig:flowchart}.
 
-\hypertarget{spatial-network-processing}{%
-\subsection{Spatial network processing}\label{spatial-network-processing}}
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{figures/flowchart} 
+
+}
+
+\caption{Hierarchy of modelling outputs, with key layers (those included in walking/cycling summaries) shown in red.}\label{fig:flowchart}
+\end{figure}
 
 \hypertarget{network-modelling}{%
 \subsection{Network modelling}\label{network-modelling}}
@@ -222,10 +250,13 @@ RL + CC
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
 \leavevmode\hypertarget{ref-aguilera_passenger_2014}{}%
-Aguil'era, Anne, and Jean Gr'ebert. 2014. {``Passenger Transport Mode Share in Cities: Exploration of Actual and Future Trends with a Worldwide Survey.''} \emph{International Journal of Automotive Technology and Management} 14 (3-4): 203--16. \url{https://doi.org/10.1504/IJATM.2014.065290}.
+Aguiléra, Anne, and Jean Grébert. 2014. {``Passenger Transport Mode Share in Cities: Exploration of Actual and Future Trends with a Worldwide Survey.''} \emph{International Journal of Automotive Technology and Management} 14 (3-4): 203--16. \url{https://doi.org/10.1504/IJATM.2014.065290}.
 
 \leavevmode\hypertarget{ref-ahmad_comparison_2020}{}%
 Ahmad, Sohail, Anna Goodman, Felix Creutzig, James Woodcock, and Marko Tainio. 2020. {``A Comparison of the Health and Environmental Impacts of Increasing Urban Density Against Increasing Propensity to Walk and Cycle in {Nashville}, {USA}.''} \emph{Cities \& Health} 4 (1): 55--65. \url{https://doi.org/10.1080/23748834.2019.1659667}.
+
+\leavevmode\hypertarget{ref-aoun_bicycle_2015}{}%
+Aoun, A. 2015. \emph{Bicycle and Pedestrian Forecasting Tools: {State} of the Practice}. {NC}: {Chapel Hill}.
 
 \leavevmode\hypertarget{ref-beecham_visual_2012}{}%
 Beecham, Roger, Jo Wood, and Audrey Bowerman. 2012. {``A Visual Analytics Approach to Understanding Cycling Behaviour.''} In \emph{2012 {IEEE Conference} on {Visual Analytics Science} and {Technology} ({VAST})}, 207--8. {IEEE}.
@@ -233,20 +264,95 @@ Beecham, Roger, Jo Wood, and Audrey Bowerman. 2012. {``A Visual Analytics Approa
 \leavevmode\hypertarget{ref-boyce_forecasting_2015}{}%
 Boyce, David E., and Huw C. W. L. Williams. 2015. \emph{Forecasting {Urban Travel}: {Past}, {Present} and {Future}}. {Edward Elgar Publishing}.
 
+\leavevmode\hypertarget{ref-cervero_travel_1997}{}%
+Cervero, Robert, and Kara Kockelman. 1997. {``Travel Demand and the {3Ds}: {Density}, Diversity, and Design.''} \emph{Transportation Research Part D: Transport and Environment} 2 (3): 199--219. \url{https://doi.org/10.1016/S1361-9209(97)00009-6}.
+
+\leavevmode\hypertarget{ref-chan_using_2019}{}%
+Chan, Eric Yin Cheung, and Crispin HV Cooper. 2019. {``Using Road Class as a Replacement for Predicted Motorized Traffic Flow in Spatial Network Models of Cycling.''} \emph{Scientific Reports} 9 (1): 1--12.
+
+\leavevmode\hypertarget{ref-cooper_using_2019}{}%
+Cooper, C. H. V., Ian Harvey, Scott Orford, and Alain J. F. Chiaradia. 2019. {``Using Multiple Hybrid Spatial Design Network Analysis to Predict Longitudinal Effect of a Major City Centre Redevelopment on Pedestrian Flows.''} \emph{Transportation}, December. \url{https://doi.org/10.1007/s11116-019-10072-0}.
+
+\leavevmode\hypertarget{ref-cooper_predictive_2018}{}%
+Cooper, Crispin H. V. 2018. {``Predictive Spatial Network Analysis for High-Resolution Transport Modeling, Applied to Cyclist Flows, Mode Choice, and Targeting Investment.''} \emph{International Journal of Sustainable Transportation} 0 (0): 1--11. \url{https://doi.org/10.1080/15568318.2018.1432730}.
+
+\leavevmode\hypertarget{ref-cooper_cycletopia_2017}{}%
+Cooper, Jai, and Terry Leahy. 2017. {``Cycletopia in the Sticks: Bicycle Advocacy Beyond the City Limits.''} \emph{Mobilities}, January, 1--17. \url{https://doi.org/10.1080/17450101.2016.1254898}.
+
+\leavevmode\hypertarget{ref-ewing_varying_2014}{}%
+Ewing, Reid, Guang Tian, J. P. Goates, Ming Zhang, Michael J. Greenwald, Alex Joyce, John Kircher, and William Greene. 2014. {``Varying Influences of the Built Environment on Household Travel in 15 Diverse Regions of the {United States}.''} \emph{Urban Studies} 52 (13): 2330--48. \url{https://doi.org/10.1177/0042098014560991}.
+
+\leavevmode\hypertarget{ref-forsyth_urban_2011}{}%
+Forsyth, Ann, and Kevin Krizek. 2011. {``Urban Design: Is There a Distinctive View from the Bicycle?''} \emph{Journal of Urban Design} 16 (4): 531--49.
+
+\leavevmode\hypertarget{ref-frank_impacts_1994}{}%
+Frank, Lawrence D., and Gary Pivo. 1994. {``Impacts of Mixed Use and Density on Utilization of Three Modes of Travel: {Single}-Occupant Vehicle, Transit, Walking.''} \emph{Transportation Research Record}, no. 1466. \url{https://trid.trb.org/view/425321}.
+
 \leavevmode\hypertarget{ref-goodman_scenarios_2019}{}%
 Goodman, Anna, Ilan Fridman Rojas, James Woodcock, Rachel Aldred, Nikolai Berkoff, Malcolm Morgan, Ali Abbas, and Robin Lovelace. 2019. {``Scenarios of Cycling to School in {England}, and Associated Health and Carbon Impacts: {Application} of the {`{Propensity} to {Cycle Tool}'}.''} \emph{Journal of Transport \& Health} 12 (March): 263--78. \url{https://doi.org/10.1016/j.jth.2019.01.008}.
 
+\leavevmode\hypertarget{ref-gotschi_comprehensive_2017}{}%
+Götschi, Thomas, Audrey de Nazelle, Christian Brand, Regine Gerike, and Regine Gerike. 2017. {``Towards a {Comprehensive Conceptual Framework} of {Active Travel Behavior}: A {Review} and {Synthesis} of {Published Frameworks}.''} \emph{Current Environmental Health Reports} 4 (3): 286--95. \url{https://doi.org/10.1007/s40572-017-0149-9}.
+
 \leavevmode\hypertarget{ref-grise_if_2018}{}%
-Gris'e, Emily, and Ahmed El-Geneidy. 2018. {``If We Build It, Who Will Benefit? {A} Multi-Criteria Approach for the Prioritization of New Bicycle Lanes in {Quebec City}, {Canada}.''} \emph{Journal of Transport and Land Use} 11 (1). \url{https://doi.org/10.5198/jtlu.2018.1115}.
+Grisé, Emily, and Ahmed El-Geneidy. 2018. {``If We Build It, Who Will Benefit? {A} Multi-Criteria Approach for the Prioritization of New Bicycle Lanes in {Quebec City}, {Canada}.''} \emph{Journal of Transport and Land Use} 11 (1). \url{https://doi.org/10.5198/jtlu.2018.1115}.
+
+\leavevmode\hypertarget{ref-griswold_pedestrian_2019}{}%
+Griswold, Julia B., Aditya Medury, Robert J. Schneider, Dave Amos, Ang Li, and Offer Grembek. 2019. {``A Pedestrian Exposure Model for the California State Highway System.''} \emph{Transportation Research Record}, April, 0361198119837235. \url{https://doi.org/10.1177/0361198119837235}.
+
+\leavevmode\hypertarget{ref-handy_critical_2005}{}%
+Handy, Susan L. 2005. \emph{Critical Assessment of the Literature on the Relationships Among Transportation, Land Use, and Physical Activity}. Transportation Research Board and the Institute of Medicine Committee on Physical Activity, Health, Transportation, and Land Use 282. {Resource paper for TRB Special Report}.
+
+\leavevmode\hypertarget{ref-handy_how_2002}{}%
+Handy, Susan L., Marlon G. Boarnet, Reid Ewing, and Richard E. Killingsworth. 2002. {``How the Built Environment Affects Physical Activity: Views from Urban Planning.''} \emph{American Journal of Preventive Medicine} 23 (August): 64--73.
+
+\leavevmode\hypertarget{ref-handy_promoting_2014}{}%
+Handy, Susan, Bert van Wee, and Maarten Kroesen. 2014. {``Promoting {Cycling} for {Transport}: {Research Needs} and {Challenges}.''} \emph{Transport Reviews} 34 (1): 4--24. \url{https://doi.org/10.1080/01441647.2013.860204}.
+
+\leavevmode\hypertarget{ref-hollander_transport_2016}{}%
+Hollander, Yaron. 2016. \emph{Transport {Modelling} for a {Complete Beginner}}. {CTthink!}
+
+\leavevmode\hypertarget{ref-kuzmyak_estimating_2014}{}%
+Kuzmyak, J. Richard, Jerry Walters, Mark Bradley, and KM Kockelman. 2014. \emph{Estimating Bicycling and Walking for Planning and Project Development}. Nchrp National Cooperative Highway Research Program Report 770. {Washington, DC}: {Transportation Research Board of the National Academies}.
+
+\leavevmode\hypertarget{ref-larouche_built_2015}{}%
+Larouche, Richard. 2015. {``Built {Environment Features} That {Promote Cycling} in {School}-{Aged Children}.''} \emph{Current Obesity Reports} 4 (4): 494--503. \url{https://doi.org/10.1007/s13679-015-0181-8}.
 
 \leavevmode\hypertarget{ref-larsen_build_2013}{}%
-Larsen, Jacob, Zachary Patterson, and Ahmed El-Geneidy. 2013. {``Build It. {But} Where? {The} Use of Geographic Information Systems in Identifying Locations for New Cycling Infrastructure.''} \emph{International Journal of Sustainable Transportation} 7 (4): 299--317.
+Larsen, Jacob, Zachary Patterson, and Ahmed El-Geneidy. 2013. {``Build It. {But} Where? {The} Use of Geographic Information Systems in Identifying Locations for New Cycling Infrastructure.''} \emph{International Journal of Sustainable Transportation} 7 (4): 299--317. \url{http://www.tandfonline.com/doi/abs/10.1080/15568318.2011.631098}.
 
 \leavevmode\hypertarget{ref-lovelace_propensity_2017}{}%
 Lovelace, Robin, Anna Goodman, Rachel Aldred, Nikolai Berkoff, Ali Abbas, and James Woodcock. 2017. {``The {Propensity} to {Cycle Tool}: {An} Open Source Online System for Sustainable Transport Planning.''} \emph{Journal of Transport and Land Use} 10 (1). \url{https://doi.org/10.5198/jtlu.2016.862}.
 
+\leavevmode\hypertarget{ref-lovelace_open_2020}{}%
+Lovelace, Robin, John Parkin, and Tom Cohen. 2020. {``Open Access Transport Models: {A} Leverage Point in Sustainable Transport Planning.''} \emph{Transport Policy} 97 (October): 47--54. \url{https://doi.org/10.1016/j.tranpol.2020.06.015}.
+
+\leavevmode\hypertarget{ref-lovelace_methods_2020}{}%
+Lovelace, Robin, Joseph Talbot, Malcolm Morgan, and Martin Lucas-Smith. 2020. {``Methods to {Prioritise Pop}-up {Active Transport Infrastructure}.''} \emph{Transport Findings}, July, 13421. \url{https://doi.org/10.32866/001c.13421}.
+
+\leavevmode\hypertarget{ref-martinez-gil_modeling_2017}{}%
+Martinez-Gil, F., M.-F.I. Lozano, and F. Fernández. 2017. {``Modeling, Evaluation, and Scale on Artificial Pedestrians: A Literature Review.''} \emph{ACM Computing Surveys (CSUR)} 50 (5): p.72..
+
+\leavevmode\hypertarget{ref-mccormack_search_2011}{}%
+McCormack, Gavin R., and Alan Shiell. 2011. {``In Search of Causality: A Systematic Review of the Relationship Between the Built Environment and Physical Activity Among Adults.''} \emph{International Journal of Behavioral Nutrition and Physical Activity} 8 (1): 1--11.
+
+\leavevmode\hypertarget{ref-munira_use_2017}{}%
+Munira, S., and I. N. Sener. 2017. \emph{Use of the Direct-Demand Modeling in Estimating Nonmotorized Activity: {A} Meta-Analysis. {Technical} Report Prepared for the Safety Through Disruption (Safe-d)}. {TX: National University Transportation Center. Texas A\&M Transportation Institute}.
+
+\leavevmode\hypertarget{ref-pucher_walking_2010}{}%
+Pucher, John, Ralph Buehler, David R. Bassett, and Andrew L. Dannenberg. 2010. {``Walking and Cycling to Health: {A} Comparative Analysis of City, State, and International Data.''} \emph{American Journal of Public Health} 100 (10): 1986--92. \url{https://doi.org/10.2105/AJPH.2009.189324}.
+
 \leavevmode\hypertarget{ref-raffler_cycling_2019}{}%
 Raffler, Clemens, Tadej Brezina, and Günter Emberger. 2019. {``Cycling Investment Expedience: {Energy} Expenditure Based {Cost}-{Path Analysis} of National Census Bicycle Commuting Data.''} \emph{Transportation Research Part A: Policy and Practice} 121 (March): 360--73. \url{https://doi.org/10.1016/j.tra.2019.01.019}.
+
+\leavevmode\hypertarget{ref-turner_synthesis_2017}{}%
+Turner, S. 2017. \emph{Synthesis of Methods for Estimating Pedestrian and Bicyclist Exposure to Risk at Area Wide Levels and on Specific Transportation Facilities}. {Washington, DC}: {Federal Highway Administration. Office of Safety}.
+
+\leavevmode\hypertarget{ref-uttley_cycling_2016}{}%
+Uttley, J., and R. Lovelace. 2016. {``Cycling Promotion Schemes and Long-Term Behavioural Change: {A} Case Study from the {University} of {Sheffield}.''} \emph{Case Studies on Transport Policy} 4 (2). \url{https://doi.org/10.1016/j.cstp.2016.01.001}.
+
+\leavevmode\hypertarget{ref-welshgovernment_active_2020}{}%
+Welsh Government. 2020. {``Active {Travel Guidance}.''} {Welsh Government}. \url{https://gov.wales/sites/default/files/consultations/2020-02/active-travel-guidance_1.pdf}.
 
 \leavevmode\hypertarget{ref-zhang_prioritizing_2014}{}%
 Zhang, Dapeng, David Jose Ahouagi Vaz Magalhaes, and Xiaokun (Cara) Wang. 2014. {``Prioritizing Bicycle Paths in {Belo Horizonte City}, {Brazil}: {Analysis} Based on User Preferences and Willingness Considering Individual Heterogeneity.''} \emph{Transportation Research Part A: Policy and Practice} 67: 268--78. \url{https://doi.org/10.1016/j.tra.2014.07.010}.
