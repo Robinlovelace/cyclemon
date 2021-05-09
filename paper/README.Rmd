@@ -428,9 +428,9 @@ Formal crossings are inserted wherever indicated by the network data, and inform
 A route choice study in the town of Hereford (conveniently under 30km from our own study area, but taken to be representative of UK regional towns) @anciaes_comprehensive_2020 derived a revealed preference model of "willingness to walk".
 In the current study these figures were translated to distance by assuming a walk speed of 4km/h; therefore we penalize crossings as follows (for the purpose of determining route choice, not whether or not the trip is walked):
 
-<!-- - trunk, primary or secondary road, informal crossing +340 metres -->
-<!-- - tertiary road informal crossing +191 metres -->
-<!-- - any formal crossing +60 metres (As OSM data on crossing type was not found to be reliable at the time of the study, we take the average of signalized and refuge crossing coefficients to obtain this penalty.) -->
+- trunk, primary or secondary road, informal crossing +340 metres
+- tertiary road informal crossing +191 metres
+- any formal crossing +60 metres (As OSM data on crossing type was not found to be reliable at the time of the study, we take the average of signalized and refuge crossing coefficients to obtain this penalty.)
 
 <!-- In addition to predicting walking flows on both links and crossings, we also produce layers measuring severance by showing circuity --- the extra distance that must be walked to the destination from each point, compared to straight line distance. -->
 <!-- This identifies areas which are cut off not only by major road crossings but also by physical barriers such as river, or railways, or urban layouts lacking in permeability. In the case of specific destinations, this is displayed as extra distance experienced by trips from each origin; in the case of everywhere-to-everywhere flows this is instead shown as a ratio of distances as the absolute distance must be interpreted in the context of each destination. -->
