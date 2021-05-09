@@ -87,7 +87,8 @@ cp README.docx paper.docx
 # Introduction
 
 There has been much research on mode shift since the origins of applied transport planning and modelling in the 1950s [@boyce_forecasting_2015; @aguilera_passenger_2014]. Within this broad field of research, uptake of 'active modes' (walking and cycling) has become a recent focus [@gotschi_comprehensive_2017]. A range of methods have been used to understand and model walking and cycling levels, with 'getting people cycling' being the topic of numerous papers during the 2010 [e.g. @beecham_visual_2012; @grise_if_2018; @larsen_build_2013; @raffler_cycling_2019; @zhang_prioritizing_2014].
-<!-- Todo: Me to insert refs to comparable policy interest in walking (CC) -->
+Likewise, getting people walking is worthwhile on environmental [@cervero_travel_1997; @frank_impacts_1994], community cohesion and health grounds [@handy_critical_2005; @handy_how_2002].
+Recently there has been an increase in research activity on various pedestrian models supporting uptake of walking [@aoun_bicycle_2015; @cooper_using_2019; @ewing_varying_2014; @griswold_pedestrian_2019; @kuzmyak_estimating_2014; @martinez-gil_modeling_2017; @munira_use_2017; @turner_synthesis_2017].
 
 Recent policy interest has been shown in planning active transportation networks for specific destinations, such as schools and major employers.
 Encouraging active travel is not just about network infrastructure but complete package of policies, promotion, education, incentives, facilities at destinations [@forsyth_urban_2011; @handy_promoting_2014; @mccormack_search_2011; @pucher_walking_2010].
