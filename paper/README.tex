@@ -185,7 +185,7 @@ The other key input was the boundary of the region responsible for the transport
 Data on approximate locations from which people travel regularly to a particular destination can be obtained from a number of sources, the most reliable being a list of anonymous geocoded addresses or postcodes associated with people who visit each destination regularly.
 In cases where such datasets, derived from routine databases surveys or official/commercial records, are missing, they can be simulated using a range of techniques.
 For the purposes of this paper, records of the number of people travelling from each postcode to each destination is confidential.
-To enable full reproducibility to demonstrate the methods, we simulate origins using WorldPop data (\textbf{tatem\_worldpop\_2017?}), resulting in desire lines illustrated in Figure \ref{fig:buffers} right.\footnote{
+To enable full reproducibility to demonstrate the methods, we simulate origins using WorldPop data (Tatem 2017), resulting in desire lines illustrated in Figure \ref{fig:buffers} right.\footnote{
   For accuracy we recommend using real not simulated data where available.}
 
 The other key input, for spatial network analysis, is route network data.
@@ -220,7 +220,7 @@ Feedback from planners indicated a need for a simplified set of outputs, therefo
 \hypertarget{cycling-models}{%
 \subsection{Cycling models}\label{cycling-models}}
 
-Cycling models are presented both from the PCT approach and via a SpNA approach. SpNA (spatial network analysis) is realized through use of the sDNA (spatial design network analysis) software (\textbf{cooper\_sdna\_2020?}).
+Cycling models are presented both from the PCT approach and via a SpNA approach. SpNA (spatial network analysis) is realized through use of the sDNA (spatial design network analysis) software (Crispin H. V. Cooper and Chiaradia 2020).
 It should be noted that these two approaches each define `potential' differently:
 
 -PCT Go Dutch views potential as an ideal/target scenario with no traffic, and where overall cycling levels match those in Holland
@@ -272,7 +272,7 @@ Traffic free & 0.95\\
 In the current models, sDNA cycling potential is based on the scenario where all return trips with perceived distance under 30km are cycled.
 Note that with multipliers applied this translates to much shorter single trip distances in practice, e.g.~3-4 km on a trunk road, or a road with high gradient, but distances up to 15km under ideal conditions (a level, traffic free route).
 
-For use of SD data, we employ sDNA's ability to import inter-zonal flow matrices. sDNA automatically distributes these over all links within each zone, rather than attaching them to zonal centroids, a known cause of inaccuracy in active travel models which must account for smaller scales than typical in vehicular models (\textbf{cooper\_using\_2017?}).
+For use of SD data, we employ sDNA's ability to import inter-zonal flow matrices. sDNA automatically distributes these over all links within each zone, rather than attaching them to zonal centroids, a known cause of inaccuracy in active travel models which must account for smaller scales than typical in vehicular models (Crispin H. V. Cooper 2017).
 This process is complicated by the fact that some network links form the boundary between postcode zones and hence represent origins and destinations in more than one zone.
 To resolve the issue, a one-to-many spatial join is carried out to assign zone labels to network links, i.e.~where links appear in multiple zones, they are duplicated for the purpose of analysis.
 Following assignment of flows to links, a many-to-one database table join is conducted to aggregate flows from all links thus duplicated, into a single record for each link.
@@ -283,12 +283,12 @@ Following assignment of flows to links, a many-to-one database table join is con
 sDNA walking propensity figures for specific destinations are based on the scenario that all trips under 3km are walked (at a brisk walking pace this is a journey of approximately 35 minutes, realistic for a commute to school).
 Everywhere-to-everywhere flows use instead a cutoff of 1.5km as the majority of walking trips in this more general context will be shorter than this latter figure.
 
-The barriers presented to pedestrian transport by the necessity of crossing major roads are well known, and typically referred to as severance, though this term can also refer to a number of different approaches to measuring the same phenomenon (\textbf{james\_understanding\_2005?}; \textbf{mindell\_community\_2012?}; \textbf{quigley\_literature\_2011?}).
+The barriers presented to pedestrian transport by the necessity of crossing major roads are well known, and typically referred to as severance, though this term can also refer to a number of different approaches to measuring the same phenomenon (James, Millington, and Tomlinson 2005; Mindell and Karlsen 2012; Quigley and Thornley 2011).
 We choose to model this explicitly in pedestrian route choice in order to identify locations where crossing infrastructure can be improved.
 The road network is thus pre-processed by a script which splits any road of tertiary, or higher, classification into two in order to model each side of the road separately.
 Formal crossings are inserted wherever indicated by the network data, and informal crossings are inserted at all junctions (in reality pedestrians may cross anywhere along each link, but in the absence of data describing this, we do not model this detail: the difference in walking distance caused by exact crossing position is minimal in any case).
 
-A route choice study in the town of Hereford (conveniently under 30km from our own study area, but taken to be representative of UK regional towns) (\textbf{anciaes\_comprehensive\_2020?}) derived a revealed preference model of ``willingness to walk.''
+A route choice study in the town of Hereford (conveniently under 30km from our own study area, but taken to be representative of UK regional towns) Anciaes and Jones (2020) derived a revealed preference model of ``willingness to walk.''
 In the current study these figures were translated to distance by assuming a walk speed of 4km/h; therefore we penalize crossings as follows (for the purpose of determining route choice, not whether or not the trip is walked):
 
 \begin{enumerate}
@@ -310,18 +310,41 @@ As with the cycling models, for specific-destination flows a one-to-many spatial
 \hypertarget{automation}{%
 \subsection{Automation}\label{automation}}
 
-In addition to the core modelling processes, we produced a fully automated workflow including data preparation and presentation.
-Top level workflow management is coordinated by a makefile, a declarative build system well-known to Unix users which automatically determines which outputs need to be updated at any point, thus avoiding unnecessary repetition of computationally expensive models. We prefer remake Bernstein\_2011 to interpret the makefile due to its enhanced debugging ability over standard GNU Make GNU Project - Free Software Foundation\_2020 though it is also possible to build our models using the latter. Although makefiles are widely understood, we found ourselves limited by the fact that each target can match at most one pattern; in future implementations we would consider choosing an alternative system for declarative workflow management.
+As mentioned in previous sections, there is demand for estimates of active travel potential down to the route network level in many places worldwide, and many places have access to data from which travel patterns to key destinations can be inferred.
 
-For general processing of geodata we use GeoPandas Kelsey Jordahl\_Joris Van den Bossche\_Martin Fleischmann\_James McBride\_Jacob Wasserman\_Jeffrey Gerard\_Adrian Garcia Badaracco\_Alan D. Snow\_Jeff Tratner\_Matthew Perry\_et al.\_2021, shapely Gillies\_others\_2007 and pyshp GeospatialPython.com\_2019.
+To support the production of results in other areas, to enable reproducibility, and iteration on our results we developed an automated workflow.
+We used a makefile, a build system which automatically determines which outputs need to be updated at any point, thus avoiding unnecessary repetition of computationally expensive models.
 
-Network data is automatically downloaded from OpenStreetMap based on a user-provided buffer polygon for the model area, using pyrosm Henrikki Tenkanen\_2020. At the time of writing, a further step is scripted using QGIS QGIS Development Team\_2021 to snap downloaded pedestrian crossing points to the relevant nodes due to a bug in pyrosm; however we anticipate this will be resolved in the near future, removing the need for this step. To allow greater flexibility we define our own rules (in our script osm\_download.py) for walking and cycling access to each network link; erring on the side of permissiveness in cases where OSM tagging data is ambiguous. We also define here a `cyclist deterrence' field based on the OSM highway classification tag; this is a dummy motorized annual average daily traffic flow (measured in vehicles per hour) representative of each road class as defined in Chan \& Cooper 2019 and is later used to determine the multipliers shown in table XX above.
+For data analysis and modelling we used R and Python.
+Data analysis and geographic operations required for the Propensity to Cycle Tool used the packages \texttt{sf}, \texttt{stplanr}, and \texttt{osmdata} for geographic processing, routing and OSM data access, respectively (Lovelace and Ellison 2018; Padgham et al. 2017; Pebesma 2018)
+The SNA approach, on the other hand, made use of the `Python stack,' including \texttt{GeoPandas}, \texttt{shapely} and \texttt{pyrosm} (Gillies and others 2007; Jordahl et al. 2020; Tenkanen 2020).
 
-We use Grass v.clean David Gerdes\_Radim Blazek\_Martin Landa\_2020 to break OSM polylines where they share nodes, thus converting the downloaded network to routable form complying with an endpoint connectivity rule Cooper\_2019. sDNA Prepare Cooper\_Chiaradia\_2020 is used to remove isolated systems and pseudonodes except where they are required to preserve different access, deterrence or splitting rules for subsections of links; this greatly reduces the link count and hence computational load.
-Metadata is automatically generated in json format alongside modelling outputs, based on the view-metadata-template.jsontemplate file. We define hierarchy of ``views,'' each of which contain one or more data layers, complete with descriptions of the data and recommended symbology for display. These are automatically processed to form (1) data dictionaries in HTML format, (2) a web-based interactive map of outputs, (3) QGIS project files containing all generated data displayed in the recommended manner, generated by our create-qgis-project-from-metadata.py script. The latter form a useful starting point for users of the data to produce their own custom maps.
-Finally, following feedback from our planning clients we created two summary output maps per town -- one for cycling (Figure \ref{fig:sdnaresult}, left), and one for walking (Figure \ref{fig:sdnaresult}, right).
+Network data is downloaded from OpenStreetMap based on a user-provided buffer polygon for the model area, using pyrosm (Tenkanen 2020).
+A network processing step was scripted using QGIS (QGIS Development Team 2019) to snap downloaded pedestrian crossing points to the relevant nodes.
+To allow greater flexibility we define our own rules (in the script \texttt{osm\_download.py}) for walking and cycling access to each network link.
+We erred on the side of permissiveness in cases where OSM tagging data was ambiguous.
+We also define here a `cyclist deterrence' field based on the OSM highway classification tag; this is a dummy motorized annual average daily traffic flow (measured in vehicles per hour) representative of each road class as defined in Chan and Cooper (2019), and is later used to determine the multipliers shown in table XX above.
 
-These are generated using the create-qgis-cycle-summary.py and create-qgis-walk-summary.py scripts, and include the layers shaded red in figure X.
+The function \texttt{v.clean} from the GRASS GIS software (Neteler and Mitasova 2008) to break OSM polylines where they share nodes, thus converting the downloaded network to routable form complying with an endpoint connectivity rule.
+sDNA Prepare is used to remove isolated systems and pseudonodes except where they are required to preserve different access, deterrence or splitting rules for subsections of links (Crispin H. V. Cooper and Chiaradia 2020); this greatly reduces the link count and hence computational load.
+Metadata is automatically generated in json format alongside modelling outputs, based on the \texttt{view-metadata-template.jsontemplate} file.
+We define hierarchy of ``views,'' each of which contain one or more data layers, complete with descriptions of the data and recommended symbology for display.
+These are automatically processed to form:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  data dictionaries in HTML format
+\item
+  a web-based interactive map of outputs
+\item
+  QGIS project files containing all generated data displayed in the recommended manner, generated by the \texttt{create-qgis-project-from-metadata.py} script.
+  The latter forms a useful starting point for users of the data to produce their own custom maps.
+  Finally, following feedback from pracitioners, we created two summary output maps per town, one for cycling (Figure \ref{fig:sdnaresult}, left), and one for walking (Figure \ref{fig:sdnaresult}, right).
+\end{enumerate}
+
+These figures are generated using the \texttt{create-qgis-cycle-summary.py} and \texttt{create-qgis-walk-summary.py} scripts.
 
 \begin{figure}
 
@@ -331,24 +354,6 @@ These are generated using the create-qgis-cycle-summary.py and create-qgis-walk-
 
 \caption{Cycling 'Go Dutch' scenario for Monmouth school (red) overlaid on unscaled everywhere-to-everywhere cycle flows (purple) to show the relationship of desirable routes to school (given suitable infrastructure) with the wider active travel network (left). Predicted walking flows to Monmouth school (red) overlaid on everywhere-to-everywhere flows (purple). Circles show formal road crossings; stars show informal crossings; size of crossing symbol indicates severity of road. Automated rendering thanks to QGIS, network data and background mapping © OpenStreetMap contributors.}\label{fig:sdnaresult}
 \end{figure}
-
-\hypertarget{integrated-od-and-sna-network-analysis}{%
-\section{Integrated OD and SNA network analysis}\label{integrated-od-and-sna-network-analysis}}
-
-RL + CC
-
-\hypertarget{road-network-visualisation}{%
-\subsection{Road network visualisation}\label{road-network-visualisation}}
-
-\hypertarget{findings}{%
-\section{Findings}\label{findings}}
-
-RL + CC
-
-\hypertarget{conclusions}{%
-\section{Conclusions}\label{conclusions}}
-
-RL + CC
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
@@ -361,6 +366,9 @@ Aguiléra, Anne, and Jean Grébert. 2014. {``Passenger Transport Mode Share in C
 
 \leavevmode\hypertarget{ref-ahmad_comparison_2020}{}%
 Ahmad, Sohail, Anna Goodman, Felix Creutzig, James Woodcock, and Marko Tainio. 2020. {``A Comparison of the Health and Environmental Impacts of Increasing Urban Density Against Increasing Propensity to Walk and Cycle in {Nashville}, {USA}.''} \emph{Cities \& Health} 4 (1): 55--65. \url{https://doi.org/10.1080/23748834.2019.1659667}.
+
+\leavevmode\hypertarget{ref-anciaes_comprehensive_2020}{}%
+Anciaes, Paulo, and Peter Jones. 2020. {``A Comprehensive Approach for the Appraisal of the Barrier Effect of Roads on Pedestrians.''} \emph{Transportation Research Part A: Policy and Practice} 134 (April): 227--50. \url{https://doi.org/10.1016/j.tra.2020.02.003}.
 
 \leavevmode\hypertarget{ref-aoun_bicycle_2015}{}%
 Aoun, A. 2015. \emph{Bicycle and Pedestrian Forecasting Tools: {State} of the Practice}. {NC}: {Chapel Hill}.
@@ -380,8 +388,14 @@ Chan, Eric Yin Cheung, and Crispin HV Cooper. 2019. {``Using Road Class as a Rep
 \leavevmode\hypertarget{ref-cooper_using_2019}{}%
 Cooper, C. H. V., Ian Harvey, Scott Orford, and Alain J. F. Chiaradia. 2019. {``Using Multiple Hybrid Spatial Design Network Analysis to Predict Longitudinal Effect of a Major City Centre Redevelopment on Pedestrian Flows.''} \emph{Transportation}, December. \url{https://doi.org/10.1007/s11116-019-10072-0}.
 
+\leavevmode\hypertarget{ref-cooper_using_2017}{}%
+Cooper, Crispin H. V. 2017. {``Using Spatial Network Analysis to Model Pedal Cycle Flows, Risk and Mode Choice.''} \emph{Journal of Transport Geography} 58 (January): 157--65. \url{https://doi.org/10.1016/j.jtrangeo.2016.12.003}.
+
 \leavevmode\hypertarget{ref-cooper_predictive_2018}{}%
-Cooper, Crispin H. V. 2018. {``Predictive Spatial Network Analysis for High-Resolution Transport Modeling, Applied to Cyclist Flows, Mode Choice, and Targeting Investment.''} \emph{International Journal of Sustainable Transportation} 0 (0): 1--11. \url{https://doi.org/10.1080/15568318.2018.1432730}.
+---------. 2018. {``Predictive Spatial Network Analysis for High-Resolution Transport Modeling, Applied to Cyclist Flows, Mode Choice, and Targeting Investment.''} \emph{International Journal of Sustainable Transportation} 0 (0): 1--11. \url{https://doi.org/10.1080/15568318.2018.1432730}.
+
+\leavevmode\hypertarget{ref-cooper_sdna_2020}{}%
+Cooper, Crispin H. V., and Alain J. F. Chiaradia. 2020. {``{sDNA}: 3-d Spatial Network Analysis for {GIS}, {CAD}, {Command Line} \& {Python}.''} \emph{SoftwareX} 12 (July): 100525. \url{https://doi.org/10.1016/j.softx.2020.100525}.
 
 \leavevmode\hypertarget{ref-cooper_cycletopia_2017}{}%
 Cooper, Jai, and Terry Leahy. 2017. {``Cycletopia in the Sticks: Bicycle Advocacy Beyond the City Limits.''} \emph{Mobilities}, January, 1--17. \url{https://doi.org/10.1080/17450101.2016.1254898}.
@@ -394,6 +408,9 @@ Forsyth, Ann, and Kevin Krizek. 2011. {``Urban Design: Is There a Distinctive Vi
 
 \leavevmode\hypertarget{ref-frank_impacts_1994}{}%
 Frank, Lawrence D., and Gary Pivo. 1994. {``Impacts of Mixed Use and Density on Utilization of Three Modes of Travel: {Single}-Occupant Vehicle, Transit, Walking.''} \emph{Transportation Research Record}, no. 1466. \url{https://trid.trb.org/view/425321}.
+
+\leavevmode\hypertarget{ref-gillies_shapely_2007}{}%
+Gillies, Sean, and others. 2007. \emph{Shapely: Manipulation and Analysis of Geometric Objects}. {toblerity.org}. \url{https://github.com/Toblerity/Shapely}.
 
 \leavevmode\hypertarget{ref-goodman_scenarios_2019}{}%
 Goodman, Anna, Ilan Fridman Rojas, James Woodcock, Rachel Aldred, Nikolai Berkoff, Malcolm Morgan, Ali Abbas, and Robin Lovelace. 2019. {``Scenarios of Cycling to School in {England}, and Associated Health and Carbon Impacts: {Application} of the {`{Propensity} to {Cycle Tool}'}.''} \emph{Journal of Transport \& Health} 12 (March): 263--78. \url{https://doi.org/10.1016/j.jth.2019.01.008}.
@@ -419,6 +436,12 @@ Handy, Susan, Bert van Wee, and Maarten Kroesen. 2014. {``Promoting {Cycling} fo
 \leavevmode\hypertarget{ref-hollander_transport_2016}{}%
 Hollander, Yaron. 2016. \emph{Transport {Modelling} for a {Complete Beginner}}. {CTthink!}
 
+\leavevmode\hypertarget{ref-james_understanding_2005}{}%
+James, Emma, Anna Millington, and Paul Tomlinson. 2005. \emph{Understanding Community Severance Part {I} - Views of Practitioners and Communities}. {UK}: {Department for Transport}. \url{http://webarchive.nationalarchives.gov.uk/+/http:/www.dft.gov.uk/adobepdf/163944/Understanding_Community_Sev1.pdf}.
+
+\leavevmode\hypertarget{ref-jordahl_geopandas_2020}{}%
+Jordahl, K., Wasserman J. Van den Bossche Joris, J. McBride, M. Fleischmann, J. Gerard, J. Tratner, M. Perry, C. Farmer, G. A. Hjelle, and S. Gillies. 2020. \emph{Geopandas/Geopandas: {V0}. 7.0. {Zenodo}}.
+
 \leavevmode\hypertarget{ref-kuzmyak_estimating_2014}{}%
 Kuzmyak, J. Richard, Jerry Walters, Mark Bradley, and KM Kockelman. 2014. \emph{Estimating Bicycling and Walking for Planning and Project Development}. Nchrp National Cooperative Highway Research Program Report 770. {Washington, DC}: {Transportation Research Board of the National Academies}.
 
@@ -427,6 +450,9 @@ Larouche, Richard. 2015. {``Built {Environment Features} That {Promote Cycling} 
 
 \leavevmode\hypertarget{ref-larsen_build_2013}{}%
 Larsen, Jacob, Zachary Patterson, and Ahmed El-Geneidy. 2013. {``Build It. {But} Where? {The} Use of Geographic Information Systems in Identifying Locations for New Cycling Infrastructure.''} \emph{International Journal of Sustainable Transportation} 7 (4): 299--317. \url{http://www.tandfonline.com/doi/abs/10.1080/15568318.2011.631098}.
+
+\leavevmode\hypertarget{ref-lovelace_stplanr_2018}{}%
+Lovelace, Robin, and Richard Ellison. 2018. {``Stplanr: {A Package} for {Transport Planning}.''} \emph{The R Journal} 10 (2): 7--23. \url{https://doi.org/10.32614/RJ-2018-053}.
 
 \leavevmode\hypertarget{ref-lovelace_propensity_2017}{}%
 Lovelace, Robin, Anna Goodman, Rachel Aldred, Nikolai Berkoff, Ali Abbas, and James Woodcock. 2017. {``The {Propensity} to {Cycle Tool}: {An} Open Source Online System for Sustainable Transport Planning.''} \emph{Journal of Transport and Land Use} 10 (1). \url{https://doi.org/10.5198/jtlu.2016.862}.
@@ -443,14 +469,38 @@ Martinez-Gil, F., M.-F.I. Lozano, and F. Fernández. 2017. {``Modeling, Evaluati
 \leavevmode\hypertarget{ref-mccormack_search_2011}{}%
 McCormack, Gavin R., and Alan Shiell. 2011. {``In Search of Causality: A Systematic Review of the Relationship Between the Built Environment and Physical Activity Among Adults.''} \emph{International Journal of Behavioral Nutrition and Physical Activity} 8 (1): 1--11.
 
+\leavevmode\hypertarget{ref-mindell_community_2012}{}%
+Mindell, Jennifer S, and Saffron Karlsen. 2012. {``Community Severance and Health: What Do We Actually Know?''} \emph{Journal of Urban Health: Bulletin of the New York Academy of Medicine} 89 (2): 232--46. \url{https://doi.org/10.1007/s11524-011-9637-7}.
+
 \leavevmode\hypertarget{ref-munira_use_2017}{}%
 Munira, S., and I. N. Sener. 2017. \emph{Use of the Direct-Demand Modeling in Estimating Nonmotorized Activity: {A} Meta-Analysis. {Technical} Report Prepared for the Safety Through Disruption (Safe-d)}. {TX: National University Transportation Center. Texas A\&M Transportation Institute}.
+
+\leavevmode\hypertarget{ref-neteler_open_2008}{}%
+Neteler, Markus, and Helena Mitasova. 2008. \emph{Open Source {GIS}: A {GRASS GIS} Approach}. 3. ed. {New York, NY}: {Springer}.
+
+\leavevmode\hypertarget{ref-padgham_osmdata_2017}{}%
+Padgham, Mark, Robin Lovelace, Maëlle Salmon, and Bob Rudis. 2017. {``Osmdata.''} \emph{The Journal of Open Source Software} 2 (14). \url{https://doi.org/10.21105/joss.00305}.
+
+\leavevmode\hypertarget{ref-pebesma_simple_2018}{}%
+Pebesma, Edzer. 2018. {``Simple {Features} for {R}: {Standardized Support} for {Spatial Vector Data}.''} \emph{The R Journal}. \url{https://journal.r-project.org/archive/2018/RJ-2018-009/index.html}.
 
 \leavevmode\hypertarget{ref-pucher_walking_2010}{}%
 Pucher, John, Ralph Buehler, David R. Bassett, and Andrew L. Dannenberg. 2010. {``Walking and Cycling to Health: {A} Comparative Analysis of City, State, and International Data.''} \emph{American Journal of Public Health} 100 (10): 1986--92. \url{https://doi.org/10.2105/AJPH.2009.189324}.
 
+\leavevmode\hypertarget{ref-qgisdevelopmentteam_qgis_2019}{}%
+QGIS Development Team. 2019. \emph{{QGIS Geographic Information System}}. {Open Source Geospatial Foundation}. \url{http://qgis.osgeo.org}.
+
+\leavevmode\hypertarget{ref-quigley_literature_2011}{}%
+Quigley, R, and L Thornley. 2011. \emph{Literature Review on Community Cohesion and Community Severance: {Definitions} and Indicators for Transport Planning and Monitoring}. {Wellington}: {Quigley and Watts Ltd}. \url{http://www.nzta.govt.nz/resources/community-cohesion-and-community-severance/docs/community-cohesion-and-community-severance.pdf}.
+
 \leavevmode\hypertarget{ref-raffler_cycling_2019}{}%
 Raffler, Clemens, Tadej Brezina, and Günter Emberger. 2019. {``Cycling Investment Expedience: {Energy} Expenditure Based {Cost}-{Path Analysis} of National Census Bicycle Commuting Data.''} \emph{Transportation Research Part A: Policy and Practice} 121 (March): 360--73. \url{https://doi.org/10.1016/j.tra.2019.01.019}.
+
+\leavevmode\hypertarget{ref-tatem_worldpop_2017}{}%
+Tatem, Andrew J. 2017. {``{WorldPop}, Open Data for Spatial Demography.''} \emph{Scientific Data} 4 (January): 170004. \url{https://doi.org/10.1038/sdata.2017.4}.
+
+\leavevmode\hypertarget{ref-tenkanen_pyrosm_2020}{}%
+Tenkanen, Henrikki. 2020. \emph{Pyrosm} (version v0.6.0 (Nov 18, 2020)). \url{https://pyrosm.readthedocs.io/en/latest/}.
 
 \leavevmode\hypertarget{ref-turner_synthesis_2017}{}%
 Turner, S. 2017. \emph{Synthesis of Methods for Estimating Pedestrian and Bicyclist Exposure to Risk at Area Wide Levels and on Specific Transportation Facilities}. {Washington, DC}: {Federal Highway Administration. Office of Safety}.
