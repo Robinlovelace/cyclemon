@@ -34,11 +34,12 @@ promotion, education, incentives, facilities at destinations (Forsyth
 and Krizek 2011; S. Handy, van Wee, and Kroesen 2014; McCormack and
 Shiell 2011; Pucher et al. 2010). Within this context the
 specific-destination approach allows for more focused management of the
-‘complete package’ as relevant to that destination. However as modellers
-we are also keen to ensure that specific-destination approaches do not
-neglect integration with the wider network (Forsyth and Krizek 2011). It
-is difficult, in planning practice, to create calibrated models of
-walking and cycling behaviour, for the following reasons:
+‘complete package’ as relevant to that destination. However, modelling
+active travel potential to specific destinations should not neglect
+consideration of, and the potential for new infrastructure to
+integration with, wider walking and cycling networks (Forsyth and Krizek
+2011). It is difficult, in planning practice, to create calibrated
+models of walking and cycling behaviour, for the following reasons:
 
 1.  Models of active modes of transportation are underdeveloped compared
     to vehicular models
@@ -83,26 +84,74 @@ potential in other contexts, including cycling uptake in US cities with
 low cycling levels (Ahmad et al. 2020) and the potential for mode shift
 to cycling for the ‘school commute’ in across all state schools in
 England, with publicly available visualisations down to the street level
-(Goodman et al. 2019).
+(Goodman et al. 2019). The PCT has been used by the majority of highway
+authorities to inform strategic network prioritisation across England
+(Lovelace, Parkin, and Cohen 2020).[1] The Rapid Cycleway Prioritisation
+Tool, which was developed as an extension to the PCT during
+COVID-19-induced lockdown and subsequent reduction in usage of public
+transport and peak hour motor traffic to help local authorities
+prioritise road space reallocation schemes (Lovelace et al. 2020), has
+also been widely used.[2] The PCT approach is not without limitations:
+it omits walking and cannot be used to assess the impacts of existing
+and potential future infrastructure interventions on mode choice.
+Furthermore, detailed origin-destination data is only available from the
+10-yearly census, making the data on which the PCT is based increasingly
+out-of-date.
 
 <!-- Here I will introduce spatial network analysis (Chan & Cooper, 2019; Cooper, 2017, 2018). -->
 
 An alternative approach is to use the topology of the transport network
 as the basis of modelling using spatial network analysis (SNA)
 techniques (Chan and Cooper 2019; Crispin H. V. Cooper 2018; J. Cooper
-and Leahy 2017). Within the context of the above challenges, this paper
-introduces an automated toolchain to assist in production of planning
-aids for active transportation focused on specific destinations but also
-highlighting integration with the wider network. The approach of
-automation keeps the expense of deployment realistic for active
-transportation budgets. Given the challenges of reliable prediction of
-walking and cycling mode choice and flows, the aim at this stage is not
-to produce calibrated predictions, but to visualize likely walking and
-cycling behaviours within settlements in a manner useful to the planning
-process. We do so using reproducible methods and open access input data
-to encourage others to employ the techniques in other areas to support
-evidence-based interventions to enable cycling uptake and as a basis for
-future research and development.
+and Leahy 2017). Historically, SNA analysis has been done without
+origin-destination data, something that can be considered a strength —
+because data requirements are reduced — yet also a weakness:
+origin-destination data can provide useful information about travel
+behaviour that networks alone do not reveal.
+
+Within the context of the above challenges, this paper introduces an
+automated toolchain to assist in production of planning aids for active
+transportation focused on specific destinations but also highlighting
+integration with the wider network. Instead of requiring comprehensive
+origin-destination data, the approach can leverage single-destination
+data which is generally available from organizations keen to support
+active travel planning efforts and more up-to-date then Census data. The
+approach was originally developed for Monmouthshire County Council who,
+like most local authorities across the UK and many local government
+organisations worldwide, hold data on journeys to public schools and
+leisure centres. Specific-destination models for cycling were developed
+using the PCT approach, while specific-destination models for walking
+were incorporated into the SNA approach. In addition to showing
+specific-destination models, however, network-only SNA models are also
+employed to highlight integration of specific-destination routes with
+the wider active travel network, the importance of which is highlighted
+by Forsyth and Krizek (2011).
+
+Considering the challenges associated with accurate prediction and
+monitoring of walking and cycling mode choice and flows, the aim was not
+to produce calibrated predictions. Instead, the aim was to estimate and
+visualize potential walking and cycling behaviours to support the
+planning process. The approach maintains simplicity by deliberately
+omitting recalibration (the process of updating model results following
+monitoring): instead it re-uses coefficients describing cycling and
+walking behaviour calculated in previous research.
+
+<!-- Comment: Some of this could be added to the conclusions (rl) -->
+
+As discussed in the final section, the simplicity of the
+single-destination has several advantages: it keeps modelling costs low,
+enables transparency of modelling assumptions, and gives users of the
+outputs the information they need to determine whether unexpected
+outputs are (a) due to unmet modelling assumptions, or (b) indicative of
+valid areas of concern in future network plans. That said, in most
+cases, modelling outputs showed strong alignment with networks
+previously planned on the basis of local knowledge.
+
+The approach of automation keeps the expense of deployment realistic for
+active transportation budgets. We do so with reproducible methods and
+open access input data to encourage others to employ the techniques in
+other areas to support evidence-based interventions to enable cycling
+uptake and as a basis for future research and development.
 
 <!-- Should we mention the aim of the paper? Previously it was: (RL) -->
 <!-- The aim of this paper is to demonstrate the relative merits of the 'origin-destination approach' implemented in the PCT and the 'spatial network' approach implemented in the open source sDNA software [@chan_using_2019]. -->
@@ -439,6 +488,24 @@ Transport and Land Use* 10 (1). <https://doi.org/10.5198/jtlu.2016.862>.
 
 </div>
 
+<div id="ref-lovelace_open_2020" class="csl-entry">
+
+Lovelace, Robin, John Parkin, and Tom Cohen. 2020. “Open Access
+Transport Models: A Leverage Point in Sustainable Transport Planning.”
+*Transport Policy* 97 (October): 47–54.
+<https://doi.org/10.1016/j.tranpol.2020.06.015>.
+
+</div>
+
+<div id="ref-lovelace_methods_2020" class="csl-entry">
+
+Lovelace, Robin, Joseph Talbot, Malcolm Morgan, and Martin Lucas-Smith.
+2020. “Methods to Prioritise Pop-up Active Transport Infrastructure.”
+*Transport Findings*, July, 13421.
+<https://doi.org/10.32866/001c.13421>.
+
+</div>
+
 <div id="ref-martinez-gil_modeling_2017" class="csl-entry">
 
 Martinez-Gil, F., M.-F.I. Lozano, and F. Fernández. 2017. “Modeling,
@@ -520,3 +587,19 @@ Practice* 67: 268–78. <https://doi.org/10.1016/j.tra.2014.07.010>.
 </div>
 
 </div>
+
+[1]  See the ‘PCT Impact’ report (Nov 2020) and many case studies of the
+use of the PCT in practice at <https://www.pct.bike/manual.html>. An
+indication of the level of use of the PCT by local, regional and
+national government can be obtained by searching for “propensity to
+cycle tool” on web pages hosted on the .gov.uk on services such as
+[Google](https://www.google.com/search?channel=fs&q=site%3A.gov.uk+%22propensity+to+cycle+tool%22).
+At the time of writing the search yielded 814 results, many of which
+document how the PCT has been used to support Local Cycling and Walking
+Investment Plans.
+
+[2]  A Department for Transport survey of local authority bids to the
+Active Travel Fund indicated that 75% of non-London local authorities
+used the PCT or Rapid cycleway prioritisation tool to inform and
+prioritise their proposed schemes (Department for Transport, personal
+communication).
