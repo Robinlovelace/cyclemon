@@ -17,22 +17,28 @@ and model walking and cycling levels, with ‘getting people cycling’
 being the topic of numerous papers during the 2010 (e.g. Beecham, Wood,
 and Bowerman 2012; Grisé and El-Geneidy 2018; Larsen, Patterson, and
 El-Geneidy 2013; Raffler, Brezina, and Emberger 2019; Zhang, Magalhaes,
-and Wang 2014).
-<!-- Todo: Me to insert refs to comparable policy interest in walking (CC) -->
+and Wang 2014). Likewise, getting people walking is worthwhile on
+environmental (Cervero and Kockelman 1997; Frank and Pivo 1994),
+community cohesion and health grounds (S. L. Handy 2005; S. L. Handy et
+al. 2002). Recently there has been an increase in research activity on
+various pedestrian models supporting uptake of walking (Aoun 2015; C. H.
+V. Cooper et al. 2019; Ewing et al. 2014; Griswold et al. 2019; Kuzmyak
+et al. 2014; Martinez-Gil, Lozano, and Fernández 2017; Munira and Sener
+2017; Turner 2017).
 
 Recent policy interest has been shown in planning active transportation
-networks for specific destinations, such as schools and major employers.
-Encouraging active travel is not just about network infrastructure but
-complete package of policies, promotion, education, incentives,
-facilities at destinations (Forsyth and Krizek 2011; Handy, van Wee, and
-Kroesen 2014; McCormack and Shiell 2011; Pucher et al. 2010). Within
-this context the specific-destination approach allows for more focused
-management of the ‘complete package’ as relevant to that destination.
-However as modellers we are also keen to ensure that
-specific-destination approaches do not neglect integration with the
-wider network (Forsyth and Krizek 2011). It is difficult, in planning
-practice, to create calibrated models of walking and cycling behaviour,
-for the following reasons:
+networks for specific destinations, such as schools and major employers
+(Larouche 2015; Uttley and Lovelace 2016). Encouraging active travel is
+not just about network infrastructure but complete package of policies,
+promotion, education, incentives, facilities at destinations (Forsyth
+and Krizek 2011; S. Handy, van Wee, and Kroesen 2014; McCormack and
+Shiell 2011; Pucher et al. 2010). Within this context the
+specific-destination approach allows for more focused management of the
+‘complete package’ as relevant to that destination. However as modellers
+we are also keen to ensure that specific-destination approaches do not
+neglect integration with the wider network (Forsyth and Krizek 2011). It
+is difficult, in planning practice, to create calibrated models of
+walking and cycling behaviour, for the following reasons:
 
 1.  Models of active modes of transportation are underdeveloped compared
     to vehicular models
@@ -83,8 +89,8 @@ England, with publicly available visualisations down to the street level
 
 An alternative approach is to use the topology of the transport network
 as the basis of modelling using spatial network analysis (SNA)
-techniques (Chan and Cooper 2019; C. H. V. Cooper 2018; J. Cooper and
-Leahy 2017). Within the context of the above challenges, this paper
+techniques (Chan and Cooper 2019; Crispin H. V. Cooper 2018; J. Cooper
+and Leahy 2017). Within the context of the above challenges, this paper
 introduces an automated toolchain to assist in production of planning
 aids for active transportation focused on specific destinations but also
 highlighting integration with the wider network. The approach of
@@ -229,6 +235,13 @@ in Nashville, USA.” *Cities & Health* 4 (1): 55–65.
 
 </div>
 
+<div id="ref-aoun_bicycle_2015" class="csl-entry">
+
+Aoun, A. 2015. *Bicycle and Pedestrian Forecasting Tools: State of the
+Practice*. NC: Chapel Hill.
+
+</div>
+
 <div id="ref-beecham_visual_2012" class="csl-entry">
 
 Beecham, Roger, Jo Wood, and Audrey Bowerman. 2012. “A Visual Analytics
@@ -244,11 +257,30 @@ Travel: Past, Present and Future*. Edward Elgar Publishing.
 
 </div>
 
+<div id="ref-cervero_travel_1997" class="csl-entry">
+
+Cervero, Robert, and Kara Kockelman. 1997. “Travel Demand and the 3Ds:
+Density, Diversity, and Design.” *Transportation Research Part D:
+Transport and Environment* 2 (3): 199–219.
+<https://doi.org/10.1016/S1361-9209(97)00009-6>.
+
+</div>
+
 <div id="ref-chan_using_2019" class="csl-entry">
 
 Chan, Eric Yin Cheung, and Crispin HV Cooper. 2019. “Using Road Class as
 a Replacement for Predicted Motorized Traffic Flow in Spatial Network
 Models of Cycling.” *Scientific Reports* 9 (1): 1–12.
+
+</div>
+
+<div id="ref-cooper_using_2019" class="csl-entry">
+
+Cooper, C. H. V., Ian Harvey, Scott Orford, and Alain J. F. Chiaradia.
+2019. “Using Multiple Hybrid Spatial Design Network Analysis to Predict
+Longitudinal Effect of a Major City Centre Redevelopment on Pedestrian
+Flows.” *Transportation*, December.
+<https://doi.org/10.1007/s11116-019-10072-0>.
 
 </div>
 
@@ -270,11 +302,30 @@ Advocacy Beyond the City Limits.” *Mobilities*, January, 1–17.
 
 </div>
 
+<div id="ref-ewing_varying_2014" class="csl-entry">
+
+Ewing, Reid, Guang Tian, J. P. Goates, Ming Zhang, Michael J. Greenwald,
+Alex Joyce, John Kircher, and William Greene. 2014. “Varying Influences
+of the Built Environment on Household Travel in 15 Diverse Regions of
+the United States.” *Urban Studies* 52 (13): 2330–48.
+<https://doi.org/10.1177/0042098014560991>.
+
+</div>
+
 <div id="ref-forsyth_urban_2011" class="csl-entry">
 
 Forsyth, Ann, and Kevin Krizek. 2011. “Urban Design: Is There a
 Distinctive View from the Bicycle?” *Journal of Urban Design* 16 (4):
 531–49.
+
+</div>
+
+<div id="ref-frank_impacts_1994" class="csl-entry">
+
+Frank, Lawrence D., and Gary Pivo. 1994. “Impacts of Mixed Use and
+Density on Utilization of Three Modes of Travel: Single-Occupant
+Vehicle, Transit, Walking.” *Transportation Research Record*, no. 1466.
+<https://trid.trb.org/view/425321>.
 
 </div>
 
@@ -308,6 +359,34 @@ Lanes in Quebec City, Canada.” *Journal of Transport and Land Use* 11
 
 </div>
 
+<div id="ref-griswold_pedestrian_2019" class="csl-entry">
+
+Griswold, Julia B., Aditya Medury, Robert J. Schneider, Dave Amos, Ang
+Li, and Offer Grembek. 2019. “A Pedestrian Exposure Model for the
+California State Highway System.” *Transportation Research Record*,
+April, 0361198119837235. <https://doi.org/10.1177/0361198119837235>.
+
+</div>
+
+<div id="ref-handy_critical_2005" class="csl-entry">
+
+Handy, Susan L. 2005. *Critical Assessment of the Literature on the
+Relationships Among Transportation, Land Use, and Physical Activity*.
+Transportation Research Board and the Institute of Medicine Committee on
+Physical Activity, Health, Transportation, and Land Use 282. Resource
+paper for TRB Special Report.
+
+</div>
+
+<div id="ref-handy_how_2002" class="csl-entry">
+
+Handy, Susan L., Marlon G. Boarnet, Reid Ewing, and Richard E.
+Killingsworth. 2002. “How the Built Environment Affects Physical
+Activity: Views from Urban Planning.” *American Journal of Preventive
+Medicine* 23 (August): 64–73.
+
+</div>
+
 <div id="ref-handy_promoting_2014" class="csl-entry">
 
 Handy, Susan, Bert van Wee, and Maarten Kroesen. 2014. “Promoting
@@ -320,6 +399,24 @@ Reviews* 34 (1): 4–24. <https://doi.org/10.1080/01441647.2013.860204>.
 
 Hollander, Yaron. 2016. *Transport Modelling for a Complete Beginner*.
 CTthink!
+
+</div>
+
+<div id="ref-kuzmyak_estimating_2014" class="csl-entry">
+
+Kuzmyak, J. Richard, Jerry Walters, Mark Bradley, and KM Kockelman.
+2014. *Estimating Bicycling and Walking for Planning and Project
+Development*. Nchrp National Cooperative Highway Research Program Report
+770. Washington, DC: Transportation Research Board of the National
+Academies.
+
+</div>
+
+<div id="ref-larouche_built_2015" class="csl-entry">
+
+Larouche, Richard. 2015. “Built Environment Features That Promote
+Cycling in School-Aged Children.” *Current Obesity Reports* 4 (4):
+494–503. <https://doi.org/10.1007/s13679-015-0181-8>.
 
 </div>
 
@@ -342,12 +439,29 @@ Transport and Land Use* 10 (1). <https://doi.org/10.5198/jtlu.2016.862>.
 
 </div>
 
+<div id="ref-martinez-gil_modeling_2017" class="csl-entry">
+
+Martinez-Gil, F., M.-F.I. Lozano, and F. Fernández. 2017. “Modeling,
+Evaluation, and Scale on Artificial Pedestrians: A Literature Review.”
+*ACM Computing Surveys (CSUR)* 50 (5): p.72..
+
+</div>
+
 <div id="ref-mccormack_search_2011" class="csl-entry">
 
 McCormack, Gavin R., and Alan Shiell. 2011. “In Search of Causality: A
 Systematic Review of the Relationship Between the Built Environment and
 Physical Activity Among Adults.” *International Journal of Behavioral
 Nutrition and Physical Activity* 8 (1): 1–11.
+
+</div>
+
+<div id="ref-munira_use_2017" class="csl-entry">
+
+Munira, S., and I. N. Sener. 2017. *Use of the Direct-Demand Modeling in
+Estimating Nonmotorized Activity: A Meta-Analysis. Technical Report
+Prepared for the Safety Through Disruption (Safe-d)*. TX: National
+University Transportation Center. Texas A&M Transportation Institute.
 
 </div>
 
@@ -367,6 +481,24 @@ Investment Expedience: Energy Expenditure Based Cost-Path Analysis of
 National Census Bicycle Commuting Data.” *Transportation Research Part
 A: Policy and Practice* 121 (March): 360–73.
 <https://doi.org/10.1016/j.tra.2019.01.019>.
+
+</div>
+
+<div id="ref-turner_synthesis_2017" class="csl-entry">
+
+Turner, S. 2017. *Synthesis of Methods for Estimating Pedestrian and
+Bicyclist Exposure to Risk at Area Wide Levels and on Specific
+Transportation Facilities*. Washington, DC: Federal Highway
+Administration. Office of Safety.
+
+</div>
+
+<div id="ref-uttley_cycling_2016" class="csl-entry">
+
+Uttley, J., and R. Lovelace. 2016. “Cycling Promotion Schemes and
+Long-Term Behavioural Change: A Case Study from the University of
+Sheffield.” *Case Studies on Transport Policy* 4 (2).
+<https://doi.org/10.1016/j.cstp.2016.01.001>.
 
 </div>
 
