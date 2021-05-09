@@ -291,6 +291,47 @@ Formal crossings are inserted wherever indicated by the network data, and inform
 A route choice study in the town of Hereford (conveniently under 30km from our own study area, but taken to be representative of UK regional towns) (\textbf{anciaes\_comprehensive\_2020?}) derived a revealed preference model of ``willingness to walk.''
 In the current study these figures were translated to distance by assuming a walk speed of 4km/h; therefore we penalize crossings as follows (for the purpose of determining route choice, not whether or not the trip is walked):
 
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  trunk, primary or secondary road, informal crossing: add 340 metres
+\item
+  tertiary road informal crossing: add 191 metres
+\item
+  any formal crossing: add 60 metres (As OSM data on crossing type was not found to be reliable at the time of the study, we take the average of signalized and refuge crossing coefficients to obtain this penalty.)
+\end{enumerate}
+
+In addition to predicting walking flows on both links and crossings, we also produce layers measuring severance by showing circuity --- the extra distance that must be walked to the destination from each point, compared to straight line distance.
+This identifies areas which are cut off not only by major road crossings but also by physical barriers such as river, or railways, or urban layouts lacking in permeability. In the case of specific destinations, this is displayed as extra distance experienced by trips from each origin; in the case of everywhere-to-everywhere flows this is instead shown as a ratio of distances as the absolute distance must be interpreted in the context of each destination.
+
+As with the cycling models, for specific-destination flows a one-to-many spatial join is carried out to assign zone labels to network links, and following the main analysis, a many-to-one table join to aggregate flows to a single record per link.
+
+\hypertarget{automation}{%
+\subsection{Automation}\label{automation}}
+
+In addition to the core modelling processes, we produced a fully automated workflow including data preparation and presentation.
+Top level workflow management is coordinated by a makefile, a declarative build system well-known to Unix users which automatically determines which outputs need to be updated at any point, thus avoiding unnecessary repetition of computationally expensive models. We prefer remake Bernstein\_2011 to interpret the makefile due to its enhanced debugging ability over standard GNU Make GNU Project - Free Software Foundation\_2020 though it is also possible to build our models using the latter. Although makefiles are widely understood, we found ourselves limited by the fact that each target can match at most one pattern; in future implementations we would consider choosing an alternative system for declarative workflow management.
+
+For general processing of geodata we use GeoPandas Kelsey Jordahl\_Joris Van den Bossche\_Martin Fleischmann\_James McBride\_Jacob Wasserman\_Jeffrey Gerard\_Adrian Garcia Badaracco\_Alan D. Snow\_Jeff Tratner\_Matthew Perry\_et al.\_2021, shapely Gillies\_others\_2007 and pyshp GeospatialPython.com\_2019.
+
+Network data is automatically downloaded from OpenStreetMap based on a user-provided buffer polygon for the model area, using pyrosm Henrikki Tenkanen\_2020. At the time of writing, a further step is scripted using QGIS QGIS Development Team\_2021 to snap downloaded pedestrian crossing points to the relevant nodes due to a bug in pyrosm; however we anticipate this will be resolved in the near future, removing the need for this step. To allow greater flexibility we define our own rules (in our script osm\_download.py) for walking and cycling access to each network link; erring on the side of permissiveness in cases where OSM tagging data is ambiguous. We also define here a `cyclist deterrence' field based on the OSM highway classification tag; this is a dummy motorized annual average daily traffic flow (measured in vehicles per hour) representative of each road class as defined in Chan \& Cooper 2019 and is later used to determine the multipliers shown in table XX above.
+
+We use Grass v.clean David Gerdes\_Radim Blazek\_Martin Landa\_2020 to break OSM polylines where they share nodes, thus converting the downloaded network to routable form complying with an endpoint connectivity rule Cooper\_2019. sDNA Prepare Cooper\_Chiaradia\_2020 is used to remove isolated systems and pseudonodes except where they are required to preserve different access, deterrence or splitting rules for subsections of links; this greatly reduces the link count and hence computational load.
+Metadata is automatically generated in json format alongside modelling outputs, based on the view-metadata-template.jsontemplate file. We define hierarchy of ``views,'' each of which contain one or more data layers, complete with descriptions of the data and recommended symbology for display. These are automatically processed to form (1) data dictionaries in HTML format, (2) a web-based interactive map of outputs, (3) QGIS project files containing all generated data displayed in the recommended manner, generated by our create-qgis-project-from-metadata.py script. The latter form a useful starting point for users of the data to produce their own custom maps.
+Finally, following feedback from our planning clients we created two summary output maps per town -- one for cycling (Figure \ref{fig:sdnaresult}, left), and one for walking (Figure \ref{fig:sdnaresult}, right).
+
+These are generated using the create-qgis-cycle-summary.py and create-qgis-walk-summary.py scripts, and include the layers shaded red in figure X.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.49\linewidth]{figures/sdnaresult} \includegraphics[width=0.49\linewidth]{figures/sdnaresult2} 
+
+}
+
+\caption{Cycling 'Go Dutch' scenario for Monmouth school (red) overlaid on unscaled everywhere-to-everywhere cycle flows (purple) to show the relationship of desirable routes to school (given suitable infrastructure) with the wider active travel network (left). Predicted walking flows to Monmouth school (red) overlaid on everywhere-to-everywhere flows (purple). Circles show formal road crossings; stars show informal crossings; size of crossing symbol indicates severity of road. Automated rendering thanks to QGIS, network data and background mapping © OpenStreetMap contributors.}\label{fig:sdnaresult}
+\end{figure}
+
 \hypertarget{integrated-od-and-sna-network-analysis}{%
 \section{Integrated OD and SNA network analysis}\label{integrated-od-and-sna-network-analysis}}
 
