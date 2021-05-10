@@ -1,0 +1,20 @@
+Appendix 1
+
+The automation workflow is coordinated using makefiles, a build system which automatically determines which outputs need to be updated at any point, thus avoiding unnecessary repetition of computationally expensive models. (We recommend remake [@Bernstein_2011] over the well known GNU Make [@Free_Software_Foundation_2020a] due to enhanced debugging ability, but the project makefile can be interpreted by either). 
+Although makefiles are widely understood, we found ourselves limited by the fact that each target can match at most one pattern; in future implementations we would consider choosing an alternative system for declarative workflow management. 
+
+For data analysis and modelling we used R and Python.
+
+Data analysis and geographic operations required for the Propensity to Cycle Tool used the packages `sf`, `stplanr`, and `osmdata` for geographic processing, routing and OSM data access, respectively [@lovelace_stplanr_2018; @padgham_osmdata_2017; @pebesma_simple_2018]
+The SpNA approach, on the other hand, made use of the 'Python stack', including `GeoPandas`, `shapely` and `pyrosm` [@gillies_shapely_2007; @jordahl_geopandas_2020; @tenkanen_pyrosm_2020].
+
+Network data is downloaded from OpenStreetMap based on a user-provided buffer polygon for the model area, using pyrosm [@tenkanen_pyrosm_2020].
+A network processing step was scripted using QGIS [@qgisdevelopmentteam_qgis_2019] to snap downloaded pedestrian crossing points to the relevant nodes due to a bug in pyrosm; however we anticipate this will be resolved in the near future, removing the need for this step.
+To allow greater flexibility we define our own rules (in the script `osm_download.py`) for walking and cycling access to each network link.
+We erred on the side of permissiveness in cases where OSM tagging data was ambiguous.
+We also define here a 'cyclist deterrence' field based on the OSM highway classification tag; this is a dummy motorized annual average daily traffic flow (measured in vehicles per hour) representative of each road class as defined in @chan_using_2019, and is later used to determine the multipliers shown in table XX above.
+
+The function `v.clean` from the GRASS GIS software [@neteler_open_2008] to break OSM polylines where they share nodes, thus converting the downloaded network to routable form complying with an endpoint connectivity rule.
+sDNA Prepare is used to remove isolated systems and pseudonodes except where they are required to preserve different access, deterrence or splitting rules for subsections of links [@cooper_sdna_2020]; this greatly reduces the link count and hence computational load.
+
+Metadata is automatically generated in HTML and json format alongside modelling outputs, based on the `view-metadata-template.jsontemplate` file. This in turn is processed by the `create-qgis-project-from-metadata.py` script; output from the latter forms a useful starting point for users of the data to produce their own custom maps. Summary maps are created by  `create-qgis-cycle-summary.py` and `create-qgis-walk-summary.py`.
