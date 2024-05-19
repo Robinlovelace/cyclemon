@@ -1,5 +1,7 @@
 # CycleMon: automated generation of basic walking and cycling analysis from open data
 
+[![DOI](https://zenodo.org/badge/294974554.svg)](https://zenodo.org/doi/10.5281/zenodo.11214956)
+
 Academic paper: see the paper/ subdirectory [here](https://github.com/Robinlovelace/cyclemon/tree/master/paper).
 
 # Usage
